@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                Environment(3)
+
+
+
+NNAAMMEE
+     Environment - get environment parameters
+
+SSYYNNOOPPSSIISS
+     PROCEDURE GetEnv(name: ARRAY OF CHAR;
+                      VAR text: ARRAY OF CHAR;
+                      VAR ok: BOOLEAN);
+
+     PROCEDURE EnvPar(index: CARDINAL;
+                      VAR text: ARRAY OF CHAR;
+                      VAR ok: BOOLEAN);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _G_e_t_E_n_v  searches  for the environment parameter specified by
+     _n_a_m_e and stores its contents in _t_e_x_t.   If  _n_a_m_e  cannot  be
+     found _o_k gets FFAALLSSEE.
+
+     _E_n_v_P_a_r  returns  the _i_n_d_e_x-th (starting with 0) parameter in
+     _t_e_x_t, viz. "name=value".  If _i_n_d_e_x is out of  range,  _o_k  is
+     set to FFAALLSSEE.
+
+SSEEEE AALLSSOO
+     environ(5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

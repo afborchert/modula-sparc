@@ -1,0 +1,84 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH StrToNum 3 "local: Hasch"
+.SH NAME
+StrToNum \- string to number conversions
+.SH SYNOPSIS
+.Pg
+PROCEDURE StrToCard(str: ARRAY OF CHAR;
+		    VAR card: CARDINAL): BOOLEAN;
+.sp 0.3
+PROCEDURE StrToInt(str: ARRAY OF CHAR;
+		   VAR integ: INTEGER): BOOLEAN;
+.sp 0.3
+PROCEDURE StrToOct(str: ARRAY OF CHAR;
+		   VAR card: CARDINAL): BOOLEAN;
+.sp 0.3
+PROCEDURE StrToHex(str: ARRAY OF CHAR;
+		   VAR card: CARDINAL): BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I StrToCard
+converts
+.I str
+to the
+.B CARDINAL
+.IR card .
+Leading or trailing blanks, tabs, and newlines are ignored. If
+.I str
+does not fit the syntax, [+] digit {digit},
+or if the resulting number exceeds
+.B CARDINAL
+range, the function value will
+be
+.BR FALSE ,
+otherwise
+.BR TRUE .
+.PP
+.I StrToInt
+converts
+.I str
+to the
+.B INTEGER
+.I integ
+in analogous manner, where
+.I str
+must fit the syntax:
+.IP
+[+|-]\ digit\ {digit}\ .
+.PP
+.I StrToOct
+and
+.I StrToHex
+work like
+.I StrToCard
+but read
+.I str
+as a number in either octal or hexadecimal representation,
+respectively.
+.SH "SEE ALSO"
+\fIConversions(3)\fP
+.SH AUTHOR
+Martin Hasch, University of Ulm
+.\" ---------------------------------------------------------------------------
+.\" $Id: StrToNum.3,v 1.5 1997/02/25 17:42:35 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: StrToNum.3,v $
+.\" Revision 1.5  1997/02/25  17:42:35  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.4  1997/02/21  16:56:09  martin
+.\" trailing whitespace now also ignored (feature documented)
+.\"
+.\" Revision 1.3  1997/02/20  14:22:31  martin
+.\" StrToOct / StrToHex description added, bugs section deleted.
+.\"
+.\" Revision 1.2  1996/12/09  18:28:04  martin
+.\" reference to module Conversions corrected
+.\"
+.\" Revision 1.1  1996/12/04  18:19:32  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

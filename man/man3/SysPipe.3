@@ -1,0 +1,28 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysPipe 3 "Ulm's Modula-2 System"
+.SH NAME
+SysPipe \- create a pipe
+.SH SYNOPSIS
+.Pg
+PROCEDURE Pipe(VAR ReadFileDesc, WriteFileDesc: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Pipe
+creates a pipe and returns on success two file descriptors:
+\fIReadFileDesc\fP for the reading side and
+\fIWriteFileDesc\fP for the writing side.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIpipe(2)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysPipe.3,v 1.1 1997/02/26 10:22:11 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysPipe.3,v $
+.\" Revision 1.1  1997/02/26  10:22:11  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

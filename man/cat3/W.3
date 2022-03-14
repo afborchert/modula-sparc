@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                          W(3)
+
+
+
+NNAAMMEE
+     W - formatted output to windows
+
+SSYYNNOOPPSSIISS
+     (* diagnostic *)
+     PROCEDURE done () : BOOLEAN;
+     PROCEDURE success() : FmtExitCode;
+
+     (* error handling *)
+     PROCEDURE setmode (mode : BITSET);
+     PROCEDURE getmode (VAR mode : BITSET);
+
+     (* output *)
+     PROCEDURE printf0 (win : Window; line, col : CARDINAL;
+        fmt : ARRAY OF CHAR);
+     PROCEDURE printf1 (win : Window; line, col : CARDINAL;
+        fmt : ARRAY OF CHAR; i1 : ARRAY OF BYTE);
+     PROCEDURE printf2 (win : Window; line, col : CARDINAL;
+        fmt : ARRAY OF CHAR; i1,i2 : ARRAY OF BYTE);
+     (* ... *)
+     PROCEDURE printf8 (win : Window; line, col : CARDINAL;
+        fmt : ARRAY OF CHAR; i1,i2, i3, i4, i5, i6, i7, i8 :
+        ARRAY OF BYTE);
+
+     PROCEDURE append0 (win : Window; fmt : ARRAY OF CHAR);
+     PROCEDURE append1 (win : Window; fmt : ARRAY OF CHAR;
+        i1 : ARRAY OF BYTE);
+     PROCEDURE append2 (win : Window; fmt : ARRAY OF CHAR;
+         i1,i2 : ARRAY OF BYTE);
+     (* ... *)
+     PROCEDURE append8 (win : Window; fmt : ARRAY OF CHAR;
+         i1,i2, i3, i4, i5, i6, i7, i8 : ARRAY OF BYTE);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _p_r_i_n_t_f_0  ..  _p_r_i_n_t_f_8  and  _a_p_p_e_n_d_0  .. _a_p_p_e_n_d_8 convert their
+     parameters , instantiate them into the format string _f_m_t and
+     write  the  resulting  text  into  window  _w_i_n  _.   Refer to
+     _P_r_i_n_t_f_(_3_) for a detailed description of formatting capabili­
+     ties.
+
+     _p_r_i_n_t_f_0  ..  _p_r_i_n_t_f_8 always write the first output character
+     to the window  position  given  by  (_l_i_n_e,_c_o_l),  _a_p_p_e_n_d_0  ..
+     _a_p_p_e_n_d_8  append  the  output  to the current window position
+     yield by  _W_i_n_d_o_w_s_._G_e_t_W_i_n_d_o_w_P_o_s.   Output  is  restricted  to
+     those  characters,  _W_i_n_d_o_w_s_._W_i_n_d_o_w_W_r_i_t_e  would  accept.  The
+     rules concerning  interpretation  of  newlines  or  carriage
+     returns apply accordingly.
+
+     _p_r_i_n_t_f_0  .. _p_r_i_n_t_f_8 uses auto margin and scrolling capabili­
+     ties if _W_i_n_d_o_w_s_._s_c_r_o_l_l is a current window attribute of _w_i_n.
+     Otherwise output must not exceed last column or last line of
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                          W(3)
+
+
+
+     the window.  No  such  restriction  exists  for  _a_p_p_e_n_d_0  ..
+     _a_p_p_e_n_d_8,  which  will  always  use auto margin and scrolling
+     mechanisms.
+
+     All procedures will flush _w_i_n at most one time.  Flushing is
+     performed  if and only if _W_i_n_d_o_w_s_._f_l_u_s_h_a_l_w_a_y_s is in the cur­
+     rent attribute set of _w_i_n.
+
+     _d_o_n_e returns TTRRUUEE is the last output procedure call was suc­
+     cessful,  more  detailed information can be obtained by _s_u_c_­
+     _c_e_s_s (_F_m_t_E_x_i_t_C_o_d_e is imported from _P_r_i_n_t_f_(_3_)).
+
+     _s_e_t_m_o_d_e defines a new error handling mode _m_o_d_e which  is  by
+     default  set  to _P_r_i_n_t_f_._D_e_f_a_u_l_t.  _g_e_t_m_o_d_e yields the current
+     mode.
+
+DDIIAAGGNNOOSSTTIICCSS
+     Diagnostic is  unnecessary  unless  default  error  handling
+     strategy  has  been  explicitly  modified  by prior calls of
+     _s_e_t_m_o_d_e.  See _P_r_i_n_t_f_(_3_) for more details.
+
+     Some problems arise on  the  output  of  error  messages  if
+     _S_t_d_I_O_._s_t_d_e_r_r  is  associated  with the same device than _w_i_n.
+     _E_._E_n_t_e_r_I_n_i_t_P_r_o_c and _E_._E_n_t_e_r_E_x_i_t_P_r_o_c provide a suitable  fea­
+     ture  to suspend and restore device by means of _W_i_n_d_o_w_s_._S_u_s_­
+     _p_e_n_d_D_e_v_i_c_e and _W_i_n_d_o_w_s_._R_e_s_t_o_r_e_D_e_v_i_c_e.
+
+     Be careful of devices not reset on  program  termination  in
+     connection with errors on window operations.
+
+     Besides  illegal  format  strings the following errors might
+     occur using _W: _I_l_l_e_g_a_l_W_i_n_d_o_w_O_f_f_s_e_t, _W_i_n_d_o_w_T_o_o_S_m_a_l_l  (result­
+     ing  from  illegal arguments to _p_r_i_n_t_f_0 .. _p_r_i_n_t_f_8), _C_a_n_n_o_t_­
+     _F_l_u_s_h_W_i_n_d_o_w   (failure   of    _W_i_n_d_o_w_s_._F_l_u_s_h_W_i_n_d_o_w)_,    _C_a_n_­
+     _n_o_t_W_r_i_t_e_W_i_n_d_o_w (illegal output character) _C_a_n_n_o_t_A_c_c_e_s_s_W_i_n_d_o_w
+     (other errors).
+
+     Error messages issued by _W  contain  information  about  the
+     their reason and the affected procedure:
+
+          [fatal] W.printf1(...,30,0,"%u",...);
+                  Illegal parameter values: offset out of window.
+          [a.out] Exit code 206. Stop.
+
+SSEEEE AALLSSOO
+     _P_r_i_n_t_f_(_3_), _W_i_n_d_o_w_s_(_3_), _E_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

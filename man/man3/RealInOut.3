@@ -1,0 +1,105 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH RealInOut 3 "local:Borchert + Schwartz"
+.SH NAME
+RealInOut \- i/o with real numbers
+.SH SYNOPSIS
+.Pg
+FROM StdIO IMPORT FILE;
+.sp 0.7
+VAR Done: BOOLEAN;
+.sp 0.7
+PROCEDURE ReadReal(VAR x: REAL);
+PROCEDURE FreadReal(f: FILE; VAR x: REAL);
+PROCEDURE WriteReal(x: REAL; n: CARDINAL);
+PROCEDURE FwriteReal(f: FILE; x: REAL; n: CARDINAL);
+PROCEDURE WriteFloat(x: REAL; pd: CARDINAL; dp: CARDINAL);
+PROCEDURE FwriteFloat(f: FILE; x: REAL;
+                      pd: CARDINAL; dp: CARDINAL);
+PROCEDURE WriteRealOct(x: REAL);
+PROCEDURE FwriteRealOct(f: FILE; x: REAL);
+PROCEDURE WriteRealHex(x: REAL);
+PROCEDURE FwriteRealHex(f: FILE; x: REAL);
+.Pe
+.SH DESCRIPTION
+.IR ReadReal ,
+.I FreadReal
+read a real number
+.I x
+from
+.I StdIO.stdin
+\&/
+.I f
+according to following syntax:
+.br
+.sp 1
+["+" | "-"] digit { digit } ["." digit { digit } ]
+.br
+["E" ["+" | "-"] digit [digit] ]
+.br
+.sp 1
+At most 16 digits, besides leading zeroes, are significant.
+Maximum exponent is 76.
+Input terminates with a blank or any control character.
+.PP
+.IR WriteReal ,
+.I FwriteReal
+write
+.I x
+using
+.I n
+characters.
+If less than
+.I n
+characters
+are needed, leading blanks are inserted.
+.PP
+.IR WriteFloat ,
+.I FwriteFloat
+write
+.I x
+in fixed point notation using
+.I pd
+digits in front of decimal point and
+.I dp
+digits behind decimal point.
+If less than
+.I pd
+digits are needed,
+leading blanks are inserted.
+.PP
+.IR WriteRealOct ,
+.I FwriteRealOct
+and
+.IR WriteRealHex ,
+.I FwriteRealHex
+write
+.I x
+in octal/hexadecimal
+format.
+.SH DIAGNOSTICS
+.I Done
+is
+.B TRUE
+on successfull calls, otherwise
+.BR FALSE .
+.SH "SEE ALSO"
+\fIStdIO(3)\fP, \fITerminal(3)\fP
+.SH HISTORY
+An equally named module was written by Niklaus Wirth for
+the Lilith system.
+The current implementation is due to
+Andreas Borchert and Wilfried Schwartz
+.\" ---------------------------------------------------------------------------
+.\" $Id: RealInOut.3,v 1.2 1997/02/25 17:41:32 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: RealInOut.3,v $
+.\" Revision 1.2  1997/02/25  17:41:32  borchert
+.\" formatting changed and HISTORY added
+.\"
+.\" Revision 1.1  1996/12/04  18:19:27  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

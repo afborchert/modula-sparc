@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    MainWin(3)
+
+
+
+NNAAMMEE
+     MainWin - simple screen operations
+
+SSYYNNOOPPSSIISS
+     VAR mainwin: Window;
+     VAR lines, columns: CARDINAL;
+     VAR Done: BOOLEAN;
+
+     PROCEDURE SetPos(line, column: CARDINAL);
+     PROCEDURE GetPos(VAR line, column: CARDINAL);
+
+     PROCEDURE Clear;
+     PROCEDURE Flush;
+
+     PROCEDURE WriteString(s: ARRAY OF CHAR);
+     PROCEDURE Write(ch: CHAR);
+     PROCEDURE WriteLn;
+
+     PROCEDURE Read(VAR ch: CHAR);
+     PROCEDURE ReadString(VAR s: ARRAY OF CHAR);
+
+     PROCEDURE WriteInt(i: INTEGER; w: CARDINAL);
+     PROCEDURE ReadInt(VAR i: INTEGER);
+
+     PROCEDURE WriteCard(c: CARDINAL; w: CARDINAL);
+     PROCEDURE ReadCard(VAR c: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _M_a_i_n_W_i_n  bases  on  _W_i_n_d_o_w_s_(_3_) and _F_t_d_W_i_n_(_3_) and offers some
+     less sophisticated procedures.  All procedures affect  _m_a_i_n_­
+     _w_i_n  which is created during initialization.  The attributes
+     _f_l_u_s_h_o_n_i_n_p_u_t_, _e_c_h_o_, and _m_o_v_e_c_u_r_s_o_r (see Windows(3)) are ini­
+     tially  set.   The number of lines and columns are stored in
+     _l_i_n_e_s and _c_o_l_u_m_n_s_.  Cleanup and terminal resetting  is  done
+     automatically  on  program  termination.  See _W_i_n_d_o_w_s_(_3_) and
+     _F_t_d_W_i_n_(_3_) for more detailed explanations.
+
+     Note that _O_p_e_n_D_e_v_i_c_e must not called if _M_a_i_n_W_i_n is imported.
+     Further windows must be created using _m_a_i_n_w_i_n.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _D_o_n_e is set to FFAALLSSEE on failures.
+
+SSEEEE AALLSSOO
+     _F_t_d_W_i_n_(_3_), _W_i_n_d_o_w_s_(_3_)
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                       Plot(3)
+
+
+
+NNAAMMEE
+     Plot - graphics interface
+
+SSYYNNOOPPSSIISS
+     FROM StdIO IMPORT FILE;
+
+     PROCEDURE OpenPlot(f: FILE);
+     PROCEDURE ClosePlot;
+     PROCEDURE Move(xto, yto: INTEGER);
+     PROCEDURE Cont(xto, yto: INTEGER);
+     PROCEDURE Point(xpoint, ypoint: INTEGER);
+     PROCEDURE Line(xfrom, yfrom, xto, yto: INTEGER);
+     PROCEDURE String(str: ARRAY OF CHAR);
+     PROCEDURE Arc(xcenter, ycenter, xstart, ystart,
+                   xend, yend: INTEGER);
+     PROCEDURE Circle(xcenter, ycenter, radius: INTEGER);
+     PROCEDURE Erase;
+     PROCEDURE LineMod(style: ARRAY OF CHAR);
+     PROCEDURE Space(xupleft, yupleft,
+                     xlowright, ylowright: INTEGER);
+     PROCEDURE Reverse(xupleft, yupleft,
+                       xlowright, ylowright: INTEGER);
+     PROCEDURE Polygon(xcenter, ycenter,
+                       xstart, ystart, edges: INTEGER);
+     PROCEDURE CharMod(plotchar: CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     These  subroutines  generate  graphic output in a relatively
+     device-independent manner.  See _p_l_o_t_(_4_b_) for  a  description
+     of  their  effect.   _O_p_e_n_P_l_o_t must be used before any of the
+     others to open the device for  writing.   _C_l_o_s_e_P_l_o_t  flushes
+     the output.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _P_l_o_t  prints  `Plot:  value  out  of  bounds'  and aborts if
+     AABBSS(_a_r_g) is greater than 77777B for a given parameter _a_r_g.
+
+SSEEEE AALLSSOO
+     _p_l_o_t_(_4_b_), _p_l_o_t_(_1_b_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

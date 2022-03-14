@@ -1,0 +1,293 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH LongStrings 3 "local:Stanglow"
+.SH NAME
+LongStrings \- dynamic strings handling
+.SH SYNOPSIS
+.Pg
+TYPE Long;
+.sp 0.7
+CONST LastChar = -1; NotFound = -2;
+.sp 0.7
+(* handling of longs *)
+PROCEDURE Alloc (VAR long : Long);
+PROCEDURE Dispose (VAR long : Long);
+PROCEDURE Free (VAR long : Long);
+PROCEDURE StrAdr(long : Long) : ADDRESS;
+PROCEDURE StrSize(long : Long) : CARDINAL;
+PROCEDURE CutLong(long : Long; newsize : CARDINAL);
+PROCEDURE ClearLong (long : Long);
+.sp 0.7
+(* diagnostic *)
+PROCEDURE ValidLong(long : Long) : BOOLEAN;
+.sp 0.7
+(* appending text *)
+PROCEDURE AddString(long : Long; text : ARRAY OF CHAR);
+PROCEDURE AddChar(long : Long; char : CHAR);
+PROCEDURE AddBytes(long : Long; add : ADDRESS; n : CARDINAL);
+.sp 0.7
+(* searching  *)
+PROCEDURE GetChar (long : Long; index : INTEGER) : CHAR;
+PROCEDURE CountChar (long : Long; char : CHAR) : CARDINAL;
+PROCEDURE FindChar(long : Long; char : CHAR;
+                   offset, count : INTEGER) : INTEGER;
+.sp 0.7
+(* output *)
+PROCEDURE Lwrite(long : Long; file : FILE) : BOOLEAN;
+PROCEDURE LwritePart(long : Long; from, to : INTEGER;
+                     file : FILE) : BOOLEAN;
+PROCEDURE Echo(origin, echo : FILE) : BOOLEAN;
+PROCEDURE NoEcho(origin, echo : FILE) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+This module handles with objects
+called
+.IR Long ,
+which live in the dynamic memory area of
+a process and may grow up to
+any size the relevant system parameters admit.
+Reallocation is performed implicitly
+when the contents
+of a
+.I Long
+is extended.
+.LP
+.I Alloc
+creates
+.I long
+and allocates some memory for it.
+.I Dispose
+disposes
+.I long
+and deallocates the memory occupied.
+.I Free
+should be used instead of
+.I Dispose
+if many longs are
+used very temporary (f.i. in the scope of a procedure).
+This may improve performance and prevents from
+a partition of the dynamic memory into many small pieces.
+.LP
+The contents
+.I long
+(i.e. the information stored)
+is extented by
+.IR AddChar ,
+.IR AddString ,
+and
+.IR AddBytes \&.
+AddChar adds a single character
+.IR char ,
+.I AddString
+appends a
+string
+.I text
+(up to terminating null byte
+respectively \fBHIGH\fP(\fItext\fP)
+and 
+.I AddBytes
+copies
+.I n
+bytes
+found at
+the address given
+by
+.I adr
+into
+the contents
+of
+.IR long .
+By means
+of
+.I AddBytes
+and
+.I AddChar
+even
+null bytes can be added.
+.LP
+.I StrSize
+yields the effective
+size of
+.IR long ,
+i.e. the number of bytes currently
+stored.
+A new size
+.I newsize
+can be defined
+by
+.IR CutLong \&.
+.IR ClearLong ( long )
+is equivalent \fICutLong\fP(\fIlong\fP, \fB0\fP).
+.LP
+The contents of long
+is always a coherent
+memory
+area beginning
+at the address
+returned by
+by
+.IR StrAdr .
+LongStrings guarantees a null
+byte to be found at
+.IR StrAdr ( long )
++
+.IR StrSize ( long ).
+.LP
+Important note:
+.IR StrAdr ( long )
+is not a constant throughout the
+lifetime of
+.I long.
+.LP
+.I GetChar ,
+.I CountChar ,
+and
+.I FindChar
+access the contents
+of
+.IR long \&.
+GetChar
+returns the character
+found at
+position
+.I index
+(ranging from 0
+to size\(em1).
+.I index may be
+.I LastChar
+to obtain the last 
+character of a long.
+.I CountChar
+counts the
+appearances of
+.I char
+in the contents
+of
+.IR long \&.
+.I FindChar
+looks for
+a certain character.
+Searching is begun
+at
+position
+.I offset
+.RI ( LastChar  
+means end of contents)
+and executed backward
+if
+.I count
+is negative .
+If
+.I char
+is found \fBABS\fP(\fIcount\fP)
+times,
+.I FindChar
+returns the
+corresponding index into contents,
+otherwise the result will be
+.BR NotFound .
+.LP
+.I Lwrite
+writes
+the whole
+contents
+of
+.I long
+to the
+given
+.IR file ,
+.I LwritePart
+outputs
+a subrage
+specified by
+.RI [ from , to ].
+.LP
+.I Echo
+defines
+an
+echo file
+.I echo
+for
+file
+.I source .
+Each further output
+by
+.I Lwrite
+and
+.I LwritePart
+to file
+.I source
+will be
+written to
+all its echo files as well.
+.I NoEcho
+with the same arguments
+as a
+prior call
+of
+.I Echo
+deletes an echo definition.
+.LP
+Note that any output of the modules
+.IR P ,
+.IR F ,
+.IR E 
+and
+.I OutLines
+may be echoed.
+.SH DIAGNOSTIC
+.I ValidLong
+returns
+.B TRUE ,
+if
+.I long
+is regarded as a valid long.
+A long becomes
+invalid if
+disposed or freed or if
+allocation or reallocation fails
+because
+the process runs out of memory.
+By default,
+.I LongStrings
+will not recover
+from the latter situation
+since
+.I Storage(3)
+would terminate the program before.
+.LP
+Output routines
+return
+.B FALSE
+in any case of error,
+.I StrSize
+and
+.I StrAdr
+return
+.B 0
+respectively
+.B NIL
+if
+.I long
+is not a valid argument.
+.SH "SEE ALSO"
+.IR E(3) ,
+.IR F(3) ,
+.IR P(3) ,
+.IR OutLines(3) ,
+.I Storage(3)
+.SH AUTHOR
+Werner Stanglow
+.\" ---------------------------------------------------------------------------
+.\" $Id: LongStrings.3,v 1.2 1997/02/25 17:40:18 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: LongStrings.3,v $
+.\" Revision 1.2  1997/02/25  17:40:18  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:19  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

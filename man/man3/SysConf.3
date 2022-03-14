@@ -1,0 +1,48 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysConf 3 "Ulm's Modula-2 System"
+.SH NAME
+SysConf \- configuration parameters of the local installation
+.SH SYNOPSIS
+.Pg
+PROCEDURE GetLibDir(VAR libdir: ARRAY OF CHAR);
+PROCEDURE GetRelease(VAR release: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+.I SysConf
+allows to retrieve some of the configuration parameters
+of the local installation.
+.PP
+.I GetLibDir
+returns the directory where the Modula-2 compiler and the
+library have been installed to.
+Note that \fIGetLibDir\fP does not honour the \fBMODLIB\fP
+environment variable.
+Instead, it gives a reasonable default which should be taken
+if \fBMODLIB\fP is not given.
+.PP
+.I GetRelease
+returns a short string which specifies the release of
+the local Modula-2 installation.
+.SH FILES
+The local library directory might be \fI@LIBDIR@\fP.
+.SH "SEE ALSO"
+\fIm2c(1)\fP
+.SH BUGS
+Note that these procedures return the parameters from
+the system on which your program has been compiled.
+Your program, however, may be run on quite a different system
+with another installation if any.
+For this reason, programs which depend on \fISysConf\fP
+should be rebuild if they
+are to be installed on other systems with different parameters.
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysConf.3,v 1.1 1997/03/04 19:27:50 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysConf.3,v $
+.\" Revision 1.1  1997/03/04  19:27:50  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

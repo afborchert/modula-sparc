@@ -1,0 +1,52 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Bytes 3 "local:Stanglow"
+.SH NAME
+Bytes \- byte and pointer manipulations
+.SH SYNOPSIS
+.Pg
+PROCEDURE ByteNCopy(to, from : ADDRESS; no : CARDINAL);
+PROCEDURE PINC(VAR ptr : ADDRESS; no : CARDINAL);
+PROCEDURE PDEC(VAR ptr : ADDRESS; no : CARDINAL);
+.Pe
+.SH DESCRIPTION
+.I ByteNCopy
+copies
+.I no
+bytes
+in an optimized way
+from address
+.I from
+to
+address
+.I to.
+.LP
+.I PINC
+and
+.I PDEC
+increment
+respectively
+decrement
+.I ptr
+(potentially a
+pointer variable)
+by the number
+of bytes
+specified
+as
+.IR no .
+.SH AUTHOR
+Werner Stanglow
+.\" ---------------------------------------------------------------------------
+.\" $Id: Bytes.3,v 1.2 1997/02/25 17:37:59 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Bytes.3,v $
+.\" Revision 1.2  1997/02/25  17:37:59  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:03  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

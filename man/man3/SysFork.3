@@ -1,0 +1,32 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysFork 3 "Ulm's Modula-2 System"
+.SH NAME
+SysFork \- create a new process
+.SH SYNOPSIS
+.Pg
+PROCEDURE Fork(VAR pid: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Fork
+spawns off a new process which inherits many properties
+from the parent process (see \fIfork(2)\fP for a detailed
+description).
+On success,
+\fIFork\fP returns \fBTRUE\fP in both processes,
+and \fIpid\fP is set to \fB0\fP in the child process
+and set to the process id of the child in the parent process.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIfork(2)\fP, \fISysExec(3)\fP, \fISysWait(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysFork.3,v 1.1 1997/02/26 08:56:03 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysFork.3,v $
+.\" Revision 1.1  1997/02/26  08:56:03  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                Conversions(3)
+
+
+
+NNAAMMEE
+     Conversions - number to string conversions
+
+SSYYNNOOPPSSIISS
+     PROCEDURE ConvertOctal(num, len: CARDINAL; VAR str: ARRAY OF CHAR);
+     PROCEDURE ConvertHex(num, len: CARDINAL; VAR str: ARRAY OF CHAR);
+     PROCEDURE ConvertCardinal(num, len: CARDINAL; VAR str: ARRAY OF CHAR);
+     PROCEDURE ConvertInteger(num: INTEGER; len: CARDINAL;
+                              VAR str: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     All  conversion  routines convert the number _n_u_m to a string
+     with at least _n characters.  If _n is greater than the number
+     of  digits  needed,  blanks  are added preceding the number.
+     The resulting string is returned in _s_t_r.
+
+AAUUTTHHOORR
+     Leo Geissmann, ETH Zürich,
+     manual page and some minor  revisions  are  due  to  Andreas
+     Borchert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

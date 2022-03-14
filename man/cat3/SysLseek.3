@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   SysLseek(3)
+
+
+
+NNAAMMEE
+     SysLseek  -  set  and  return  current  position  of  a file
+     descriptor
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Lseek(fd: CARDINAL; offset: SystemTypes.OFF;
+                     whence: CARDINAL) : BOOLEAN;
+
+     PROCEDURE Tell(fd: CARDINAL;
+                    VAR offset: SystemTypes.OFF) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _L_s_e_e_k sets the current position of _f_d  to  _o_f_f_s_e_t  which  is
+     interpreted in dependance of _w_h_e_n_c_e:
+
+     0    absolute
+
+     1    relative to the current position
+
+     2    relative to the end of the position
+
+     _T_e_l_l returns the current position of _f_d.
+
+     Note that not all file descriptors support these operations.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failure, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _l_s_e_e_k_(_2_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

@@ -1,0 +1,25 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysPause 3 "Ulm's Modula-2 System"
+.SH NAME
+SysPause \- suspend process execution
+.SH SYNOPSIS
+.Pg
+PROCEDURE Pause;
+.Pe
+.SH DESCRIPTION
+.I Pause
+suspends process execution until the next signal will be delivered
+(see \fISysSignal(3)\fP).
+.SH "SEE ALSO"
+\fIpause(2)\fP, \fISysKill(3)\fP, \fISysSignal(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysPause.3,v 1.1 1997/02/26 10:47:34 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysPause.3,v $
+.\" Revision 1.1  1997/02/26  10:47:34  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

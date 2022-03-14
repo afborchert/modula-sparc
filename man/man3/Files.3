@@ -1,0 +1,67 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Files 3 "local:Borchert"
+.SH NAME
+Files \- file handling
+.SH SYNOPSIS
+.Pg
+TYPE FILE = StdIO.FILE;
+.sp 0.7
+VAR Done: BOOLEAN;
+.sp 0.7
+PROCEDURE OpenRead(VAR f: FILE; filename: ARRAY OF CHAR);
+PROCEDURE OpenWrite(VAR f: FILE; filename: ARRAY OF CHAR);
+PROCEDURE Close(f: FILE);
+PROCEDURE SetPos(f: FILE; pos: LONGCARD);
+PROCEDURE GetPos(f: FILE; VAR pos: LONGCARD);
+PROCEDURE Reset(f: FILE);
+PROCEDURE Delete(filename: ARRAY OF CHAR);
+PROCEDURE Rename(oldname, newname: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+.I OpenRead
+and
+.I OpenWrite
+open the file named
+.I filename
+for reading/writing and return the filepointer
+.IR f .
+.PP
+.I Close
+causes any buffers for the named stream to be emptied,
+and the file to be closed.
+.PP
+.I GetPos
+and
+.I SetPos
+get/set the position of the filepointer
+.IR f .
+.I Reset
+is equivalent to
+.IR SetPos ( f , " 0" ).
+.PP
+.I Delete
+and
+.I Rename
+are self-explanatory.
+.SH DIAGNOSTICS
+.I Done
+is
+.B TRUE
+on successful calls, otherwise
+.BR FALSE .
+.SH "SEE ALSO"
+StdIO(3), FtdIO(3)
+.\" ---------------------------------------------------------------------------
+.\" $Id: Files.3,v 1.2 1997/02/25 17:39:31 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Files.3,v $
+.\" Revision 1.2  1997/02/25  17:39:31  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:12  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

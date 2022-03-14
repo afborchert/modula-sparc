@@ -1,0 +1,156 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH OutLines 3 "local:Stanglow"
+.SH NAME
+OutLines \- pagewise output
+.SH SYNOPSIS
+.Pg
+VAR MaxLines : INTEGER;
+.sp 0.7
+PROCEDURE SetFile(file : FILE);
+PROCEDURE SetLong(long : Long);
+.sp 0.7
+PROCEDURE DefineLine(relatively: BOOLEAN; line : INTEGER) : BOOLEAN;
+.sp 0.7
+PROCEDURE OutAll() : BOOLEAN;
+PROCEDURE OutNext() : BOOLEAN;
+PROCEDURE OutPrev() : BOOLEAN;
+PROCEDURE OutRange (begin, end : INTEGER) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I OutLines
+allows a pagewise output of text
+stored in a dynamic string
+of type
+.I Long
+(imported from
+.IR LongStrings(3) ).
+.LP
+.I SetFile
+defines
+a new out stream
+.I file
+(default
+.IR StdIO.stdout ),
+.I SetLong
+defines a
+new output source
+.IR long 
+(no default)
+and marks
+.B 0
+as the current line.
+.LP
+.I OutNext
+outputs the next
+at most
+.I MaxLines
+lines (default 23)
+found in long to
+stream
+.IR file .
+The last output line
+becomes the new current line.
+.LP
+.I OutPrev
+outputs
+at most
+.I MaxLines
+preceding the current line.
+The first output line
+becomes the new current line.
+.LP
+.I DefineLine 
+defines
+a new current line.
+If
+.I relatively
+is
+.B TRUE
+the old value is incremented
+by
+.I line
+else
+the current line is set to
+.I line
+(absolutely).
+An absolute line number
+may specified as
+.B 0 
+or
+.B -1
+to mark positions before or beyond any other line.
+.LP
+.I OutAll
+outputs
+.I long
+completely and sets the current line
+to
+-1 (beyond any other).
+.LP
+.I OutRange
+outputs
+the range defined by
+.RI [ from , to ]
+without affecting the current line.
+.LP
+Each redefinition of
+.I MaxLines
+and any update
+of the contents
+behind long
+requires
+a reinitialization of output
+by
+.IR  SetLong \&.
+.LP
+The output produced by this modules
+will be echoed to further files
+after suitable calls of
+.IR LongStrings . Echo .
+.SH DIAGNOSTICS
+Output routines return
+.B FALSE
+if output is exhausted,
+if the requested lines
+are not available
+or if writing to
+.I file
+fails.
+.SH SEE ALSO
+.IR LongStrings(3) ,
+.IR L(3) ,
+.I StdIO(3)
+.SH BUGS
+Output will fail,
+if the
+last character
+of
+.I long
+is not a
+newline (12C).
+.LP
+Unpredictable effects may occur
+if the contents of
+.I long
+has been updated
+without a following
+reinitialization
+of output
+by
+.IR SetLong .
+.SH AUTHOR
+Werner Stanglow
+.\" ---------------------------------------------------------------------------
+.\" $Id: OutLines.3,v 1.2 1997/02/25 17:40:48 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: OutLines.3,v $
+.\" Revision 1.2  1997/02/25  17:40:48  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:22  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

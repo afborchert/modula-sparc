@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   Keywords(3)
+
+
+
+NNAAMMEE
+     Keywords - keyword recognition
+
+SSYYNNOOPPSSIISS
+     VAR ok: BOOLEAN;
+
+     PROCEDURE DefineKey(string: ARRAY OF CHAR; key: INTEGER);
+     PROCEDURE IsKey(string: ARRAY OF CHAR; VAR key: INTEGER) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _D_e_f_i_n_e_K_e_y  defines  a keyword _s_t_r_i_n_g and assigns a key value
+     _k_e_y to it.  The  key  value  may  be  redefined  by  calling
+     _D_e_f_i_n_e_K_e_y with the same _s_t_r_i_n_g again.
+
+     _I_s_K_e_y returns TTRRUUEE if _s_t_r_i_n_g is a keyword previously defined
+     with _D_e_f_i_n_e_K_e_y and sets _k_e_y to the last  key  value  defined
+     for _s_t_r_i_n_g.
+
+DDIIAAGGNNOOSSTTIICC
+     Any hash table overflow is indicated by _o_k = FFAALLSSEE.
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+BBUUGGSS
+     At most 359 keywords with a total string length of about 5.2
+     KB can be defined.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

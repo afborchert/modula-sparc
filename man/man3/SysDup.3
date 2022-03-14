@@ -1,0 +1,35 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysDup 3 "Ulm's Modula-2 System"
+.SH NAME
+SysDup \- duplicate an open file descriptor
+.SH SYNOPSIS
+.Pg
+PROCEDURE Dup(fd: CARDINAL; VAR newfd: CARDINAL) : BOOLEAN;
+PROCEDURE Dup2(fd, newfd: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+A duplicated file descriptor shares all properties with the
+original file descriptor and works as alias.
+While \fIDup\fP returns the lowest file descriptor available
+in \fInewfd\fP, \fIDup2\fP enforces \fInewfd\fP as alias
+(if \fInewfd\fP was open it is closed first).
+.SH DIAGNOSTICS
+On failures, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIdup(2)\fP, \fIfcntl(2)\fP, \fISysFcntl(3)\fP
+.SH HISTORY
+.I Dup2
+was a native system call on UNIX Edition VII and BSD-systems
+but may be implemented on base of \fIfcntl(2)\fP on
+UNIX System V.
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysDup.3,v 1.1 1997/02/25 19:19:36 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysDup.3,v $
+.\" Revision 1.1  1997/02/25  19:19:36  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

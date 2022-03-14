@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    SysExec(3)
+
+
+
+NNAAMMEE
+     SysExec - replace execution image
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Exec(name: ARRAY OF CHAR; argv: ADDRESS);
+     PROCEDURE Exece(name: ARRAY OF CHAR; argv, envp: ADDRESS);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _E_x_e_c  and  _E_x_e_c_e replace the current image of the process by
+     that of the executable file specified by _n_a_m_e.  On  success,
+     these  calls will not return.  The argument vector _a_r_g_v is a
+     pointer to a  null-terminated  (not  necessarily  NNIILL-termi­
+     nated!)   list  of  pointers  which  point  to  the argument
+     strings.  _E_x_e_c passes the inherited  environment  parameters
+     (see _E_n_v_i_r_o_n_m_e_n_t_(_3_)) while _E_x_e_c_e takes _e_n_v_p instead.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On  failure, these procedures return and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _e_x_e_c_(_2_), _S_y_s_F_o_r_k_(_3_), _S_y_s_W_a_i_t_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

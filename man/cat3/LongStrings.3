@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                LongStrings(3)
+
+
+
+NNAAMMEE
+     LongStrings - dynamic strings handling
+
+SSYYNNOOPPSSIISS
+     TYPE Long;
+
+     CONST LastChar = -1; NotFound = -2;
+
+     (* handling of longs *)
+     PROCEDURE Alloc (VAR long : Long);
+     PROCEDURE Dispose (VAR long : Long);
+     PROCEDURE Free (VAR long : Long);
+     PROCEDURE StrAdr(long : Long) : ADDRESS;
+     PROCEDURE StrSize(long : Long) : CARDINAL;
+     PROCEDURE CutLong(long : Long; newsize : CARDINAL);
+     PROCEDURE ClearLong (long : Long);
+
+     (* diagnostic *)
+     PROCEDURE ValidLong(long : Long) : BOOLEAN;
+
+     (* appending text *)
+     PROCEDURE AddString(long : Long; text : ARRAY OF CHAR);
+     PROCEDURE AddChar(long : Long; char : CHAR);
+     PROCEDURE AddBytes(long : Long; add : ADDRESS; n : CARDINAL);
+
+     (* searching  *)
+     PROCEDURE GetChar (long : Long; index : INTEGER) : CHAR;
+     PROCEDURE CountChar (long : Long; char : CHAR) : CARDINAL;
+     PROCEDURE FindChar(long : Long; char : CHAR;
+                        offset, count : INTEGER) : INTEGER;
+
+     (* output *)
+     PROCEDURE Lwrite(long : Long; file : FILE) : BOOLEAN;
+     PROCEDURE LwritePart(long : Long; from, to : INTEGER;
+                          file : FILE) : BOOLEAN;
+     PROCEDURE Echo(origin, echo : FILE) : BOOLEAN;
+     PROCEDURE NoEcho(origin, echo : FILE) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     This  module handles with objects called _L_o_n_g, which live in
+     the dynamic memory area of a process and may grow up to  any
+     size  the relevant system parameters admit.  Reallocation is
+     performed  implicitly  when  the  contents  of  a  _L_o_n_g   is
+     extended.
+
+     _A_l_l_o_c  creates  _l_o_n_g and allocates some memory for it.  _D_i_s_­
+     _p_o_s_e disposes _l_o_n_g  and  deallocates  the  memory  occupied.
+     _F_r_e_e  should  be  used  instead of _D_i_s_p_o_s_e if many longs are
+     used very temporary (f.i. in  the  scope  of  a  procedure).
+     This  may  improve performance and prevents from a partition
+     of the dynamic memory into many small pieces.
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                LongStrings(3)
+
+
+
+     The contents _l_o_n_g (i.e. the information stored) is  extented
+     by  _A_d_d_C_h_a_r, _A_d_d_S_t_r_i_n_g, and _A_d_d_B_y_t_e_s.  AddChar adds a single
+     character _c_h_a_r, _A_d_d_S_t_r_i_n_g appends a string _t_e_x_t (up to  ter­
+     minating  null  byte  respectively  HHIIGGHH(_t_e_x_t)  and _A_d_d_B_y_t_e_s
+     copies _n bytes found at the address given by  _a_d_r  into  the
+     contents  of  _l_o_n_g.   By  means of _A_d_d_B_y_t_e_s and _A_d_d_C_h_a_r even
+     null bytes can be added.
+
+     _S_t_r_S_i_z_e yields the effective size of _l_o_n_g, i.e.  the  number
+     of  bytes  currently  stored.   A  new  size  _n_e_w_s_i_z_e can be
+     defined by  _C_u_t_L_o_n_g.   _C_l_e_a_r_L_o_n_g(_l_o_n_g)  is  equivalent  _C_u_t_­
+     _L_o_n_g(_l_o_n_g, 00).
+
+     The contents of long is always a coherent memory area begin­
+     ning at the address  returned  by  by  _S_t_r_A_d_r.   LongStrings
+     guarantees  a  null  byte  to  be  found  at  _S_t_r_A_d_r(_l_o_n_g) +
+     _S_t_r_S_i_z_e(_l_o_n_g).
+
+     Important note: _S_t_r_A_d_r(_l_o_n_g) is not  a  constant  throughout
+     the lifetime of _l_o_n_g_.
+
+     _G_e_t_C_h_a_r  _,  _C_o_u_n_t_C_h_a_r  _, and _F_i_n_d_C_h_a_r access the contents of
+     _l_o_n_g.  GetChar returns the character found at position _i_n_d_e_x
+     (ranging  from  0  to  size--1).   _i_n_d_e_x  _m_a_y _b_e _L_a_s_t_C_h_a_r to
+     obtain the last character of a long.  _C_o_u_n_t_C_h_a_r  counts  the
+     appearances of _c_h_a_r in the contents of _l_o_n_g.  _F_i_n_d_C_h_a_r looks
+     for a certain character.  Searching  is  begun  at  position
+     _o_f_f_s_e_t  (_L_a_s_t_C_h_a_r  means end of contents) and executed back­
+     ward if _c_o_u_n_t is negative .  If  _c_h_a_r  is  found  AABBSS(_c_o_u_n_t)
+     times,  _F_i_n_d_C_h_a_r  returns  the corresponding index into con­
+     tents, otherwise the result will be NNoottFFoouunndd.
+
+     _L_w_r_i_t_e writes the whole contents of _l_o_n_g to the given  _f_i_l_e,
+     _L_w_r_i_t_e_P_a_r_t outputs a subrage specified by [_f_r_o_m,_t_o].
+
+     _E_c_h_o  defines an echo file _e_c_h_o for file _s_o_u_r_c_e _.  Each fur­
+     ther output by _L_w_r_i_t_e and _L_w_r_i_t_e_P_a_r_t to file _s_o_u_r_c_e will  be
+     written to all its echo files as well.  _N_o_E_c_h_o with the same
+     arguments as a prior call of _E_c_h_o deletes  an  echo  defini­
+     tion.
+
+     Note that any output of the modules _P, _F, _E and _O_u_t_L_i_n_e_s may
+     be echoed.
+
+DDIIAAGGNNOOSSTTIICC
+     _V_a_l_i_d_L_o_n_g returns TTRRUUEE ,, if _l_o_n_g  is  regarded  as  a  valid
+     long.   A  long  becomes  invalid if disposed or freed or if
+     allocation or reallocation fails because  the  process  runs
+     out  of  memory.   By  default, _L_o_n_g_S_t_r_i_n_g_s will not recover
+     from the latter situation since _S_t_o_r_a_g_e_(_3_)  would  terminate
+     the program before.
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                LongStrings(3)
+
+
+
+     Output  routines  return FFAALLSSEE in any case of error, _S_t_r_S_i_z_e
+     and _S_t_r_A_d_r return 00 respectively NNIILL if _l_o_n_g is not a  valid
+     argument.
+
+SSEEEE AALLSSOO
+     _E_(_3_), _F_(_3_), _P_(_3_), _O_u_t_L_i_n_e_s_(_3_), _S_t_o_r_a_g_e_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+

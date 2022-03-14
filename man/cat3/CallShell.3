@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                  CallShell(3)
+
+
+
+NNAAMMEE
+     CallShell - issue a shell command
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Shell(string: ARRAY OF CHAR; VAR status: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_h_e_l_l  causes the _s_t_r_i_n_g to be given to _s_h_(_1_) as input as if
+     the _s_t_r_i_n_g had been typed as a command at a  terminal.   The
+     current  process  waits  until  the shell has completed, the
+     status (see _w_a_i_t_(_2_)) of the shell will be stored in  _s_t_a_t_u_s.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _S_h_e_l_l returns FFAALLSSEE if _s_h_(_1_) cannot be started.
+
+FFIILLEESS
+     _/_b_i_np_/a_st_hhname of _s_h_(_1_)
+
+SSEEEE AALLSSOO
+     _s_h_(_1_), _w_a_i_t_(_2_)
+
+BBUUGGSS
+     The SSHHEELLLL environment variable is not honored.
+
+     Because  the  environment  variables are passed unchanged to
+     _s_h_(_1_) this interface is inherently insecure if  the  process
+     runs with s-bit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

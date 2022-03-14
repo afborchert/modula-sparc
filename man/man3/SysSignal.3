@@ -1,0 +1,47 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysSignal 3 "Ulm's Modula-2 System"
+.SH NAME
+SysSignal \- UNIX signal handling
+.SH SYNOPSIS
+.Pg
+VAR default, ignore: PROC;
+VAR old: PROC;
+.sp 0.7
+PROCEDURE Signal(sig: SystemTypes.Sig; p: PROC) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Signal
+installs \fIp\fP as signal handler for the signal \fIsig\fP
+(see \fISystemTypes(3)\fP for the set of possible signals).
+The signal handler may be a parameterless procedure
+which is to be called on receiving \fIsig\fP,
+or \fIdefault\fP (the receipt of a signal causes
+program abortion then), or \fIignore\fP
+if the signal is to be ignored.
+On success, the previous signal handler for \fIsig\fP
+is stored into \fIold\fP.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+.Tb sigaction(2)
+.Tp sigaction(2)
+the original interface
+.Tp signal(5)
+an overview of all signals
+.Tp SysKill(3)
+delivery of signals
+.Te
+.SH BUGS
+.I SysSignal
+provides a very restricted interface to the original system call.
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysSignal.3,v 1.1 1997/02/26 10:39:16 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysSignal.3,v $
+.\" Revision 1.1  1997/02/26  10:39:16  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

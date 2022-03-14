@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    SysOpen(3)
+
+
+
+NNAAMMEE
+     SysOpen - open a file
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Open(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
+                    oflag: WORD) : BOOLEAN;
+
+     PROCEDURE OpenCreat(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
+                         oflag: WORD; mode: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _O_p_e_n  opens _f_i_l_e_n_a_m_e with an access mode specified by _o_f_l_a_g.
+     Possible values for the access mode _o_f_l_a_g  are  exported  by
+     _S_y_s_t_e_m_T_y_p_e_s_(_4_).   _O_p_e_n_C_r_e_a_t  works  like _O_p_e_n but accepts an
+     additional  _m_o_d_e  parameter  which  is  needed  if   _S_y_s_t_e_m_­
+     _T_y_p_e_s_._c_r_e_a_t  has  been  included in _o_f_l_a_g.  On success, both
+     operations return TTRRUUEE and store the new file descriptor  in
+     _f_d.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failure, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _o_p_e_n_(_2_), _S_y_s_C_r_e_a_t_(_3_), _S_y_s_F_c_n_t_l_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                Directories(3)
+
+
+
+NNAAMMEE
+     Directories - reading directories
+
+SSYYNNOOPPSSIISS
+     FROM SystemTypes IMPORT DirSize, OFF;
+
+     TYPE DIR;
+     TYPE FileName = ARRAY [0..DirSize-1] OF CHAR;
+     TYPE
+        Direct =
+           RECORD
+              ino: CARDINAL;
+              name: FileName;
+           END;
+
+     PROCEDURE OpenDir(VAR dirp: DIR; filename: ARRAY OF CHAR) : BOOLEAN;
+     PROCEDURE ReadDir(dirp: DIR; VAR direct: Direct) : BOOLEAN;
+     PROCEDURE TellDir(dirp: DIR; VAR offset: OFF) : BOOLEAN;
+     PROCEDURE SeekDir(dirp: DIR; offset: OFF) : BOOLEAN;
+     PROCEDURE RewindDir(dirp: DIR) : BOOLEAN;
+     PROCEDURE CloseDir(VAR dirp: DIR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _O_p_e_n_D_i_r opens a directory with the name _f_i_l_e_n_a_m_e and associ­
+     ates a directory stream with it.
+
+     _R_e_a_d_D_i_r returns the name and the inode number of  the  file.
+     It  returns  FFAALLSSEE upon reaching the end of the directory or
+     detecting an invalid seekdir operation.
+
+     _T_e_l_l_D_i_r sets _o_f_f_s_e_t to the current location associated  with
+     the named directory stream.
+
+     _S_e_e_k_D_i_r  sets  the position of the next _R_e_a_d_D_i_r operation on
+     the directory stream.
+
+     _R_e_w_i_n_d_D_i_r sets the position of the named directory stream to
+     the beginning of the directory.
+
+     _C_l_o_s_e_D_i_r closes the named directory stream.
+
+DDIIAAGGNNOOSSTTIICCSS
+     All routines except _C_l_o_s_e_D_i_r return FFAALLSSEE in error case.
+
+AAUUTTHHOORR
+     Harald Ruess
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

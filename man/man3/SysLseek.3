@@ -1,0 +1,43 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysLseek 3 "Ulm's Modula-2 System"
+.SH NAME
+SysLseek \- set and return current position of a file descriptor
+.SH SYNOPSIS
+.Pg
+PROCEDURE Lseek(fd: CARDINAL; offset: SystemTypes.OFF;
+                whence: CARDINAL) : BOOLEAN;
+.sp 0.7
+PROCEDURE Tell(fd: CARDINAL;
+               VAR offset: SystemTypes.OFF) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Lseek
+sets the current position of \fIfd\fP to \fIoffset\fP which
+is interpreted in dependance of \fIwhence\fP:
+.IP 0
+absolute
+.IP 1
+relative to the current position
+.IP 2
+relative to the end of the position
+.PP
+.I Tell
+returns the current position of \fIfd\fP.
+.PP
+Note that not all file descriptors support these operations.
+.SH DIAGNOSTICS
+On failure,
+\fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIlseek(2)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysLseek.3,v 1.1 1997/02/26 10:05:45 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysLseek.3,v $
+.\" Revision 1.1  1997/02/26  10:05:45  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

@@ -1,0 +1,396 @@
+
+
+
+C Library Functions                                 EditWindow(3)
+
+
+
+NNAAMMEE
+     EditWindow - window editor
+
+SSYYNNOOPPSSIISS
+     TYPE
+        FunctionKeyReaction =
+           PROCEDURE (Window, VAR FunctionKey, VAR BOOLEAN);
+
+     CONST
+        LocalMoves =
+           FunctionKeySet {up,down,left,right,home,backspace};
+
+     (* editing *)
+     PROCEDURE EditWindow(win : Window; predefined : BOOLEAN;
+                          VAR exitkey : FunctionKey );
+     PROCEDURE EnableLocalMoves (directions : FunctionKeySet);
+     PROCEDURE MapChar(char : CHAR; key : FunctionKey);
+     PROCEDURE DefineReaction(key : FunctionKey;
+                              reactproc : FunctionKeyReaction);
+     PROCEDURE EnableSingleCharFK (recognize : BOOLEAN);
+     PROCEDURE CallOnce(proc : PROC);
+
+     (* other useful procedures *)
+     PROCEDURE ReadOneChar(win : Window; echo : BOOLEAN) : CHAR;
+     PROCEDURE Wait(w : Window);
+     PROCEDURE Beep();
+     PROCEDURE GetWindowLine(win : Window; line : CARDINAL;
+                             VAR text : ARRAY OF CHAR;
+                             clearleadingspace, clearfillupspace : BOOLEAN);
+
+     (* prototype procedures with type 'FunctionKeyReaction' *)
+     PROCEDURE Ignore (win : Window; VAR exitkey : FunctionKey;
+                       VAR return : BOOLEAN);
+     PROCEDURE Return (win : Window; VAR exitkey : FunctionKey;
+                       VAR return : BOOLEAN);
+     PROCEDURE Default (win : Window; VAR exitkey : FunctionKey;
+                        VAR return : BOOLEAN);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _E_d_i_t_W_i_n_d_o_w provides a simple screen-oriented editor for win­
+     dows created by  _W_i_n_d_o_w_s_(_3_).   The  commands  supported  are
+     adapted  from  _v_i_(_1_)  even  it was not intended to realize a
+     copy of this tool as a Modula-2 library routine.
+
+     Any window _w_i_n can be edited by _E_d_i_t_W_i_n_d_o_w and no  precondi­
+     tion concerning current window attributes and current cursor
+     position are required.  Initial  attribute  set  and  cursor
+     position of _w_i_n are restored after editing.
+
+     _E_d_i_t_W_i_n_d_o_w   supports   three  modes:  eessccaappee,  iinnsseerrtt,  and
+     rreeppllaaccee..  Refer to section EEDDIITTIINNGG CCOOMMMMAANNDDSS for description.
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                 EditWindow(3)
+
+
+
+     Editing  always  starts at the upper left corner of _w_i_n, any
+     typeahead  of  input  (before  _E_d_i_t_W_i_n_d_o_w  was  called)   is
+     ignored.   If  _p_r_e_d_e_f_i_n_e_d  is TTRRUUEE ,, _E_d_i_t_W_i_n_d_o_w displays the
+     old contents of _w_i_n and switches to mode eessccaappee.  If  _p_r_e_d_e_­
+     _f_i_n_e_d _i_s FALSE, _w_i_n is cleared and _i_n_s_e_r_t becomes the start­
+     ing mode.
+
+     EditWindow returns with  _e_x_i_t_k_e_y  set  to  nnookkeeyy  if  either
+     return  is  entered  on  the last window line or an explicit
+     quit command is issued (see below).  By default any function
+     key  will also finish editing.  In this case the terminating
+     key is assigned to  _e_x_i_t_k_e_y  (values  to  be  imported  from
+     _F_u_n_c_t_i_o_n_K_e_y_s_(_3_)).   Arrows and home key on keyboard are made
+     available for editing by _E_n_a_b_l_e_L_o_c_a_l_M_o_v_e_s (_d_i_r_e_c_t_i_o_n_s should
+     be  a subset of _L_o_c_a_l_M_o_v_e_s).  Single character function keys
+     are not recognized by _E_d_i_t_W_i_n_d_o_w  unless  _E_n_a_b_l_e_S_i_n_g_l_e_C_h_a_r_F_K
+     was called before with _r_e_c_o_g_n_i_z_e set to TTRRUUEE (default can be
+     restored calling _E_n_a_b_l_e_S_i_n_g_l_e_C_h_a_r_F_K(FFAALLSSEE)).  When  enabling
+     single  function  keys, _b_a_c_k_s_p_a_c_e must be defined as a local
+     move, otherwise _E_d_i_t_W_i_n_d_o_w will react  rather  unconvention­
+     ally to backspace editing.
+
+     _E_d_i_t_W_i_n_d_o_w  has  a  large variety of applications, since the
+     exit key returned can be interpreted as the result of  edit­
+     ing  which  decides  about what to do next (f.i. positioning
+     within screen masks where single input field are represented
+     as   windows  edited  by  means  of  _E_d_i_t_W_i_n_d_o_w).   _M_a_p_C_h_a_r,
+     _D_e_f_i_n_e_R_e_a_c_t_i_o_n, and _E_n_a_b_l_e_L_o_c_a_l_M_o_v_e_s extend the capabilities
+     of this feature.
+
+     _D_e_f_i_n_e_R_e_a_c_t_i_o_n  defines a procedure _r_e_a_c_t_p_r_o_c that is called
+     by _E_d_i_t_W_i_n_d_o_w whenever the function key _k_e_y is read.  During
+     this  call  _r_e_a_c_t_p_r_o_c may update the currently edited window
+     which is received as the first parameter.  By means  of  the
+     boolean  VVAARR  parameter set by _r_e_a_c_t_p_r_o_c, _E_d_i_t_W_i_n_d_o_w decides
+     whether to terminate editing or not.   If  _r_e_a_c_t_p_r_o_c  yields
+     TTRRUUEE  _E_d_i_t_W_i_n_d_o_w  returns with _e_x_i_t_k_e_y set the value defined
+     by _r_e_a_c_t_p_r_o_c for its second parameter.
+
+     _D_e_f_a_u_l_t, _R_e_t_u_r_n, and _I_g_n_o_r_e are prototype procedures of type
+     _F_u_n_c_t_i_o_n_K_e_y_R_e_a_c_t_i_o_n.     If    used    as    arguments    to
+     _D_e_f_i_n_e_R_e_a_c_t_i_o_n, _R_e_t_u_r_n  causes  _E_d_i_t_W_i_n_d_o_w  to  return  with
+     _e_x_i_t_k_e_y  = nnookkeeyy ,, _I_g_n_o_r_e outputs a acoustic signal and con­
+     tinues editing and _D_e_f_a_u_l_t resets the default  reaction  for
+     _k_e_y.
+
+     _M_a_p_C_h_a_r allows mapping of any character _c_h_a_r into a function
+     key _k_e_y.  During subsequent calls  of  _E_d_i_t_W_i_n_d_o_w  input  of
+     _c_h_a_r will have the same effect than _k_e_y _.  Thus, if function
+     keys are needed for certain applications but  not  supported
+     by  input  terminals,  control  characters  can  be  defined
+     instead.
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                 EditWindow(3)
+
+
+
+     Note that _E_d_i_t_W_i_n_d_o_w will neither  recognize  function  keys
+     nor  map  characters  during uncompleted editing commands in
+     escape mode.
+
+     _C_a_l_l_O_n_c_e defines a procedure _p_r_o_c that is called by _E_d_i_t_W_i_n_­
+     _d_o_w having read the first input character.  _p_r_o_c is executed
+     exactly one time.  _C_a_l_l_O_n_c_e does not affect  more  than  one
+     call of _E_d_i_t_W_i_n_d_o_w.
+
+     Some  more useful procedures independent from editing window
+     are provided by this module as well.
+
+     _G_e_t_W_i_n_d_o_w_L_i_n_e copies line _l_i_n_e of  window  _w_i_n  into  string
+     _t_e_x_t_.  Blanks before first or following last non space char­
+     acter on line are ignored if _c_l_e_a_r_l_e_a_d_i_n_g_s_p_a_c_e  respectively
+     _c_l_e_a_r_f_i_l_l_u_p_s_p_a_c_e  equals TTRRUUEE.  _G_e_t_W_i_n_d_o_w_L_i_n_e will return an
+     empty string, if illegal parameters are received  or  output
+     does not fit into _t_e_x_t.
+
+     _B_e_e_p  outputs  an  acoustic  signal to the device associated
+     with _S_t_d_I_O_._s_t_d_e_r_r.
+
+     _W_a_i_t suspends program execution until any key is hit (typea­
+     head  of  input  is ignored).  _w_i_n is used as an argument to
+     _W_i_n_d_o_w_s_._W_i_n_d_o_w_R_e_a_d but remains unaffected.
+
+     _R_e_a_d_O_n_e_C_h_a_r returns the first character read from  the  cur­
+     rent  cursor position of _w_i_n (typeahead not recognized).  If
+     _e_c_h_o  is  _T_R_U_E  input  will  be  echoed.    Initial   window
+     attributes and cursor position are restored.
+
+EEDDIITTIINNGG CCOOMMMMAANNDDSS
+     Within  the  description of editing commands input keys with
+     special meaning are referred as follows:
+
+     <<ccCCaaRRrr>>rriiaaggee rreettuurrnn ((1155CC))
+     <<llLLiiFFnn>>ee ffeeeedd ((1122CC))
+     <<bbBBaaSScc>>kkssppaaccee ((1100CC))
+     <<eeEEssSSccCCaa>>ppee ((3333CC))
+     <<ddDDeeEEllLLee>>ttee ((117777CC))
+     <<aaSSPPss>>ppaaccee//bbllaannkk ((4400CC))
+     _{aa_vnn_iyy_s_}vviissiibbllee cchhaarraacctteerr ((4400CC--117766CC))
+
+     By default _E_d_i_t_W_i_n_d_o_w follows UNIX-Conventions and reacts in
+     the same way to <<CCRR>> and <<LLFF>>.  Nevertheless both input keys
+     are distinguished.  This  allows  mapping  of  <<LLFF>>  without
+     altering  the conventional behavior of the return key on the
+     keyboard.
+
+  IInnsseerrtt MMooddee
+     {_v_i_s}
+          inserted at the current cursor position
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+
+
+
+
+C Library Functions                                 EditWindow(3)
+
+
+
+     <<EESSCC>>
+          switch to escape mode
+
+     <<BBSS>> <<DDEELL>>
+          erase  character   before   current   cursor   position
+          (restricted  to  characters  inserted  on  current line
+          since last switch to insert mode)
+
+     <<CCRR>> <<LLFF>>
+          break line at current  cursor  position  and  terminate
+          editing if on last window line
+
+  RReeppllaaccee MMooddee
+     {_v_i_s}
+          replace character at the current cursor position
+
+     <<EESSCC>>
+          switch to escape mode
+
+     <<BBSS>> <<DDEELL>>
+          move left
+
+     <<CCRR>> <<LLFF>>
+          move  to beginning of next line or terminate editing if
+          on the last one
+
+  EEssccaappee MMooddee
+     ii    switch to insert mode
+
+     II    move to first non space character on line and switch to
+          insert mode
+
+     aa    move right and switch to insert mode (append)
+
+     AA    move beyond last non space character on line and switch
+          to insert mode
+
+     oo    insert an empty line after the current one  and  switch
+          to insert mode
+
+     OO    insert  an  empty line at the current one and switch to
+          insert mode
+
+     RR    switch to replace mode
+
+     rr{_v_i_s}
+          replace character at current position by _v_i_s
+
+     JJ    join current line with the next one
+
+     hh <<BBSS>> <<DDEELL>>
+          move left
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          4
+
+
+
+
+
+
+C Library Functions                                 EditWindow(3)
+
+
+
+     ll <<SSPP>>
+          move right
+
+     kk ---- move up (same column)
+
+     jj ++  move down (same column, editing is not terminated if on
+          last line)
+
+     00    move to beginning of current line
+
+     ^^    move to first non space character of current line
+
+     $$    move to last non space character of current line
+
+     GG    move to last line
+
+     [11-99][00-99]+GG
+          move to the specified line
+
+     ww    move  to  next  word  begin  (word is a sequence of non
+          space characters)
+
+     ee    move to next word end
+
+     bb    move to last word begin
+
+     WW EE BB
+          as lower case  letters,  but  words  are  now  coherent
+          sequences of either alpha numeric or punctation charac­
+          ters
+
+     xx    delete character at current cursor position
+
+     dddd   delete current line
+
+     dd00 dd^^ dd$$ ddww ddWW ddee ddEE ddbb ddBB
+          delete to the position specified by second character of
+          command (deletion always restricted to current line)
+
+     <<CCRR>> <<LLFF>>
+          move  to beginning of next line or terminate editing if
+          on the last one
+
+     ZZZZ   terminate editing (_e_x_i_t_k_e_y = nnookkeeyy)
+
+  LLooccaall MMoovveess ((iiff ssuuppppoorrtteedd))
+     The following function keys  are  recognized  by  _E_d_i_t_W_i_n_d_o_w
+     only  if  they have been enabled by _E_n_a_b_l_e_L_o_c_a_l_M_o_v_e_s before.
+     None of them will switch the current editing mode.
+
+     uupp   move up (same column)
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          5
+
+
+
+
+
+
+C Library Functions                                 EditWindow(3)
+
+
+
+     ddoowwnn move down (same column, no termination on last line)
+
+     rriigghhtt
+          move right (same as <<SSPP>> in insert mode)
+
+     lleefftt bbaacckkssppaaccee
+          as <<BBSS>> (reaction depends on current editing mode)
+
+     hhoommee move to upper left corner of window
+
+DDIIAAGGNNOOSSTTIICCSS
+     _E_d_i_t_W_i_n_d_o_w outputs an acoustic signal  (using  _B_e_e_p)  as  an
+     answer to illegal input.
+
+SSEEEE AALLSSOO
+     _W_i_n_d_o_w_s_(_3_), _F_u_n_c_t_i_o_n_K_e_y_s_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+BBUUGGSS
+     _B_e_e_p  will  not  work  as expected, if _S_t_r_e_a_m_s_._s_t_d_e_r_r is not
+     associated with the device where you want to hear the acous­
+     tic signal.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          6
+
+
+

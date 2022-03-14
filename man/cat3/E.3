@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                          E(3)
+
+
+
+NNAAMMEE
+     E - formatted error messages
+
+SSYYNNOOPPSSIISS
+     TYPE
+        ExitCode = [-1..255];
+        SigSet   = SET OF Sig;
+
+     CONST
+        UserSignal  = SigSet {SIGHUP, SIGINT, SIGQUIT, SIGTERM};
+        FatalSignal = SigSet {SIGILL..SIGUSR2} - SigSet{SIGKILL};
+
+     (* diagnostic *)
+     PROCEDURE done () : BOOLEAN;
+     PROCEDURE success() : FmtExitCode;
+
+     (* error handling *)
+     PROCEDURE setmode (mode : BITSET);
+     PROCEDURE getmode (VAR mode : BITSET);
+
+     (* output *)
+     PROCEDURE rror0 (exit : ExitCode; fmt : ARRAY OF CHAR);
+     PROCEDURE rror1 (exit : ExitCode; fmt : ARRAY OF CHAR;
+        i1 : ARRAY OF BYTE);
+     PROCEDURE rror2 (exit : ExitCode; fmt : ARRAY OF CHAR;
+        i1, i2 : ARRAY OF BYTE);
+     (* ... *)
+     PROCEDURE rror8 (exit : ExitCode; fmt : ARRAY OF CHAR;
+        i1, i2, i3, i4, i5, i6, i7 , i8 : ARRAY OF BYTE);
+
+     (* useful procedures *)
+     PROCEDURE AddFatalLine(text : ARRAY OF CHAR);
+     PROCEDURE EnterInitProc(proc : PROC);
+     PROCEDURE EnterExitProc(proc : PROC);
+     PROCEDURE ClearInitProc();
+     PROCEDURE ClearExitProc();
+     PROCEDURE Signals(set : SigSet; proc : PROC);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _E_._r_r_o_r_0 .. _E_._r_r_o_r_8 (the procedures are intended to be called
+     qualified, that explains their strange names) convert  their
+     parameters  ,  instantiate  them into the format string _f_m_t,
+     add some information, and output the whole text as an  error
+     message  to  _S_t_d_I_O_._s_t_d_e_r_r.   Finally _E_._r_r_o_r_0 .. _E_._r_r_o_r_8 will
+     terminate the current process if _e_x_i_t does  not  equal  zero
+     (0).
+
+     _e_x_i_t = 0
+          An error message of the following form is issued, where
+          'formatted message' is produced from the parameter _f_m_t,
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                          E(3)
+
+
+
+          according   to   the  general  formatting  capabilities
+          described in Printf(3).
+               [error] formatted message
+
+     _e_x_i_t = -1
+          Having output the error  message,  _E_._r_r_o_r_0  ..  _E_._r_r_o_r_8
+          send  SSIIGGIIOOTT  to  the  current process.  This is a sure
+          kill and will produce a core dump for program debugging
+          by mdb(1).
+               [panic] formatted message
+               [a.out] Panic exit, core dumped. Stop.
+
+     _e_x_i_t > 0
+          Program termination is realized by calling _S_y_s_E_x_i_t_._E_x_i_t
+          using _e_x_i_t as exit code:
+               [fatal] formatted message
+               [a.out] Exit code 1. Stop.
+
+     Each call of _A_d_d_F_a_t_a_l_L_i_n_e defines a  further  line  of  _t_e_x_t
+     inserted  by  _E_._r_r_o_r_0 .. _E_._r_r_o_r_8 into a fatal or panic error
+     message.  An empty string can be used  to  clear  previously
+     defined text.
+
+     Error   messages   are   echoed   to   further   files,   if
+     _L_o_n_g_S_t_r_i_n_g_s._E_c_h_o has been called for _s_t_d_e_r_r before.
+
+     _E_n_t_e_r_I_n_i_t_P_r_o_c defines _p_r_o_c to be called before an error mes­
+     sage  is  issued.   Intended for terminal resetting in those
+     cases, the output would otherwise be unreadable  (f.i.  when
+     using  _W_i_n_d_o_w_s(3)).  _E_n_t_e_r_E_x_i_t_P_r_o_c works the other way round
+     and defines a procedure that is called after the  output  of
+     an error message.  May be used to restore a terminal device.
+
+     _C_l_e_a_r_I_n_i_t_P_r_o_c and _C_l_e_a_r_E_x_i_t_P_r_o_c delete preceding definitions
+     by _E_n_t_e_r_I_n_i_t_P_r_o_c and _E_n_t_e_r_E_x_i_t_P_r_o_c.
+
+     _d_o_n_e returns TTRRUUEE if the last call of _E_._r_r_o_r_0 .. _E_._r_r_o_r_8 was
+     successful, more detailed information  can  be  obtained  by
+     _s_u_c_c_e_s_s (_F_m_t_E_x_i_t_C_o_d_e is imported from _P_r_i_n_t_f).
+
+     _s_e_t_m_o_d_e  defines  a new error handling mode _m_o_d_e which is by
+     default set to _P_r_i_n_t_f_._D_e_f_a_u_l_t.  _g_e_t_m_o_d_e yields  the  current
+     mode.
+
+     _S_i_g_n_a_l_s  defines _p_r_o_c to be called, if one of the signals in
+     _s_e_t is received.  The meaning of the signals  suggest  their
+     partition  into  _U_s_e_r_S_i_g_n_a_l (assuming these signals are pro­
+     duced by the user) and _F_a_t_a_l_S_i_g_n_a_l, even if these  sets  may
+     not be suitable for all applications.
+
+DDIIAAGGNNOOSSTTIICCSS
+     Diagnostic  is  unnecessary  unless  default  error handling
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                          E(3)
+
+
+
+     strategy has been explicitly  modified  by  prior  calls  of
+     _s_e_t_m_o_d_e.  See _P_r_i_n_t_f_(_3_) for more details.
+
+     Please note that program termination depends on a successful
+     output of the error message.  Errors may result from illegal
+     format  strings  or  from  problems  when  writing to _s_t_d_e_r_r
+     (error code CCaannnnoottWWrriitteeSSttddeerrrr).
+
+     Error message issued by _E for diagnostic reasons will  indi­
+     cate the affected procedure call:
+
+          [fatal] E.rror3(-1,"%*u",...);
+                  Bad  Format:  too few format elements.  [a.out]
+          Exit code 204. Stop.
+
+SSEEEE AALLSSOO
+     _m_d_b_(_1_), _s_i_g_a_c_t_i_o_n_(_2_), _P_r_i_n_t_f_(_3_), _L_o_n_g_S_t_r_i_n_g_s_(_3_), _S_t_d_I_O_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+

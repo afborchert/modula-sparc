@@ -1,0 +1,98 @@
+ARGC		ARGC (3)	- get command line arguments
+ARGV		ARGC (3)	- get command line arguments
+ASCII		ASCII (3)	- control characters
+Archive 	Archive (3)	- reading archive files
+Arguments	Arguments (3)	- procedures for command line processing
+Attributes	Attributes (3)	- set terminal display attributes
+Bytes		Bytes (3)	- byte and pointer manipulations
+Calendar	Calendar (3)	- date and time calculations
+CallShell	CallShell (3)	- issue a shell command
+Chars		Chars (3)	- character classifications
+Clock		Clock (3)	- report real and CPU time used
+Conversions	Conversions (3) - number to string conversions
+Delay		Delay (3)	- output padding in dependence of the baudrate
+Directories	Directories (3) - reading directories
+E		E (3)		- formatted error messages
+EditWindow	EditWindow (3)	- window editor
+Environment	Environment (3) - get environment parameters
+Errno		Errno (3)	- system error codes
+EtcGroup	EtcGroup (3)	- scanning and searching the /etc/group file
+F		F (3)		- formatted output to files
+Files		Files (3)	- file handling
+FtdIO		FtdIO (3)	- formatted file i/o
+FtdWin		FtdWin (3)	- formatted window i/o
+FunctionKeys	FunctionKeys (3)    - scan input for function keys
+Functions	Functions (3)	- definition and evaluation of functions
+GetPass 	GetPass (3)	- read a password
+InOut		InOut (3)	- formatted input and output to stdin and stdout
+Keywords	Keywords (3)	- keyword recognition
+L		L (3)		- append formatted output to longs
+LongStrings	LongStrings (3) - dynamic strings handling
+MainWin 	MainWin (3)	- simple screen operations
+MathLib 	MathLib (3)	- mathematical library
+Menus		Menus (3)	- display and execution of menu windows
+OutLines	OutLines (3)	- pagewise output
+P		P (3)		- formatted output to stdout
+Passwd		Passwd (3)	- scanning and searching the password file
+PipeIO		PipeIO (3)	- initiate I/O to/from a process
+Plot		Plot (3)	- graphics interface
+Printf		Printf (3)	- common base of formatted output toolkit
+RandomGenerator RandomGenerator (3) - pseudo random number generator
+RealConv	RealConv (3)	- conversion of real numbers
+RealInOut	RealInOut (3)	- i/o with real numbers
+S		S (3)		- formatted output to strings
+SYSTEM		SYSTEM (3)	- system-dependent built-ins of Ulm's Modula-2 Compiler
+Screen		Screen (3)	- simple screen operations
+Stack		Stack (3)	- store any objects in lifo-manner
+StdFuncs	StdFuncs (3)	- provide standard real valued functions and constants
+StdIO		StdIO (3)	- file i/o
+Storage 	Storage (3)	- storage allocation
+StrSpec 	StrSpec (3)	-  special string operations
+StrToNum	StrToNum (3)	- string to number conversions
+StrToReal	StrToReal (3)	- convert strings to real numbers
+Strings 	Strings (3)	- simple string operations
+Sys		Sys (3) 	- UNIX system calls
+SysAccess	SysAccess (3)	- determine accessibility of a file
+SysAlarm	SysAlarm (3)	- set the process alarm clock
+SysBreak	SysBreak (3)	- heap allocation
+SysClose	SysClose (3)	- close a file descriptor
+SysConf 	SysConf (3)	- configuration parameters of the local installation
+SysCreat	SysCreat (3)	- create a new file or rewrite an existing one
+SysDup		SysDup (3)	- duplicate an open file descriptor
+SysExec 	SysExec (3)	- replace execution image
+SysExit 	SysExit (3)	- terminate process
+SysFcntl	SysFcntl (3)	- file control operations
+SysFork 	SysFork (3)	- create a new process
+SysGetpid	SysGetpid (3)	- get process ID of the current process
+SysGetuid	SysGetuid (3)	- get real and effective user or group ID of the current process
+SysIoctl	SysIoctl (3)	- interface to the terminal driver (BSD version)
+SysKill 	SysKill (3)	- send a signal to a process or a group of processes
+SysLink 	SysLink (3)	- create a hard link to a file
+SysLocation	SysLocation (3) - special locations in the address space of the current process
+SysLseek	SysLseek (3)	- set and return current position of a file descriptor
+SysOpen 	SysOpen (3)	- open a file
+SysPanic	SysPanic (3)	- emit final error message and abort
+SysPause	SysPause (3)	- suspend process execution
+SysPerror	SysPerror (3)	- system error messages
+SysPipe 	SysPipe (3)	- create a pipe
+SysRead 	SysRead (3)	- read from a file descriptor
+SysSetuid	SysSetuid (3)	- set user and group IDs
+SysSignal	SysSignal (3)	- UNIX signal handling
+SysStat 	SysStat (3)	- examine file status
+SysTermIO	SysTermIO (3)	- interface to the terminal driver (UNIX System V version)
+SysTime 	SysTime (3)	- return current time
+SysUnlink	SysUnlink (3)	- remove a link to a file
+SysWait 	SysWait (3)	- wait for a child process to terminate
+SysWrite	SysWrite (3)	- write to a file descriptor
+SystemTypes	SystemTypes (3) - system types and constants
+TermCap 	TermCap (3)	- interface to terminal capability data base
+TermInfo	TermInfo (3)	- interface to terminal capability data base
+Terminal	Terminal (3)	- simple i/o
+TimeIO		TimeIO (3)	- i/o of time and date
+UnixString	UnixString (3)	- auxiliary module for string conversions
+W		W (3)		- formatted output to windows
+Windows 	Windows (3)	- screen handling routines
+m2b		m2b (1) 	- Modula-2 beautifier
+m2c		m2c (1) 	- Modula-2 compiler
+mmm		mmm (1) 	- make makefile for Modula-2
+mtags		mtags (1)	- create a tags file for Modula-2 sources

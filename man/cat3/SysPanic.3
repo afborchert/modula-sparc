@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   SysPanic(3)
+
+
+
+NNAAMMEE
+     SysPanic - emit final error message and abort
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Panic(text: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _P_a_n_i_c  prints  the given error message to standard error and
+     exits immediately without the normal  termination  procedure
+     (see  _S_y_s_E_x_i_t_(_3_)).   _P_a_n_i_c is mainly useful in circumstances
+     where no dynamic  memory  may  be  available  and  therefore
+     _S_t_d_I_O_(_3_) cannot be assumed to work properly.  _P_a_n_i_c does not
+     return.
+
+SSEEEE AALLSSOO
+     _S_y_s_E_x_i_t_(_3_), _S_y_s_P_e_r_r_o_r_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

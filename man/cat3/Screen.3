@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                     Screen(3)
+
+
+
+NNAAMMEE
+     Screen - simple screen operations
+
+SSYYNNOOPPSSIISS
+     TYPE Screen;
+     TYPE CursorVisibility = (normal, invisible, morevisible);
+
+     VAR Done: BOOLEAN;
+
+     PROCEDURE OpenScreen(VAR scr: Screen;
+                          outfp: StdIO.FILE;
+                          baudrate: CARDINAL;
+                          lines, columns: CARDINAL;
+                          terminal: ARRAY OF CHAR) : BOOLEAN;
+     PROCEDURE OpenScreenTI(VAR scr: Screen;
+                            outfp: StdIO.FILE;
+                            baudrate: CARDINAL;
+                            lines, columns: CARDINAL;
+                            tinfo: TermInfo.Term);
+     PROCEDURE InitScreen(scr: Screen; lines, columns: CARDINAL);
+     PROCEDURE CloseScreen(VAR scr: Screen);
+     PROCEDURE Lines(scr: Screen) : CARDINAL;
+     PROCEDURE Columns(scr: Screen) : CARDINAL;
+     PROCEDURE ClearScreen(scr: Screen);
+     PROCEDURE SetCursor(scr: Screen; line, column: CARDINAL);
+     PROCEDURE MoveCursor(scr: Screen;
+               (* from *) line1, column1,
+               (* to *)   line2, column2: CARDINAL);
+     PROCEDURE Scroll(scr: Screen; down: BOOLEAN;
+                      line, column: CARDINAL;
+                      lines, columns: CARDINAL);
+     PROCEDURE ResetScrollRegions(scr: Screen);
+     PROCEDURE SetCursorVisibility(scr: Screen; visibility: CursorVisibility);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_c_r_e_e_n bases on _T_e_r_m_I_n_f_o_(_3_) and offers some optimized screen
+     operations.  _D_o_n_e is set to FFAALLSSEE if no capability is  found
+     to do the work.  A _S_c_r_e_e_n can be opened by either _O_p_e_n_S_c_r_e_e_n
+     or _O_p_e_n_S_c_r_e_e_n_T_I_.  Both return on  success  a  screen-pointer
+     _s_c_r  which  is to be given on subsequently operations on it.
+     Any output is sent to _o_u_t_f_p_.  Padding depends  on  _b_a_u_d_r_a_t_e_.
+     If  _b_a_u_d_r_a_t_e  is  zero  no padding will be done.  _O_p_e_n_S_c_r_e_e_n
+     sends an initialization sequence to the  terminal  but  does
+     not  clear the screen.  No _i_o_c_t_l_(_2_) system call is done.  So
+     output setting like switch-off of tab-expansion and newline-
+     mapping  are to be done previously.  Thus, _o_u_t_p needs not to
+     be associated with a terminal.  _I_n_i_t_S_c_r_e_e_n repeats the  ini­
+     tialization sequence of _O_p_e_n_S_c_r_e_e_n_.
+
+     _C_l_o_s_e_S_c_r_e_e_n  deallocates the space used for _s_c_r but does not
+     close the output file-pointer _o_u_t_f_p which has been given  to
+
+
+
+Release 3.0b6 Last change: Last change: 22 June 1998            1
+
+
+
+
+
+
+C Library Functions                                     Screen(3)
+
+
+
+     _O_p_e_n_S_c_r_e_e_n or _O_p_e_n_S_c_r_e_e_n_T_I.
+
+     _L_i_n_e_s  and _C_o_l_u_m_n_s return the number of lines and columns of
+     the given screen.  If the associated capability is not set 1
+     is  returned.   _C_l_e_a_r_S_c_r_e_e_n  clears  the  screen.  _S_e_t_C_u_r_s_o_r
+     moves the cursor to the given position.  Some  optimizations
+     (e.g.  home  position  and  last line) are done.  _M_o_v_e_C_u_r_s_o_r
+     takes _l_i_n_e_1 and _c_o_l_u_m_n_1 as the current position of the  cur­
+     sor  and  outputs an optimized sequence to move to _l_i_n_e_2 and
+     _c_o_l_u_m_n_2.
+
+     _S_c_r_o_l_l scrolls a given window of a screen one line  downward
+     (_d_o_w_n  set  to  TTRRUUEE)  or  upward  (forward).  The window is
+     defined by the upper left corner given by  _l_i_n_e  and  _c_o_l_u_m_n
+     and the number of _l_i_n_e_s and _c_o_l_u_m_n_s.  The cursor position is
+     undefined if successful.
+
+     _R_e_s_e_t_S_c_r_o_l_l_R_e_g_i_o_n_s undoes all  former  settings  for  scroll
+     regions and is useful in a sequence of operations to restore
+     a terminal to a sane state.  Note that this operation is not
+     needed  for  any of the operations above except for cases of
+     abnormal termination in the middle of a sequence  that  cre­
+     ates a scroll region temporarily.
+
+     The  cursor  visibility  can  be modified by calling _S_e_t_C_u_r_­
+     _s_o_r_V_i_s_i_b_i_l_i_t_y_.  Supported are _n_o_r_m_a_l, _i_n_v_i_s_i_b_l_e,  and  _m_o_r_e_­
+     _v_i_s_i_b_l_e.
+
+SSEEEE AALLSSOO
+     _T_e_r_m_I_n_f_o_(_3_)   interface to the terminfo database
+     _W_i_n_d_o_w_s_(_3_)    high-level interface
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6 Last change: Last change: 22 June 1998            2
+
+
+

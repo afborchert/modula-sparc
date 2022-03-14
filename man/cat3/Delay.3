@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                      Delay(3)
+
+
+
+NNAAMMEE
+     Delay - output padding in dependence of the baudrate
+
+SSYYNNOOPPSSIISS
+     TYPE OutProc = PROCEDURE (CHAR);
+
+     PROCEDURE InitDelay(baudrate: CARDINAL; padch: CHAR; outc: OutProc);
+     PROCEDURE InitDelayFile(baudrate: CARDINAL; padch: CHAR; fp: FILE);
+
+     PROCEDURE Delay(tenthofmillisecs: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The  procedure _D_e_l_a_y is designed to be given as parameter to
+     _T_p_u_t_s_D_e_l_a_y in the module _T_e_r_m_I_n_f_o_(_3_).   It  outputs  padding
+     for  the  given  delay  time  (in tenth of milliseconds) and
+     depends on some global variables previously  set  by  either
+     _I_n_i_t_D_e_l_a_y or _I_n_i_t_D_e_l_a_y_F_i_l_e_.  Padding depends on the _b_a_u_d_r_a_t_e
+     (zero means no padding) and  the  padding  character  _p_a_d_c_h_.
+     Output  is  either  directed  to  _f_p or done by calling _o_u_t_c
+     (similar to the output procedure parameter of _T_p_u_t_s_D_e_l_a_y).
+
+SSEEEE AALLSSOO
+     TermInfo(3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

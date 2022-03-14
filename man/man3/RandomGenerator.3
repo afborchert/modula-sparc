@@ -1,0 +1,69 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH RandomGenerator 3 "local:Borchert"
+.SH NAME
+RandomGenerator \- pseudo random number generator
+.SH SYNOPSIS
+.Pg
+PROCEDURE IntVal() : INTEGER;
+PROCEDURE RealVal() : REAL;
+PROCEDURE Random(low, high: INTEGER) : INTEGER;
+PROCEDURE Flip() : BOOLEAN;
+PROCEDURE Init(seed: INTEGER);
+.Pe
+.SH DESCRIPTION
+.I RandomGenerator
+implements the
+subtractive method taken from Knuth, \fISeminumerical Algorithms\fP, 3.2.2 and
+3.6. This pseudo random number generator is recommended if a large quantity
+of uniformly distributed random numbers is needed. The produced random numbers 
+are not cryptographically secure.
+.LP
+.IR IntVal ,
+.IR RealVal ,
+.IR Random
+and
+.I Flip
+return uniformely distributed values for the requested type and
+value range:
+.Tb RealVal
+.Tp IntVal
+32-bit integer
+.Tp RealVal
+floating point number out of \fB[\fP0..1\fB)\fP
+.Tp Random
+integer out of \fB[\fP\fIlow\fP..\fIhigh\fP\fB]\fP
+.Tp Flip
+\fBTRUE\fP or \fBFALSE\fP
+.Te
+.LP
+On default,
+.I RandomGenerator
+takes a seed value that is derived from the current time and
+the process id.
+.I Init
+allows to override this default.
+This may be useful to replay sequences of pseudo random numbers
+or to use better sources for seed values.
+.SH BUGS
+Anyone who considers arithmetical methods of producing random digits
+is, of course, in a state of sin.  \(em John von Neumann (1951)
+.\" ---------------------------------------------------------------------------
+.\" $Id: RandomGenerator.3,v 1.4 2000/06/28 19:36:06 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: RandomGenerator.3,v $
+.\" Revision 1.4  2000/06/28  19:36:06  borchert
+.\" switch from congruential RG to subtractive method
+.\"
+.\" Revision 1.3  1997/02/25  17:41:22  borchert
+.\" formatting changed and general note added
+.\"
+.\" Revision 1.2  1996/12/11  15:44:32  martin
+.\" file name corrected
+.\"
+.\" Revision 1.1  1996/12/04  18:19:26  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

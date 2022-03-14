@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                          L(3)
+
+
+
+NNAAMMEE
+     L - append formatted output to longs
+
+SSYYNNOOPPSSIISS
+     (* diagnostic *)
+     PROCEDURE done () : BOOLEAN;
+     PROCEDURE success() : FmtExitCode;
+
+     (* error handling *)
+     PROCEDURE setmode (mode : BITSET);
+     PROCEDURE getmode (VAR mode : BITSET);
+
+     (* output *)
+     PROCEDURE printf0 (long : Long; fmt : ARRAY OF CHAR);
+     PROCEDURE printf1 (long : Long; fmt : ARRAY OF CHAR;
+        i1 : ARRAY OF BYTE);
+     PROCEDURE printf2 (long : Long; fmt : ARRAY OF CHAR;
+        i1,i2 : ARRAY OF BYTE);
+     (* ... *)
+     PROCEDURE printf8 (long : Long; fmt : ARRAY OF CHAR;
+        i1, i2, i3, i4, i5, i6, i7 , i8 : ARRAY OF BYTE);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _p_r_i_n_t_f_0  ..  _p_r_i_n_t_f_8  convert their parameters , instantiate
+     them into the format string _f_m_t  and  append  the  resulting
+     text to _l_o_n_g.  Refer to _P_r_i_n_t_f_(_3_) for a detailed description
+     of formatting capabilities.
+
+     Since the prior contents of _l_o_n_g remains uneffected by  fur­
+     ther  calls  of  _p_r_i_n_t_f_0  ..  _p_r_i_n_t_f_8 the output can be col­
+     lected.  Allocation and handling of _l_o_n_g is in  responsibil­
+     ity  of  the  environment  using _L.  _L_o_n_g_S_t_r_i_n_g_s_(_3_) and _O_u_t_­
+     _L_i_n_e_s_(_3_) provide the necessary procedures.
+
+     _d_o_n_e returns TTRRUUEE if the last call of _p_r_i_n_t_f_0 .. _p_r_i_n_t_f_8 was
+     successful,  more  detailed  information  can be obtained by
+     _s_u_c_c_e_s_s (_F_m_t_E_x_i_t_C_o_d_e is imported from _P_r_i_n_t_f).
+
+     _s_e_t_m_o_d_e defines a new error handling mode _m_o_d_e which  is  by
+     default  set  to _P_r_i_n_t_f_._D_e_f_a_u_l_t.  _g_e_t_m_o_d_e yields the current
+     mode.
+
+DDIIAAGGNNOOSSTTIICCSS
+     Diagnostic is  unnecessary  unless  default  error  handling
+     strategy  has  been  explicitly  modified  by prior calls of
+     _s_e_t_m_o_d_e.  See _P_r_i_n_t_f_(_3_) for more details.
+
+          [fatal] L.printf1(...,"%h",...);
+                  Bad  format:  illegal   conversion   character.
+          [a.out] Exit code 205. Stop.
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                          L(3)
+
+
+
+SSEEEE AALLSSOO
+     _P_r_i_n_t_f_(_3_), _L_o_n_g_S_t_r_i_n_g_s_(_3_), _O_u_t_L_i_n_e_s_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                     TimeIO(3)
+
+
+
+NNAAMMEE
+     TimeIO - i/o of time and date
+
+SSYYNNOOPPSSIISS
+     TYPE Style = (date, ls, env);
+
+     VAR Done: BOOLEAN;
+     VAR termCH: CHAR;
+
+     PROCEDURE WriteTime(format: ARRAY OF CHAR; time: Time);
+     PROCEDURE FwriteTime(file: FILE;
+                          format: ARRAY OF CHAR; time: Time);
+     PROCEDURE SwriteTime(VAR string: ARRAY OF CHAR;
+                          format: ARRAY OF CHAR; time: Time);
+     PROCEDURE WriteTimeLike(style: Style; time: Time);
+     PROCEDURE FwriteTimeLike(file: FILE;
+                              style: Style; time: Time);
+     PROCEDURE SwriteTimeLike(VAR string: ARRAY OF CHAR;
+                              style: Style; time: Time);
+
+     PROCEDURE ReadTime(VAR time: Time);
+     PROCEDURE FreadTime(file: FILE; VAR time: Time);
+     PROCEDURE SreadTime(string: ARRAY OF CHAR; VAR time: Time);
+
+     PROCEDURE WriteDate(format: ARRAY OF CHAR; date: Date);
+     PROCEDURE FwriteDate(file: FILE; format: ARRAY OF CHAR;
+                          date: Date);
+     PROCEDURE SwriteDate(VAR string: ARRAY OF CHAR;
+                          format: ARRAY OF CHAR; date: Date);
+
+     PROCEDURE ReadDate(VAR date: Date);
+     PROCEDURE FreadDate(file: FILE; VAR date: Date);
+     PROCEDURE SreadDate(string: ARRAY OF CHAR; VAR date: Date);
+
+     PROCEDURE Append(format: ARRAY OF CHAR);
+     PROCEDURE Insert(format: ARRAY OF CHAR);
+     PROCEDURE ReleaseList;
+     PROCEDURE DefaultList;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The  basic  types of this module are _T_i_m_e and _D_a_t_e which are
+     to be imported from _C_a_l_e_n_d_a_r_(_3_).  _T_i_m_e is the  systems  type
+     of  time  (in  seconds  since January 1, 1970 GMT).  Earlier
+     times are possible because _T_i_m_e is a LLOONNGGIINNTT.
+
+     Output is done using formats which are close to those of the
+     _d_a_t_e_(_1_)  command.  All output fields are of fixed size (zero
+     padded if necessary).  Each field descriptor is preceded  by
+     %  and  will  be replaced in the output by its corresponding
+     value.  A single % is encoded by %%.  All  other  characters
+     are  copied to the output without change.  Note that despite
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                     TimeIO(3)
+
+
+
+     to _d_a_t_e_(_1_) no new-line character is appended to the  string.
+
+     Field Descriptors:
+                 nn   insert a new-line character
+                 tt   insert a tab character
+                 mm   month of year - 01 to 12
+                 dd   day of month - 01 to 31
+                 yy   last 2 digits of year - 00 to 99
+                 DD   date as mm/dd/yy
+                 HH   hour - 00 to 23
+                 MM   minute - 00 to 59
+                 SS   second - 00 to 59
+                 TT   time as HH:MM:SS
+                 jj   day of year - 001 to 366
+                 ww   day of week - Sunday = 0
+                 aa   abbreviated weekday - Sun to Sat
+                 hh   abbreviated month - Jan to Dec
+                 rr   time in AM/PM notation
+                 YY   year in 4 digits - 0000 to 9999
+                 ZZ   timezone in 3 letters
+     Note that YY and ZZ has been added.
+
+     _W_r_i_t_e_T_i_m_e,  _F_w_r_i_t_e_T_i_m_e,  and _S_w_r_i_t_e_T_i_m_e print _t_i_m_e according
+     to the given _f_o_r_m_a_t either to _S_t_d_I_O_._s_t_d_o_u_t,  _f_i_l_e,  or  into
+     _s_t_r_i_n_g.   If  dates are printed using _W_r_i_t_e_D_a_t_e, _F_w_r_i_t_e_D_a_t_e,
+     or _S_w_r_i_t_e_T_i_m_e then hour, minute, and second are set to  null
+     if  printed.  _W_r_i_t_e_T_i_m_e_L_i_k_e, _F_w_r_i_t_e_T_i_m_e_L_i_k_e, and _S_w_r_i_t_e_T_i_m_e_­
+     _L_i_k_e print _t_i_m_e according to _s_t_y_l_e_:
+
+     _d_a_t_e   format of _d_a_t_e(1)
+     _l_s     format of _l_s(1)
+     _e_n_v    format found in the environment variable TTIIMMEEFFMMTT
+
+     Reading of time and date depends on an ordered list of valid
+     formats  and a set of termination characters.  This list can
+     be extended using either _A_p_p_e_n_d or _I_n_s_e_r_t_.  _A_p_p_e_n_d appends a
+     new  format  at the end of the list and _I_n_s_e_r_t inserts a new
+     format  before  the  beginning  of  the  list.   _D_e_f_a_u_l_t_L_i_s_t
+     appends   a   set  of  standard  formats  to  the  list  and
+     _R_e_l_e_a_s_e_L_i_s_t disposes the current list.  The number  of  for­
+     mats  is  limited, so _D_o_n_e should be checked after extending
+     the list.  An input format consists of a  sequence  of  some
+     letters  with special meanings (see below) and other charac­
+     ters which must  match  the  input.   White  space  skipping
+     (except new-line) is done by the reading procedure, so white
+     space must not be given in input formats.
+
+     Field descriptors in input formats:
+               yy   year, 88 becomes 1988
+               mm   month, either 1 to 12 or Jan to Dec
+               dd   day, 1 to 31
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                     TimeIO(3)
+
+
+
+               HH   hour, 0 to 23
+               MM   minute, 0 to 59
+               SS   second, 0 to 59
+
+     Examples:
+       "m/d/yH:M:S"   us-date, matches "10/23/88 23:11:10"
+       "d.m.yH:M:S"   german date, matches "23.10.88 23:11:10"
+       "md,y"         matches "Oct 23, 1988"
+
+     Input is read until any termination character  is  found  or
+     none of the formats matches the input read so far.  Termina­
+     tion characters are all characters except those not given in
+     any  of  the input formats.  If more than one format applies
+     the first is taken.  An input format needs  not  to  include
+     all  time  components.   Missing values are defaulted by the
+     current time or set to their minimal value.  Read dates  and
+     times must be representable in the corresponding types:
+
+     Valid time ranges:
+          _T_i_m_e   Dec 14, 1901 0:0:0   Dec 12, 2037, 23:59:59
+          _D_a_t_e   Jan 1, 100 0:0:0     Dec 24, 2037, 23:59:59
+
+     Note  that  years  less than 100 cannot be read because they
+     are defaulted to the current century (so 88  becomes  1988).
+     The time ranges are independent from the timezone.
+
+SSEEEE AALLSSOO
+     _d_a_t_e_(_1_), _C_a_l_e_n_d_a_r_(_3_), _S_t_d_I_O_(_3_)
+
+BBUUGGSS
+     The  environment variable LLCC__TTIIMMEE (see _e_n_v_i_r_o_n_(_5_) and _s_e_t_l_o_­
+     _c_a_l_e_(_3_c_)) is not honoured by this module.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+

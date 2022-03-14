@@ -1,0 +1,62 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysExit 3 "local:Borchert"
+.SH NAME
+SysExit \- terminate process
+.SH SYNOPSIS
+.Pg
+PROCEDURE Exit(errorCode: CARDINAL);
+.sp 0.7
+PROCEDURE EnterCleanup(p: PROC);
+.Pe
+.SH DESCRIPTION
+The call of
+.I Exit
+causes the process to terminate with exit code
+.IR errorCode .
+An
+.I errorCode
+of 0 indicates success.
+All other codes are interpreted as failure by
+command shells.
+.I EnterCleanup
+causes
+.I p
+to be called on exiting.
+Multiple calls of
+.I EnterCleanup
+are possible.
+In this case
+.I Exit
+calls the cleanup procedures in reverse order (LIFO).
+Recursive calls of
+.I Exit
+(by cleanup procedures)
+cause
+.I Exit
+to exit immediately.
+.PP
+On return of the main module body,
+.I Exit
+is called with
+.I errorCode
+0.
+.I Exit
+is not called on run time error aborts.
+.SH "SEE ALSO"
+\fIexit(2)\fP, \fIsh(1)\fP
+.SH BUGS
+The number of cleanup procedures is limited.
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysExit.3,v 1.2 1997/02/25 17:42:45 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysExit.3,v $
+.\" Revision 1.2  1997/02/25  17:42:45  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:34  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

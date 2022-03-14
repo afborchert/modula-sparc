@@ -1,0 +1,166 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Screen 3 "local:Borchert"
+.SH NAME
+Screen \- simple screen operations
+.SH SYNOPSIS
+.Pg
+TYPE Screen;
+TYPE CursorVisibility = (normal, invisible, morevisible);
+.sp 0.7
+VAR Done: BOOLEAN;
+.sp 0.7
+PROCEDURE OpenScreen(VAR scr: Screen;
+                     outfp: StdIO.FILE;
+                     baudrate: CARDINAL;
+                     lines, columns: CARDINAL;
+                     terminal: ARRAY OF CHAR) : BOOLEAN;
+.sp 0.3
+PROCEDURE OpenScreenTI(VAR scr: Screen;
+                       outfp: StdIO.FILE;
+                       baudrate: CARDINAL;
+                       lines, columns: CARDINAL;
+                       tinfo: TermInfo.Term);
+.sp 0.3
+PROCEDURE InitScreen(scr: Screen; lines, columns: CARDINAL);
+PROCEDURE CloseScreen(VAR scr: Screen);
+.sp 0.3
+PROCEDURE Lines(scr: Screen) : CARDINAL;
+PROCEDURE Columns(scr: Screen) : CARDINAL;
+.sp 0.3
+PROCEDURE ClearScreen(scr: Screen);
+.sp 0.3
+PROCEDURE SetCursor(scr: Screen; line, column: CARDINAL);
+PROCEDURE MoveCursor(scr: Screen;
+          (* from *) line1, column1,
+          (* to *)   line2, column2: CARDINAL);
+.sp 0.3
+PROCEDURE Scroll(scr: Screen; down: BOOLEAN;
+                 line, column: CARDINAL;
+                 lines, columns: CARDINAL);
+.sp 0.3
+PROCEDURE ResetScrollRegions(scr: Screen);
+.sp 0.3
+PROCEDURE SetCursorVisibility(scr: Screen; visibility: CursorVisibility);
+.Pe
+.SH DESCRIPTION
+.I Screen
+bases on
+.I TermInfo(3)
+and offers some optimized screen operations.
+.I Done
+is set to
+.B FALSE
+if no capability is found to do the work.
+A
+.I Screen
+can be opened by either
+.I OpenScreen
+or
+.I OpenScreenTI.
+Both return on success a screen-pointer
+.I scr
+which is to be given
+on subsequently operations on it.
+Any output is sent to
+.I outfp.
+Padding depends on
+.I baudrate.
+If
+.I baudrate
+is zero no padding will be done.
+.I OpenScreen
+sends an initialization sequence to the terminal
+but does not clear the screen.
+No
+.I ioctl(2)
+system call is done.
+So output setting like switch-off of tab-expansion
+and newline-mapping are to be done previously.
+Thus,
+.I outp
+needs not to be associated with a terminal.
+.I InitScreen
+repeats the initialization sequence of
+.I OpenScreen.
+.PP
+.I CloseScreen
+deallocates the space used for
+.I scr
+but does not close the output file-pointer
+.I outfp
+which has been given to
+.I OpenScreen
+or
+.IR OpenScreenTI .
+.PP
+.I Lines
+and
+.I Columns
+return the number of lines and columns of the given screen.
+If the associated capability is not set 1 is returned.
+.I ClearScreen
+clears the screen.
+.I SetCursor
+moves the cursor to the given position.
+Some optimizations (e.g. home position and last line) are done.
+.I MoveCursor
+takes
+.I line1
+and
+.I column1
+as the current position of the cursor
+and outputs an optimized sequence to move to
+.I line2
+and
+.IR column2 .
+.PP
+.I Scroll
+scrolls a given window of a screen
+one line downward (\fIdown\fP set to \fBTRUE\fP) or upward (forward).
+The window is defined by the upper left corner
+given by
+.I line
+and
+.I column
+and the number of
+.I lines
+and
+.IR columns .
+The cursor position is undefined if successful.
+.PP
+.I ResetScrollRegions
+undoes all former settings for scroll regions and is useful
+in a sequence of operations to restore a terminal to a sane state.
+Note that this operation is not needed for any of the operations
+above except for cases of abnormal termination in the middle
+of a sequence that creates a scroll region temporarily.
+.PP
+The cursor visibility can be modified by calling
+.I SetCursorVisibility.
+Supported are \fInormal\fP, \fIinvisible\fP,
+and \fImorevisible\fP.
+.SH "SEE ALSO"
+.Tb TermInfo(3)
+.Tp TermInfo(3)
+interface to the terminfo database
+.Tp Windows(3)
+high-level interface
+.Te
+.\" ---------------------------------------------------------------------------
+.\" $Id: Screen.3,v 1.3 1998/06/22 09:24:10 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Screen.3,v $
+.\" Revision 1.3  1998/06/22  09:24:10  borchert
+.\" - synopsis of OpenScreen, OpenScreenTI, and InitScreen fixed
+.\" - ResetScrollRegions added
+.\"
+.\" Revision 1.2  1997/02/25  17:41:45  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:28  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

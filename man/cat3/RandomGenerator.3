@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                            RandomGenerator(3)
+
+
+
+NNAAMMEE
+     RandomGenerator - pseudo random number generator
+
+SSYYNNOOPPSSIISS
+     PROCEDURE IntVal() : INTEGER;
+     PROCEDURE RealVal() : REAL;
+     PROCEDURE Random(low, high: INTEGER) : INTEGER;
+     PROCEDURE Flip() : BOOLEAN;
+     PROCEDURE Init(seed: INTEGER);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _R_a_n_d_o_m_G_e_n_e_r_a_t_o_r implements the subtractive method taken from
+     Knuth, _S_e_m_i_n_u_m_e_r_i_c_a_l _A_l_g_o_r_i_t_h_m_s, 3.2.2 and 3.6. This  pseudo
+     random  number  generator is recommended if a large quantity
+     of uniformly distributed random numbers is needed. The  pro­
+     duced random numbers are not cryptographically secure.
+
+     _I_n_t_V_a_l,  _R_e_a_l_V_a_l,  _R_a_n_d_o_m  and  _F_l_i_p  return uniformely dis­
+     tributed values for the requested type and value range:
+     _I_n_t_V_a_l    32-bit integer
+     _R_e_a_l_V_a_l   floating point number out of [[0..1))
+     _R_a_n_d_o_m    integer out of [[_l_o_w.._h_i_g_h]]
+     _F_l_i_p      TTRRUUEE or FFAALLSSEE
+
+     On default, _R_a_n_d_o_m_G_e_n_e_r_a_t_o_r  takes  a  seed  value  that  is
+     derived  from  the  current  time  and the process id.  _I_n_i_t
+     allows to override this default.   This  may  be  useful  to
+     replay  sequences  of pseudo random numbers or to use better
+     sources for seed values.
+
+BBUUGGSS
+     Anyone who considers arithmetical methods of producing  ran­
+     dom  digits  is,  of course, in a state of sin.  -- John von
+     Neumann (1951)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6 Last change: Last change: 28 June 2000            1
+
+
+

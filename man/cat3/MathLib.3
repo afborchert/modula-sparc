@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    MathLib(3)
+
+
+
+NNAAMMEE
+     MathLib - mathematical library
+
+SSYYNNOOPPSSIISS
+     PROCEDURE arctan(x: REAL) : REAL;
+     PROCEDURE exp(x: REAL) : REAL;
+     PROCEDURE ln(x: REAL) : REAL;
+     PROCEDURE sin(x: REAL) : REAL;
+     PROCEDURE cos(x: REAL) : REAL;
+     PROCEDURE sqrt(x: REAL) : REAL;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _A_r_c_t_a_n  returns  the  arc tangent of _x in the range -pi/2 to
+     pi/2.
+
+     _E_x_p returns the exponential function of _x.
+
+     _L_n returns the natural logarithm of _x.
+
+     _S_i_n and _c_o_s return trigonometric functions of  radian  argu­
+     ments.
+
+     _S_q_r_t returns the square root of _x.
+
+DDIIAAGGNNOOSSTTIICCSS
+     The routines may return NNaaNN (not-a-number) in case of domain
+     errors or plus or minus infinity if the result value  cannot
+     be  represented  as  RREEAALL.   Note  that  NNaaNNs  can be easily
+     checked for by  testing  for  equality  on  itself  (returns
+     FFAALLSSEE),  and  plus infinity is larger than MMAAXX(RREEAALL).  These
+     checks, however, are not portable to platforms which do  not
+     conform to IEEE 754.
+
+SSEEEE AALLSSOO
+     _F_u_n_c_t_i_o_n_s_(_3_), _S_t_d_F_u_n_c_s_(_3_)
+
+HHIISSTTOORRYY
+     A similar module named _M_a_t_h_L_i_b_0 was written by Niklaus Wirth
+     for the Lilith system.
+
+     The current  implementation  has  been  derived  by  Andreas
+     Borchert  from  the GNU C Library which itself has been par­
+     tially derived from sources of the Regents of the University
+     of  California.   The only exception is _s_q_r_t which is imple­
+     mented on base of SSYYSSTTEEMM..SSQQRRTT.
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

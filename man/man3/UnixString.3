@@ -1,0 +1,33 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH UnixString 3 "Ulm's Modula-2 System"
+.SH NAME
+UnixString \- auxiliary module for string conversions
+.SH SYNOPSIS
+.Pg
+CONST BufSiz = 512;
+TYPE Buffer = ARRAY[0..BufSiz-1] OF CHAR;
+.sp 0.7
+PROCEDURE Copy(VAR buf: Buffer; str: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+UNIX system calls expect null-terminated path names
+but Modula-2 does not guarantee 0C-termination of strings.
+.I UnixString
+is used by all system call interfaces of the Modula-2 library
+to assure 0C-termination of strings which are passed to
+the system call.
+.I Copy
+copies \fIstr\fP into \fIbuf\fP and guarantees a 0C-termination
+of \fIbuf\fP.
+If \fIstr\fP does not fit into \fIbuf\fP it is silently truncated.
+.\" ---------------------------------------------------------------------------
+.\" $Id: UnixString.3,v 1.1 1997/02/26 11:02:00 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: UnixString.3,v $
+.\" Revision 1.1  1997/02/26  11:02:00  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

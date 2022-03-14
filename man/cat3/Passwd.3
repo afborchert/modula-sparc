@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                     Passwd(3)
+
+
+
+NNAAMMEE
+     Passwd - scanning and searching the password file
+
+SSYYNNOOPPSSIISS
+     TYPE Pwent =
+              RECORD
+                 logname:  ARRAY [0..7] OF CHAR;
+                 password: ARRAY [0..15] OF CHAR;
+                 uid:      CARDINAL;
+                 gid:      CARDINAL;
+                 fullname: ARRAY [0..31] OF CHAR;
+                 dir:      ARRAY [0..31] OF CHAR;
+                 shell:    ARRAY [0..31] OF CHAR;
+              END;
+
+     PROCEDURE OpenPw(filename: ARRAY OF CHAR): BOOLEAN;
+     PROCEDURE GetPwent(VAR pwent: Pwent): BOOLEAN;
+     PROCEDURE GetPwuid(uid: CARDINAL; VAR pwent: Pwent): BOOLEAN;
+     PROCEDURE GetPwnam(logn: ARRAY OF CHAR; VAR pwent: Pwent): BOOLEAN;
+     PROCEDURE ReopenPw(): BOOLEAN;
+     PROCEDURE ClosePw(): BOOLEAN;
+     PROCEDURE FetchPwuid(uid: CARDINAL; VAR pwent: Pwent): BOOLEAN;
+     PROCEDURE FetchPwnam(logn: ARRAY OF CHAR; VAR pwent: Pwent): BOOLEAN;
+
+DDEESSCCRRIIPPTTIIOONN
+     The  _P_a_s_s_w_d module can be used to scan entries of files that
+     have a structure as described in _p_a_s_s_w_d_(_4_) into a _P_w_e_n_t type
+     record.
+
+     Between _O_p_e_n_P_w and _C_l_o_s_e_P_w_, any (using _G_e_t_P_w_e_n_t) or the next
+     entry whose uid cf. logname  field  matches  _u_i_d  cf.   _l_o_g_n
+     (using  _G_e_t_P_w_u_i_d  cf.   _G_e_t_P_w_n_a_m) that has not yet been read
+     will be written into the _p_w_e_n_t record.
+     At end of file, the _G_e_t_X_X_X functions return  FFAALLSSEE  and  the
+     data in _p_w_e_n_t is not valid.
+     _R_e_o_p_e_n_P_w  restarts  reading  the  file from the top if it is
+     seekable, otherwise reports an error.
+
+     Opening the file "/etc/passwd", searching for a  single  uid
+     cf.  logname  and closing the file again, can all be done at
+     once using _F_e_t_c_h_P_w_u_i_d cf.  _F_e_t_c_h_P_w_n_a_m.  This is  useful  for
+     mapping numerical user IDs to names, e.g., which is the main
+     purpose of this module.
+
+DDIIAAGGNNOOSSTTIICCSS
+     All BBOOOOLLEEAANN functions  return  TTRRUUEE  on  success,  otherwise
+     FFAALLSSEE..
+
+FFIILLEESS
+     _/_e_t_c_/_p_a_s_s_w_d
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                     Passwd(3)
+
+
+
+SSEEEE AALLSSOO
+     _p_a_s_s_w_d_(_4_), _E_t_c_G_r_o_u_p_(_3_), _S_t_d_I_O_(_3_)
+
+AAUUTTHHOORR
+     Martin Hasch, University of Ulm
+
+BBUUGGSS
+     The _/_e_t_c_/_n_s_s_w_i_t_c_h_._c_o_n_f file is not honoured.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

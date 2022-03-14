@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                   Calendar(3)
+
+
+
+NNAAMMEE
+     Calendar - date and time calculations
+
+SSYYNNOOPPSSIISS
+     TYPE
+        Time         = SystemTypes.TIME;
+        Date         = LONGCARD;
+
+        Year         = CARDINAL;
+        Month        = [1..12];
+        Day          = [1..31];
+        Hour         = [0..23];
+        Minute       = [0..59];
+        Second       = [0..59];
+        Weekday      = (Mon, Tue, Wed, Thu, Fri, Sat, Sun);
+        Week         = [1..53];
+        Yearday      = [1..366];
+
+        Daytime      = RECORD
+                          hour:    Hour;
+                          minute:  Minute;
+                          second:  Second;
+                       END;
+
+        Calendarday  = RECORD
+                          year:    Year;
+                          month:   Month;
+                          day:     Day;
+                       END;
+
+        CalendarInfo = RECORD
+                          weekday: Weekday;
+                          week:    Week;
+                          yearday: Yearday;
+                       END;
+
+     PROCEDURE CurrentTime(): Time;
+
+
+     PROCEDURE ConvertTime(time:            Time;
+                           VAR date:        Date;
+                           VAR daytime:     Daytime);
+
+     PROCEDURE ConvertDate(date: Date; VAR calendarday: Calendarday);
+
+     PROCEDURE ConvertCald(calendarday:     Calendarday;
+                           VAR info:        CalendarInfo);
+
+     PROCEDURE CTime(date: Date; daytime: Daytime): Time;
+
+     PROCEDURE CDate(year: Year; month: Month; day: Day): Date;
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                   Calendar(3)
+
+
+
+     PROCEDURE CUltimo(year: Year; month: Month): Date;
+
+     PROCEDURE CWeekday(date: Date): Weekday;
+
+     PROCEDURE DateOK(year, month, day: CARDINAL): BOOLEAN;
+
+     PROCEDURE TimeToString(time: Time;
+                            VAR string: ARRAY OF CHAR);
+
+     PROCEDURE SetFirstOfWeek(weekday: Weekday);
+
+     PROCEDURE GetTimezone(VAR tzname: ARRAY OF CHAR);
+
+     PROCEDURE SetTimezone(    tzname: ARRAY OF CHAR);
+
+     PROCEDURE GetLocaltime(VAR delay: Time);
+
+     PROCEDURE SetLocaltime(    delay: Time);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _C_a_l_e_n_d_a_r  is  a module supporting date and time calculations
+     with the Caesar/Gregorian (i.e.,  our)  calendar.  Too,  the
+     time in the form used by the system can be handled.
+
+     _T_i_m_e is a LLOONNGGIINNTT value of seconds since 00:00:00 GMT Jan 1,
+     1970 .  _D_a_t_e is a day number since some date in ancient his­
+     tory  -  not later than Jan 1, 0001 - where consecutive days
+     are always represented as consecutive numbers.  Note that in
+     1582,  the  year  of  the  Gregor calendar reformation, some
+     dates were skipped, and that leap years occurred more  often
+     before.
+     _W_e_e_k  is  a week's number in the year - edge weeks belonging
+     to the year that contains more days of them.  Only therefore
+     it  matters which weekday is considered the first in a week,
+     Sunday or Monday (default), which can be specified with _S_e_t_­
+     _F_i_r_s_t_O_f_W_e_e_k_.
+
+     _C_u_r_r_e_n_t_T_i_m_e returns the system's idea of what the time is.
+
+     _C_o_n_v_e_r_t_T_i_m_e_, _C_o_n_v_e_r_t_D_a_t_e and _C_o_n_v_e_r_t_C_a_l_d convert/expand val­
+     ues of _T_i_m_e_, _D_a_t_e or _C_a_l_e_n_d_a_r_d_a_y into more and more  reason­
+     able information.
+
+     The  functions  _C_T_i_m_e  and  _C_D_a_t_e  do  the opposite. Correct
+     results, however, are guaranteed for correct arguments only.
+     Which  calendar dates are correct, i.e. were or will be used
+     actually, can be detected with _D_a_t_e_O_K_.
+
+     _C_U_l_t_i_m_o returns the date of the last day of the given month.
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                   Calendar(3)
+
+
+
+     _C_W_e_e_k_d_a_y  returns  the  weekday  upon  which  the given date
+     falls.
+
+     _T_i_m_e_T_o_S_t_r_i_n_g converts a _T_i_m_e value  _t_i_m_e  into  a  character
+     string  _s_t_r_i_n_g  of  the form, e.g. "Thu Jan 21 16:53:27 1988
+     MEZ".  Its first 24 characters always have fixed  positions;
+     the  rest  of  it is the local time zone name as returned by
+     _G_e_t_T_i_m_e_z_o_n_e _(_s_e_e _b_e_l_o_w_)_.
+
+     As the system operates in GMT (Greenwich Mean Time),  _C_t_i_m_e_,
+     _C_o_n_v_e_r_t_T_i_m_e and _T_i_m_e_T_o_S_t_r_i_n_g use a delay in seconds relative
+     to GMT to compute day and hour in  the  locally  appropriate
+     way. This delay and the name of the local time zone are ini­
+     tialized according to the  environment  parameter  TTZZ,,  that
+     should  contain  an optional non-numeric string for the time
+     zone name and a small integer value specifying hours,  or  a
+     large  integer  (with  absolute value >= 60) specifying sec­
+     onds. These can be looked up cf. altered with  _G_e_t_L_o_c_a_l_t_i_m_e_,
+     _S_e_t_L_o_c_a_l_t_i_m_e_, _G_e_t_T_i_m_e_z_o_n_e and _S_e_t_T_i_m_e_z_o_n_e_.
+
+AAUUTTHHOORR
+     Martin Hasch, University of Ulm
+
+SSEEEE AALLSSOO
+     _t_i_m_e_(_2_), _d_a_t_e_(_1_), _C_l_o_c_k_(_3_), _S_t_r_i_n_g_s_(_3_), _E_n_v_i_r_o_n_m_e_n_t_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+

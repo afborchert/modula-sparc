@@ -1,0 +1,41 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysPerror 3 "local:Borchert"
+.SH NAME
+SysPerror \- system error messages
+.SH SYNOPSIS
+.Pg
+PROCEDURE Perror(str: ARRAY OF CHAR);
+PROCEDURE GetErrorString(errno: CARDINAL; VAR str: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+.I Perror
+prints the most recent system error
+in a readable form onto
+.IR StdIO.stderr .
+The error message is preceded by
+.I str
+and a colon.
+The system error code is taken from
+.I Errno.errno
+and set by various system modules.
+.I GetErrorString
+returns the error message associated with
+.I errno
+in
+.IR str .
+.SH "SEE ALSO"
+\fIStdIO(3)\fP, \fIErrno(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysPerror.3,v 1.2 1997/02/25 17:43:00 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysPerror.3,v $
+.\" Revision 1.2  1997/02/25  17:43:00  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:35  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

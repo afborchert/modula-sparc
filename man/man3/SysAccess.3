@@ -1,0 +1,47 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysAccess 3 "Ulm's Modula-2 System"
+.SH NAME
+SysAccess \- determine accessibility of a file
+.SH SYNOPSIS
+.Pg
+PROCEDURE Access(filename: ARRAY OF CHAR; mode: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+This module serves as interface to \fIaccess(2)\fP.
+Following values for \fImode\fP are supported:
+.IP 4
+test for read permission
+.IP 2
+test for write permission
+.IP 1
+test for execute permission
+.IP 0
+test for existence of file
+.PP
+Note that the test is performed for the real user id and
+not for the effective user id.
+.SH DIAGNOSTICS
+.I Access
+returns \fBTRUE\fP on success.
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP set.
+.SH "SEE ALSO"
+.Tb SysOpen(3)
+.Tp access(2)
+underlying system call
+.Tp SysOpen(3)
+opening files
+.Te
+.SH BUGS
+The various mode should have been represented by an
+enumeration type.
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysAccess.3,v 1.1 1997/02/25 18:37:48 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysAccess.3,v $
+.\" Revision 1.1  1997/02/25  18:37:48  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

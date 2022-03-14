@@ -1,0 +1,31 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysCreat 3 "Ulm's Modula-2 System"
+.SH NAME
+SysCreat \- create a new file or rewrite an existing one
+.SH SYNOPSIS
+.Pg
+PROCEDURE Creat(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
+		mode: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Creat
+creates \fIfilename\fP or rewrites it.
+Modes are usually given in octal (e.g. 664B for rw-rw-r--)
+and conform to those values returned by \fISysStat(3)\fP.
+On success, \fBTRUE\fP is returned, and \fIfd\fP associated to
+the newly opened file.
+.SH DIAGNOSTICS
+In case of errors, \fBFALSE\fP is returned and \fIErrno.errno\fP set.
+.SH "SEE ALSO"
+\fIcreat(2)\fP, \fISysOpen(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysCreat.3,v 1.1 1997/02/25 18:59:42 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysCreat.3,v $
+.\" Revision 1.1  1997/02/25  18:59:42  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

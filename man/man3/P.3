@@ -1,0 +1,132 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH P 3 "local:Stanglow"
+.ds iN "\f2i1\fP\ \&.\&. \f2i8\fP
+.SH NAME
+P \- formatted output to stdout
+.SH SYNOPSIS
+.Pg
+(* diagnostic *)
+PROCEDURE done () : BOOLEAN;
+PROCEDURE success() : FmtExitCode;
+.sp 0.7
+(* error handling *)
+PROCEDURE setmode (mode : BITSET);
+PROCEDURE getmode (VAR mode : BITSET);
+.sp 0.7
+(* output *)
+PROCEDURE rintf0 (fmt : ARRAY OF CHAR);
+PROCEDURE rintf1 (fmt : ARRAY OF CHAR; i1 : ARRAY OF BYTE);
+PROCEDURE rintf2 (fmt : ARRAY OF CHAR; i1,i2 : ARRAY OF BYTE);
+.sp 0.3
+(* ... *)
+.sp 0.3
+PROCEDURE rintf8 (fmt : ARRAY OF CHAR; i1, i2, i3, i4, i5,
+   i6, i7 , i8 : ARRAY OF BYTE);
+.Pe
+.SH DESCRIPTION
+.I P.rintf0
+\&..\&
+.I P.rintf8
+(the procedures are intended to be called qualified,
+that explains their strange names)
+convert their parameters \*(iN,
+instantiate them into the format string
+.I fmt
+and output the resulting text on
+.IR StdIO.stdout \&.
+Refer to
+.I Printf(3)
+for a detailed description of formatting
+capabilities.
+.LP
+Output of
+.I P
+is echoed to
+all echo files defined
+for
+.I stdout
+by means of
+.IR LongStrings.Echo .
+.LP
+.I done
+returns
+.B TRUE
+if the
+last call of
+.I P.rintf0
+\&..\&
+.I P.rintf8
+was successful,
+more detailed information
+can be obtained
+by
+.I success
+.RI ( FmtExitCode
+is imported from
+.IR Printf(3) ).
+.LP
+.I setmode
+defines a new error handling mode
+.I mode
+which is by default
+set to
+.I Printf.Default.
+.I getmode
+yields the current mode.
+.SH DIAGNOSTICS
+Diagnostic is unnecessary
+unless default
+error handling strategy has been explicitly
+modified
+by prior calls
+of
+.IR setmode \&.
+See
+.I Printf(3)
+for more details.
+.LP
+In case of errors
+.I P.rintf0
+\&..\&
+.I P.rintf8
+do not produce any output.
+Errors may result
+from
+illegal format strings
+or from problems when writing to
+.I stdout
+(error code
+.BR CannotWriteStdout ).
+.LP
+Error message issued by
+.I P
+will contain information
+about
+their reason
+and the affected procedure call:
+.IP
+.DS
+[fatal] P.rintf1("%*u",...);
+        Bad Format: too many format elements.
+[a.out] Exit code 201. Stop.
+.DE
+.SH "SEE ALSO"
+.IR Printf(3) ,
+.IR LongStrings(3) ,
+.IR StdIO(3)
+.SH AUTHOR
+Werner Stanglow
+.\" ---------------------------------------------------------------------------
+.\" $Id: P.3,v 1.2 1997/02/25 17:40:55 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: P.3,v $
+.\" Revision 1.2  1997/02/25  17:40:55  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:23  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

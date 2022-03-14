@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                      FtdIO(3)
+
+
+
+NNAAMMEE
+     FtdIO - formatted file i/o
+
+SSYYNNOOPPSSIISS
+     FROM StdIO IMPORT FILE;
+
+     VAR Done: BOOLEAN;
+     VAR termCH: CHAR;
+
+     PROCEDURE FreadInt(f: FILE; VAR int: INTEGER);
+     PROCEDURE FwriteInt(f: FILE; int: INTEGER; w: CARDINAL);
+     PROCEDURE FreadCard(f: FILE; VAR card: CARDINAL);
+     PROCEDURE FwriteCard(f: FILE; card: CARDINAL; w: CARDINAL);
+     PROCEDURE FreadString(f: FILE; VAR str: ARRAY OF CHAR);
+     PROCEDURE FwriteString(f: FILE; str: ARRAY OF CHAR);
+     PROCEDURE FwriteLn(f: FILE);
+     PROCEDURE Fread(f: FILE; VAR arr: ARRAY OF WORD);
+     PROCEDURE Fwrite(f: FILE; arr: ARRAY OF WORD);
+     PROCEDURE FreadWord(f: FILE; VAR w: WORD);
+     PROCEDURE FwriteWord(f: FILE; w: WORD);
+     PROCEDURE FreadChar(f: FILE; VAR ch: CHAR);
+     PROCEDURE FwriteChar(f: FILE; ch: CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _F_t_d_I_O  provides a rich set of file i/o routines and is based
+     on _S_t_d_I_O_(_3_).
+
+     The first parameter _f  always  specifies  the  stream.   See
+     _F_i_l_e_s_(_3_) or _S_t_d_I_O_(_3_) for methods of opening streams and some
+     standard streams.  See _I_n_O_u_t_(_3_) for description of the other
+     parameters.
+
+SSEEEE AALLSSOO
+     _S_t_d_I_O_(_3_), _F_i_l_e_s_(_3_), _I_n_O_u_t_(_3_), _R_e_a_l_I_n_O_u_t_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

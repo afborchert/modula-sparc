@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    GetPass(3)
+
+
+
+NNAAMMEE
+     GetPass - read a password
+
+SSYYNNOOPPSSIISS
+     PROCEDURE GetPass(prompt: ARRAY OF CHAR; VAR passwd: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     If  the _s_t_d_i_n is a terminal, _G_e_t_p_a_s_s reads a passwd from it;
+     otherwise, the file _/_d_e_v_/_t_t_y is  opened  for  this  purpose.
+     The  string  _p_r_o_m_p_t  is prompted before the password is read
+     into  the  array  _p_a_s_s_w_d.   Normal  echoing   is   disabled.
+     Instead,  for  each  typed character, some random garbage is
+     echoed.
+
+FFIILLEESS
+     _/_d_e_v_/_t_t_y
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

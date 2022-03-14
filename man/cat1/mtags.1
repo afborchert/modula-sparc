@@ -1,0 +1,66 @@
+
+
+
+User Commands                                            mtags(1)
+
+
+
+NNAAMMEE
+     mtags - create a tags file for Modula-2 sources
+
+SSYYNNOOPPSSIISS
+     mmttaaggss name ...
+
+DDEESSCCRRIIPPTTIIOONN
+     _M_t_a_g_s  makes  a  tags file for _e_x_(_1_) from the specified Mod­
+     ula-2 sources.  Note that either program modules and  imple­
+     mentation modules should be given or just definition modules
+     to avoid name clashes.  A tags file gives the  locations  of
+     specified  objects  (in  this case procedures) in a group of
+     files.  Each line of the tags file  contains  the  procedure
+     name,  the  file in which it is defined, and a scanning pat­
+     tern used to find the procedure definition.  These are given
+     in separate fields on the line, separated by blanks or tabs.
+     Using the _t_a_g_s file, _e_x can  quickly  find  these  procedure
+     definitions.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _M_t_a_g_s issues warnings if equally-named procedures are found.
+     In this case they may be find only by giving a  fully-quali­
+     fied  name  which  includes all enclosing modules and proce­
+     dures.
+
+FFIILLEESS
+     _t_a_g_s   output tags file
+
+SSEEEE AALLSSOO
+     ex(1), vi(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 24 February 1997          1
+
+
+

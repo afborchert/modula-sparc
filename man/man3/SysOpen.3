@@ -1,0 +1,38 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysOpen 3 "Ulm's Modula-2 System"
+.SH NAME
+SysOpen \- open a file
+.SH SYNOPSIS
+.Pg
+PROCEDURE Open(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
+               oflag: WORD) : BOOLEAN;
+.sp 0.7
+PROCEDURE OpenCreat(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
+                    oflag: WORD; mode: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Open
+opens \fIfilename\fP with an access mode specified by \fIoflag\fP.
+Possible values for the access mode \fIoflag\fP are
+exported by \fISystemTypes(4)\fP.
+.I OpenCreat
+works like \fIOpen\fP but accepts an additional \fImode\fP
+parameter which is needed if \fISystemTypes.creat\fP has
+been included in \fIoflag\fP.
+On success, both operations return \fBTRUE\fP and store
+the new file descriptor in \fIfd\fP.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIopen(2)\fP, \fISysCreat(3)\fP, \fISysFcntl(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysOpen.3,v 1.1 1997/02/26 10:13:17 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysOpen.3,v $
+.\" Revision 1.1  1997/02/26  10:13:17  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

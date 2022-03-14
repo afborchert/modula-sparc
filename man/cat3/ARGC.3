@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                       ARGC(3)
+
+
+
+NNAAMMEE
+     ARGC, ARGV - get command line arguments
+
+SSYYNNOOPPSSIISS
+     PROCEDURE ARGC() : CARDINAL;
+     PROCEDURE ARGV(VAR buffer: ARRAY OF CHAR; argindex: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     These  procedures  belong  to  the  standard  procedures and
+     needn't to be imported.
+
+     _A_R_G_C returns the number of  command  line  arguments  (incl.
+     command name).
+
+     _A_R_G_V  stores  a  single  command  line argument addressed by
+     _a_r_g_i_n_d_e_x (ranging from 0 to ARGC()-1) into _b_u_f_f_e_r.
+
+     Note that these procedures  are  inherently  inportable  and
+     that _A_r_g_u_m_e_n_t_s_(_3_) should be used instead.
+
+BBUUGGSS
+     AARRGGCC and AARRGGVV should have been put into SSYYSSTTEEMM.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

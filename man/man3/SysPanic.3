@@ -1,0 +1,32 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysPanic 3 "Ulm's Modula-2 System"
+.SH NAME
+SysPanic \- emit final error message and abort
+.SH SYNOPSIS
+.Pg
+PROCEDURE Panic(text: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+.I Panic
+prints the given error message to standard error
+and exits immediately without the normal termination
+procedure (see \fISysExit(3)\fP).
+.I Panic
+is mainly useful in circumstances where no dynamic memory
+may be available and therefore \fIStdIO(3)\fP cannot be assumed to
+work properly.
+.I Panic
+does not return.
+.SH "SEE ALSO"
+\fISysExit(3)\fP, \fISysPerror(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysPanic.3,v 1.1 1997/02/26 10:17:32 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysPanic.3,v $
+.\" Revision 1.1  1997/02/26  10:17:32  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

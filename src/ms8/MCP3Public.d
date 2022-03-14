@@ -1,0 +1,46 @@
+(* Ulm's Modula-2 Compiler    Solaris 2.x/SPARCv8
+   -- partially derived from ETH Zurichs Modula-2 Compiler for Lilith --
+   Copyright (C) 1983-1996 Universitaet Ulm, SAI, 89069 Ulm, Germany
+             (C) 1979-1981 Institut fuer Informatik, ETH Zuerich, Switzerland
+   ----------------------------------------------------------------------------
+   Modula-2 has been designed and developed by Niklaus Wirth
+   at the Institut fuer Informatik, ETH Zuerich, Switzerland
+   ----------------------------------------------------------------------------
+   Ulm's Modula-2 Compiler is free software; you can redistribute it
+   and/or modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2 of
+   the License, or (at your option) any later version.
+
+   Ulm's Modula-2 Compiler is distributed in the hope that it will be
+   useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+   of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+   General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+   ----------------------------------------------------------------------------
+   $Id: MCP3Public.d,v 0.1 1997/02/21 18:40:10 borchert Exp $
+   ----------------------------------------------------------------------------
+   $Log: MCP3Public.d,v $
+   Revision 0.1  1997/02/21  18:40:10  borchert
+   Initial revision
+
+   ----------------------------------------------------------------------------
+*)
+
+DEFINITION MODULE MCP3Public;             (* LG *) (* REV AFB 3/84 *)
+
+   CONST
+      FileNameLength = 64;
+   TYPE
+      FileName = ARRAY[0..FileNameLength-1] OF CHAR;
+   VAR 
+      ascName : FileName;                   (* identifier table file *)
+      il1Name : FileName;		    (* interpass file (from m0) *)
+      il2Name : FileName;		    (* interpass file (for m2) *)
+
+      MDDFlag: BOOLEAN;			    (* postprocessing by mdd *)
+      ErrorsFound : BOOLEAN;
+
+END MCP3Public. 

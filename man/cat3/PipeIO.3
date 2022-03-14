@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                     PipeIO(3)
+
+
+
+NNAAMMEE
+     PipeIO - initiate I/O to/from a process
+
+SSYYNNOOPPSSIISS
+     FROM StdIO IMPORT FILE, MODE;
+
+     PROCEDURE Popen(VAR f: FILE; cmd: ARRAY OF CHAR; mode: MODE;
+                     buffered: BOOLEAN) : BOOLEAN;
+     PROCEDURE Pclose(f: FILE) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _P_o_p_e_n  creates  a  pipe  between the calling process and the
+     command to be executed.  _C_m_d is a string containing a  shell
+     command  line,  _m_o_d_e specifies the I/O mode, either _r_e_a_d for
+     reading or _w_r_i_t_e for writing, _b_u_f_f_e_r_e_d flags if  the  stream
+     has  to  be  buffered.  The resulting stream pointer will be
+     returned in _f.
+
+     A stream opened by _P_o_p_e_n should be closed by  _P_c_l_o_s_e,  which
+     waits for the associated process to terminate.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _P_o_p_e_n and _P_c_l_o_s_e return FFAALLSSEE on failure.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

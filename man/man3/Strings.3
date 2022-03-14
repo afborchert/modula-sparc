@@ -1,0 +1,74 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Strings 3 "local:Borchert"
+.SH NAME
+Strings \- simple string operations
+.SH SYNOPSIS
+.Pg
+PROCEDURE StrLen(s: ARRAY OF CHAR) : CARDINAL;
+PROCEDURE StrCat(VAR s1: ARRAY OF CHAR; s2: ARRAY OF CHAR);
+PROCEDURE StrCmp(s1, s2: ARRAY OF CHAR) : INTEGER;
+PROCEDURE StrCpy(VAR s1: ARRAY OF CHAR; s2: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+.I Strings
+offers some basic string operations for character arrays.
+All procedures interpret the first null byte or the end
+of the array as the end of the string.
+.PP
+.I StrLen
+returns the number of leading non-null characters in
+.IR s .
+.PP
+.I StrCat
+appends a copy of string
+.I s2
+to the end of string
+.IR s1 .
+Note that the resulting string is silently truncated
+if it does not fit into
+.IR s1 .
+.PP
+.I StrCmp
+compares its arguments and returns an integer
+greater than,
+equal to,
+or less than 0,
+according as
+.I s1
+is lexicographically greater than,
+equal to,
+or less than
+.IR s2 .
+Note that the ordering just depends on the ordinal
+values of the characters and not on local conventions.
+.PP
+.I StrCpy
+copies \fIs2\fP to \fIs1\fP.
+The result string \fIs1\fP is silently truncated if \fIs2\fP
+does not fit into \fIs1\fP.
+.SH "SEE ALSO"
+.Tb Conversions(3)
+.Tp Conversions(3)
+number to string conversions
+.Tp StrSpec(3)
+more sophisticated string operations
+.Tp StrToNum(3)
+string to number conversions
+.Te
+.\" ---------------------------------------------------------------------------
+.\" $Id: Strings.3,v 1.3 1997/03/17 09:30:26 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Strings.3,v $
+.\" Revision 1.3  1997/03/17  09:30:26  borchert
+.\" notes added about silent truncation for result strings that are too long
+.\"
+.\" Revision 1.2  1997/02/25  17:42:40  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:33  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

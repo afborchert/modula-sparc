@@ -1,0 +1,30 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH StrToReal 3 "Ulm's Modula-2 System"
+.SH NAME
+StrToReal \- convert strings to real numbers
+.SH SYNOPSIS
+.Pg
+PROCEDURE StrToReal(str: ARRAY OF CHAR; VAR real: REAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I StrToReal
+converts \fIstr\fP into \fIreal\fP and returns \fBTRUE\fP on success.
+The input string is expected to conform to following syntax (leading
+white space will be ignored):
+.Pg
+["+" | "-"] digit { digit } ["." digit { digit } ]
+["E" ["+" | "-"] digit [digit] ]
+.Pe
+.SH "SEE ALSO"
+\fIRealConv(3)\fP, \fIRealInOut(3)\fP, \fIStrToNum(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: StrToReal.3,v 1.1 1999/01/11 10:10:17 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: StrToReal.3,v $
+.\" Revision 1.1  1999/01/11  10:10:17  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

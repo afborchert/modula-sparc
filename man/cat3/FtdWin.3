@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                     FtdWin(3)
+
+
+
+NNAAMMEE
+     FtdWin - formatted window i/o
+
+SSYYNNOOPPSSIISS
+     VAR Done: BOOLEAN;
+     VAR termCH: CHAR;
+
+     PROCEDURE WinReadInt(win: Window; VAR int: INTEGER);
+     PROCEDURE WinWriteInt(win: Window; int: INTEGER;
+                           w: CARDINAL);
+     PROCEDURE WinReadCard(win: Window; VAR card: CARDINAL);
+     PROCEDURE WinWriteCard(win: Window; card: CARDINAL;
+                            w: CARDINAL);
+     PROCEDURE WinReadString(win: Window; VAR str: ARRAY OF CHAR);
+     PROCEDURE WinReadLine(win: Window; VAR str: ARRAY OF CHAR);
+     PROCEDURE WinWriteString(win: Window; str: ARRAY OF CHAR);
+     PROCEDURE WinWriteLn(win: Window);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _F_t_d_W_i_n is based on _W_i_n_d_o_w_s_(_3_) and provides a set of i/o-pro­
+     cedures like _I_n_O_u_t_(_3_).  The input routines support backspace
+     editing.  For conventional behavior _e_c_h_o and _f_l_u_s_h_o_n_i_n_p_u_t or
+     _f_l_u_s_h_a_l_w_a_y_s should be set (see _W_i_n_d_o_w_s_(_3_)).
+
+     _W_i_n_R_e_a_d_S_t_r_i_n_g_, _W_i_n_R_e_a_d_I_n_t_, and _W_i_n_R_e_a_d_C_a_r_d skip white  space
+     which cannot be edited using back spaces.  _W_i_n_R_e_a_d_L_i_n_e reads
+     a complete line (terminated by  newline)  without  skipping.
+     Reading  is  stopped  if the given character array is filled
+     (_W_i_n_R_e_a_d_S_t_r_i_n_g and _W_i_n_R_e_a_d_L_i_n_e) or a delimiting character is
+     typed (returned in _t_e_r_m_C_H).
+
+DDIIAAGGNNOOSSTTIICCSS
+     _D_o_n_e  is set to FFAALLSSEE if anything fails.  Exceptions are the
+     reading procedures which do not set _D_o_n_e to FFAALLSSEE if  errors
+     result from echoing.
+
+SSEEEE AALLSSOO
+     _I_n_O_u_t_(_3_), _M_a_i_n_W_i_n_(_3_), _S_c_r_e_e_n_(_3_), _T_e_r_m_I_n_f_o_(_3_), _W_i_n_d_o_w_s_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

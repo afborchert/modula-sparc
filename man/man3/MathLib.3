@@ -1,0 +1,71 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH MathLib 3 "local:Borchert"
+.SH NAME
+MathLib \- mathematical library
+.SH SYNOPSIS
+.Pg
+PROCEDURE arctan(x: REAL) : REAL;
+PROCEDURE exp(x: REAL) : REAL;
+PROCEDURE ln(x: REAL) : REAL;
+PROCEDURE sin(x: REAL) : REAL;
+PROCEDURE cos(x: REAL) : REAL;
+PROCEDURE sqrt(x: REAL) : REAL;
+.Pe
+.SH DESCRIPTION
+.I Arctan
+returns the arc tangent of
+.I x
+in the range -pi/2 to pi/2.
+.PP
+.I Exp
+returns the exponential function of
+.IR x .
+.PP
+.I Ln
+returns the natural logarithm of
+.IR x .
+.PP
+.I Sin
+and
+.I cos
+return trigonometric functions of radian arguments.
+.PP
+.I Sqrt
+returns the square root of
+.IR x .
+.SH DIAGNOSTICS
+The routines may return \fBNaN\fP (not-a-number) in case
+of domain errors or plus or minus infinity if the result
+value cannot be represented as \fBREAL\fP.
+Note that \fBNaN\fPs can be easily checked for by
+testing for equality on itself (returns \fBFALSE\fP), and
+plus infinity is larger than \fBMAX\fP(\fBREAL\fP).
+These checks, however, are not portable to platforms
+which do not conform to IEEE\ 754.
+.SH "SEE ALSO"
+\fIFunctions(3)\fP, \fIStdFuncs(3)\fP
+.SH HISTORY
+A similar module named \fIMathLib0\fP was written by
+Niklaus Wirth for the Lilith system.
+.PP
+The current implementation has been derived
+by Andreas Borchert
+from the GNU C Library
+which itself has been partially derived from sources of
+the Regents of the University of California.
+The only exception is \fIsqrt\fP which is implemented
+on base of \fBSYSTEM.SQRT\fP.
+.\" ---------------------------------------------------------------------------
+.\" $Id: MathLib.3,v 1.2 1997/02/25 17:40:26 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: MathLib.3,v $
+.\" Revision 1.2  1997/02/25  17:40:26  borchert
+.\" formatting changed, DIAGNOSTICS & HISTORY added
+.\"
+.\" Revision 1.1  1996/12/04  18:19:20  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

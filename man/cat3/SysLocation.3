@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                SysLocation(3)
+
+
+
+NNAAMMEE
+     SysLocation  - special locations in the address space of the
+     current process
+
+SSYYNNOOPPSSIISS
+     VAR ProgramEnd, Etext, Edata, Break, Environment: ADDRESS;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_y_s_L_o_c_a_t_i_o_n exports  a  set  of  special  locations  in  the
+     address  space  of the current process which are initialized
+     by the runtime start and to be treated as read-only:
+
+
+          _P_r_o_g_r_a_m_E_n_d    designates the end of the  program  image
+                        during  loading  and  equals  the initial
+                        position of the break (see  _S_y_s_B_r_e_a_k_(_3_)).
+          _E_t_e_x_t         points  to  the beginning of the initial­
+                        ized data segment.
+          _E_d_a_t_a         points to the beginning of the  bss  seg­
+                        ment (global variables in Modula-2).
+          _B_r_e_a_k         is  the  current  position  of  the break
+                        which is maintained  by  _S_y_s_B_r_e_a_k_(_3_)  and
+                        _S_t_o_r_a_g_e_(_3_)
+          _E_n_v_i_r_o_n_m_e_n_t   points   to  the  environment  parameters
+                        which are  better  accessed  by  _E_n_v_i_r_o_n_­
+                        _m_e_n_t_(_3_).
+
+SSEEEE AALLSSOO
+     _e_n_d_(_3_c_), _E_n_v_i_r_o_n_m_e_n_t_(_3_), _S_t_o_r_a_g_e_(_3_), _S_y_s_B_r_e_a_k_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

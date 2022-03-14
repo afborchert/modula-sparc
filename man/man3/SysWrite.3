@@ -1,0 +1,29 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysWrite 3 "Ulm's Modula-2 System"
+.SH NAME
+SysWrite \- write to a file descriptor
+.SH SYNOPSIS
+.Pg
+PROCEDURE Write(fd: CARDINAL; ptr: ADDRESS;
+                VAR bytecount: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Write
+writes up to \fIbytecount\fP bytes from the memory area
+pointed to by \fIptr\fP to the file descriptor \fIfd\fP.
+On return, \fIbytecount\fP is set to the number of bytes written.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIwrite(2)\fP, \fISysRead(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysWrite.3,v 1.1 1997/02/26 10:56:59 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysWrite.3,v $
+.\" Revision 1.1  1997/02/26  10:56:59  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

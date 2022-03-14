@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                      StdIO(3)
+
+
+
+NNAAMMEE
+     StdIO - file i/o
+
+SSYYNNOOPPSSIISS
+     TYPE FILE;
+     TYPE MODE = (read, write, append);
+
+     VAR stdin, stdout, stderr: FILE;
+
+     PROCEDURE Fopen(VAR f: FILE; name: ARRAY OF CHAR;
+                     mode: MODE; buffered: BOOLEAN) : BOOLEAN;
+     PROCEDURE Fdopen(VAR f: FILE; fd: CARDINAL; mode: MODE;
+                      buffered: BOOLEAN) : BOOLEAN;
+     PROCEDURE Fclose(f: FILE) : BOOLEAN;
+
+     PROCEDURE Fread(ptr: ADDRESS; size: CARDINAL;
+                     VAR nitems: CARDINAL; f: FILE) : BOOLEAN;
+     PROCEDURE Fwrite(ptr: ADDRESS; size: CARDINAL;
+                      VAR nitems: CARDINAL; f: FILE) : BOOLEAN;
+
+     PROCEDURE Fseek(f: FILE; offset: SystemTypes.OFF;
+                     whence: CARDINAL) : BOOLEAN;
+     PROCEDURE Ftell(f: FILE;
+                     VAR pos: SystemTypes.OFF) : BOOLEAN;
+
+     PROCEDURE Feof(f: FILE) : BOOLEAN;
+     PROCEDURE Ferror(f: FILE) : BOOLEAN;
+
+     PROCEDURE Fgetc(VAR ch: CHAR; f: FILE) : BOOLEAN;
+     PROCEDURE Fputc(ch: CHAR; f: FILE) : BOOLEAN;
+     PROCEDURE Fungetc(ch: CHAR; f: FILE) : BOOLEAN;
+
+     PROCEDURE CloseAll() : BOOLEAN;
+     PROCEDURE Fflush(f: FILE) : BOOLEAN;
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_t_d_I_O  provides  a portable interface to input and output of
+     files (much like _s_t_d_i_o_(_3_)).  Files may be opened by _F_o_p_e_n or
+     _F_d_o_p_e_n  and  are  later  referenced by file pointers of type
+     _F_I_L_E.  If the program terminates in a normal way,  all  open
+     file pointers will be closed automatically (see _S_y_s_E_x_i_t_(_3_)).
+
+     _S_t_d_I_O offers an optional buffering mechanism to  reduce  the
+     number  of  system calls.  Buffered streams are flushed only
+     if the buffer gets full, and by the  operations  _F_f_l_u_s_h  and
+     _F_c_l_o_s_e.
+
+     Three access modes are supported:
+     _r_e_a_d     read-only access
+     _w_r_i_t_e    write-only access.
+     _a_p_p_e_n_d   at opening time, a seek operation to the end of the
+              stream is performed. Later, this mode behaves  like
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                      StdIO(3)
+
+
+
+              _w_r_i_t_e.
+
+     There  are  three  normally open streams associated with the
+     standard open files:
+
+     _s_t_d_i_n    standard input file
+     _s_t_d_o_u_t   standard output file
+     _s_t_d_e_r_r   standard error file
+
+     _F_o_p_e_n opens the file named by _n_a_m_e and associates  a  stream
+     with  it;  _f identifies the stream in subsequent operations.
+     If _w_r_i_t_e is given as access mode, _f_i_l_e_n_a_m_e will  be  created
+     if  it  does not exist already and truncated to zero length,
+     otherwise.  Alternatively, the access  mode  _a_p_p_e_n_d  may  be
+     used  which does not truncate _f_i_l_e_n_a_m_e if it exists already.
+
+     _F_d_o_p_e_n associates a stream with a file  descriptor  obtained
+     from _S_y_s_O_p_e_n_(_3_), _S_y_s_D_u_p_(_3_), _S_y_s_C_r_e_a_t_(_3_), or _S_y_s_P_i_p_e_(_3_).  The
+     _m_o_d_e of the stream must agree with  the  mode  of  the  open
+     file.
+
+     _F_c_l_o_s_e  causes  any  buffers for the named stream to be emp­
+     tied, and the file to be closed.
+
+     _F_r_e_a_d reads, into a block beginning at _p_t_r, _n_i_t_e_m_s  of  data
+     of  the  type  of _p_t_r with size _s_i_z_e.  _N_i_t_e_m_s gives back the
+     number of items actually read.
+
+     _F_w_r_i_t_e appends at most _n_i_t_e_m_s of data of  the  type  of  _p_t_r
+     with  size _s_i_z_e beginning at _p_t_r to the named output stream.
+     _N_i_t_e_m_s gives back the number of items actually written.
+
+     _F_s_e_e_k sets the position of the next input or  output  opera­
+     tion  on the stream.  The new position is at the signed dis­
+     tance _o_f_f_s_e_t bytes from the beginning, the current position,
+     or the end of the file, according as _w_h_e_n_c_e has the value 0,
+     1, or 2.
+
+     _F_t_e_l_l sets _p_o_s to the current position.
+
+     _F_e_o_f returns TTRRUUEE when end of file  is  read  on  the  named
+     input stream, otherwise FFAALLSSEE.
+
+     _F_e_r_r_o_r  returns  TTRRUUEE  when an error has occurred reading or
+     writing the named stream, otherwise FFAALLSSEE.  The error  indi­
+     cation lasts until the stream is closed.
+
+     _F_g_e_t_c sets _c_h to the next character of the input stream.
+
+     _F_p_u_t_c appends the character _c_h at the stream _f.
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                      StdIO(3)
+
+
+
+     _F_u_n_g_e_t_c  pushes  _c_h  back  to the input stream _f.  Note that
+     multiple invocations of _F_u_n_g_e_t_c  without  intermediate  read
+     operations are not guaranteed to work.
+
+     _C_l_o_s_e_A_l_l  closes  all  open streams.  This may be useful for
+     child processes and is automatically called  during  process
+     termination (see _S_y_s_E_x_i_t_(_3_)).
+
+     _F_f_l_u_s_h  causes any buffered data for the named output stream
+     to be written to that file.  The stream remains open.
+
+     The streams _s_t_d_i_n, _s_t_d_o_u_t, _s_t_d_e_r_r may be reopened:
+
+     IF NOT Fclose(stdin) OR
+        NOT Fopen(stdin, file, mode, buffered) THEN
+        (* error case *)
+     END;
+
+
+SSEEEE AALLSSOO
+     _I_n_O_u_t_(_3_), _F_t_d_I_O_(_3_)
+
+DDIIAAGGNNOOSSTTIICCSS
+     All routines return FFAALLSSEE in error case.
+
+BBUUGGSS
+     The access modes conform to the equally named modes  of  the
+     _s_t_d_i_o_(_3_)  of UNIX Edition VII which are quite different from
+     newer variants:
+
+     ·    bidirectional modes are not supported
+
+     ·    an update mode is not supported  (_a_p_p_e_n_d  may  be  used
+          instead)
+
+     ·    _a_p_p_e_n_d  causes  just  an implicit seek operation to the
+          end of the file at opening time but  does  not  enforce
+          write  operations  to  be  performed  at the end of the
+          file.
+
+     _S_t_d_I_O assumes that there are no differences between text and
+     binary files.  We regard this as feature :-)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+

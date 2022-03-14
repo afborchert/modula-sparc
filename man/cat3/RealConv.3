@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   RealConv(3)
+
+
+
+NNAAMMEE
+     RealConv - conversion of real numbers
+
+SSYYNNOOPPSSIISS
+     TYPE ReadProc = PROCEDURE(VAR CHAR);
+     VAR Done: BOOLEAN;
+     VAR termCH: CHAR;
+
+     PROCEDURE ReadReal(Read: ReadProc; VAR x: REAL);
+     PROCEDURE WriteFloat(VAR f: ARRAY OF CHAR; x: REAL; base: CARDINAL;
+                    dp: CARDINAL);
+     PROCEDURE WriteFix(VAR f: ARRAY OF CHAR; x: REAL; base: CARDINAL;
+                  VAR dp: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _R_e_a_l_R_e_a_l converts a sequence of characters that is generated
+     by _R_e_a_d into a real number that is stored into _x.  The char­
+     acter sequence is expected to conform to following syntax:
+
+     ["+" | "-"] digit { digit } ["." digit { digit } ]
+     ["E" ["+" | "-"] digit [digit] ]
+
+     The  last  character  returned  by  _R_e_a_d will be stored into
+     _t_e_r_m_C_H.  _R_e_a_d is expected to return 00CC in case of errors  or
+     end of input.
+
+     _W_r_i_t_e_F_l_o_a_t  and  _W_r_i_t_e_F_i_x convert _x into an array of charac­
+     ters that is returned in _f.  Valid bases are 8, 10, and  16.
+     The  number  of decimal places after the dot is specified by
+     _d_p.  _W_r_i_t_e_F_l_o_a_t uses a normalized  exponent  notation  while
+     _W_r_i_t_e_F_i_x  suppresses  the  exponent which may result in very
+     long result strings  for  very  large  or  small  arguments.
+     _W_r_i_t_e_F_i_x adjusts _d_p if necessary.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _D_o_n_e is TTRRUUEE on successfull calls, otherwise FFAALLSSEE.
+
+SSEEEE AALLSSOO
+     _R_e_a_l_I_n_O_u_t_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 11 January 1999           1
+
+
+

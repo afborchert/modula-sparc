@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   SysBreak(3)
+
+
+
+NNAAMMEE
+     SysBreak - heap allocation
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Break(addr: ADDRESS) : BOOLEAN;
+     PROCEDURE Sbreak(incr: CARDINAL) : ADDRESS;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The memory area between the end of the data segment upto the
+     break is used as  heap.   By  moving  the  break  to  higher
+     addresses the heap may be extended.
+
+     _B_r_e_a_k  sets the break to the given absolute address.  _S_b_r_e_a_k
+     advances the break by _i_n_c_r and returns the current value  of
+     the break.
+
+     Note that neither _B_r_e_a_k nor _S_b_r_e_a_k should be called directly
+     except by _S_t_o_r_a_g_e_(_3_).
+
+DDIIAAGGNNOOSSTTIICCSS
+     Both operations may fail due  to  insufficient  memory.   In
+     this  case,  FFAALLSSEE  is returned by BBrreeaakk, and _S_b_r_e_a_k returns
+     the old break value.  Additionally, _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _b_r_k_(_2_), _S_t_o_r_a_g_e_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

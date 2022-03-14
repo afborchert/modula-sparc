@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   SysCreat(3)
+
+
+
+NNAAMMEE
+     SysCreat - create a new file or rewrite an existing one
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Creat(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
+               mode: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _C_r_e_a_t  creates  _f_i_l_e_n_a_m_e  or rewrites it.  Modes are usually
+     given in octal (e.g. 664B  for  rw-rw-r--)  and  conform  to
+     those  values  returned  by _S_y_s_S_t_a_t_(_3_).  On success, TTRRUUEE is
+     returned, and _f_d associated to the newly opened file.
+
+DDIIAAGGNNOOSSTTIICCSS
+     In case of errors, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o set.
+
+SSEEEE AALLSSOO
+     _c_r_e_a_t_(_2_), _S_y_s_O_p_e_n_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

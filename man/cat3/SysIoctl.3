@@ -1,0 +1,264 @@
+
+
+
+C Library Functions                                   SysIoctl(3)
+
+
+
+NNAAMMEE
+     SysIoctl - interface to the terminal driver (BSD version)
+
+SSYYNNOOPPSSIISS
+     CONST
+        shift = 0;
+        Tandem = { shift + 15 };
+        Cbreak = { shift + 14 };
+        Lcase  = { shift + 13 };
+        Echo   = { shift + 12 };
+        Crmod  = { shift + 11 };
+        Raw    = { shift + 10 };
+        Oddp   = { shift + 9 };
+        Evenp  = { shift + 8 };
+        Anyp   = Oddp + Evenp;
+        Nldelay = { shift + 6 , shift + 7 };
+        Tbdelay = { shift + 4 , shift + 5 };
+        Xtabs  = { shift + 4 , shift + 5 };
+        Crdelay = { shift + 2 , 3 };
+        Vtdelay = { shift + 1 };
+        Bsdelay = { shift + 0 };
+        Alldelay = Bsdelay + Vtdelay + Crdelay +
+                   Xtabs + Tbdelay + Nldelay;
+
+        (* parameter types *)
+        IocVoid = { 2 };
+        IocOut = { 1 };
+        IocIn = { 0 };
+        IocInOut = IocIn + IocOut;
+
+        (* request codes *)
+        getd = BITSET(0) + IocOut;
+        setd = BITSET(1) + IocIn;
+        hpcl = BITSET(2) + IocVoid;
+        modg = BITSET(3) + IocOut;
+        mods = BITSET(4) + IocIn;
+        getp = BITSET(8) + IocOut;
+        setp = BITSET(9) + IocIn;
+        setn = BITSET(10) + IocIn;
+        excl = BITSET(13) + IocVoid;
+        nxcl = BITSET(14) + IocVoid;
+        flush = BITSET(16) + IocIn;
+        setc = BITSET(17) + IocIn;
+        getc = BITSET(18) + IocOut;
+        (* BSD or SUN specific ioctl-calls *)
+        lbis = BITSET(127) + IocIn;
+        lbic = BITSET(126) + IocIn;
+        lset = BITSET(125) + IocIn;
+        lget = BITSET(124) + IocOut;
+        sbrk = BITSET(123) + IocVoid;
+        cbrk = BITSET(122) + IocVoid;
+        cdtr = BITSET(120) + IocVoid;
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                   SysIoctl(3)
+
+
+
+        gprgp = BITSET(119) + IocOut;
+        sprgp = BITSET(118) + IocIn;
+        sltc = BITSET(117) + IocIn;
+        gltc = BITSET(116) + IocOut;
+        outq = BITSET(115) + IocOut;
+        sti = BITSET(114) + IocIn;
+        notty = BITSET(113) + IocVoid;
+        pkt = BITSET(112) + IocIn;
+        stop = BITSET(111) + IocVoid;
+        start = BITSET(110) + IocVoid;
+        mset = BITSET(109) + IocIn;
+        mbis = BITSET(108) + IocIn;
+        mbic = BITSET(107) + IocIn;
+        mget = BITSET(106) + IocOut;
+        remote = BITSET(105) + IocIn;
+        gwinsz = BITSET(104) + IocOut;
+        swinsz = BITSET(103) + IocIn;
+        ucntl = BITSET(102) + IocIn;
+
+        (* size of corresponding C-structures *)
+        SizeOfSgttyb = 6;
+        SizeOfTchars = 6;
+        SizeOfWinsize = 8;
+
+        (* values of Sgttyb ispeed and ospeed *)
+        b0    =  0;
+        b50   =  1;
+        b75   =  2;
+        b110  =  3;
+        b134  =  4;
+        b150  =  5;
+        b200  =  6;
+        b300  =  7;
+        b600  =  8;
+        b1200 =  9;
+        b1800 = 10;
+        b2400 = 11;
+        b4800 = 12;
+        b9600 = 13;
+        exta  = 14;
+        extb  = 15;
+
+     TYPE
+        Sgttyb =
+           RECORD
+              ispeed: CHAR;
+              ospeed: CHAR;
+              erase: CHAR;
+              kill: CHAR;
+              flags: BITSET;
+           END;
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                   SysIoctl(3)
+
+
+
+        Tchars =
+           RECORD
+              intrc: CHAR;
+              quitc: CHAR;
+              startc: CHAR;
+              stopc: CHAR;
+              eofc: CHAR;
+              brkc: CHAR;
+           END;
+
+        Winsize =
+           RECORD
+              rows, cols: CARDINAL;
+              xpixels, ypixels: CARDINAL; (* not used *)
+           END;
+
+     PROCEDURE Ioctl(fd: CARDINAL; request: BITSET;
+                     VAR argp: ARRAY OF BYTE;
+                     argpsize: CARDINAL) : BOOLEAN;
+        (* argpsize: size of corresponding C-structure *)
+     PROCEDURE Stty(fd: CARDINAL; argp: Sgttyb) : BOOLEAN;
+     PROCEDURE Gtty(fd: CARDINAL; VAR argp: Sgttyb) : BOOLEAN;
+     PROCEDURE Isatty(fd: CARDINAL) : BOOLEAN;
+     PROCEDURE GetWinsize(fd: CARDINAL; VAR winbuf: Winsize) : BOOLEAN;
+     PROCEDURE Baudrate(speed: CHAR) : CARDINAL;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _I_o_c_t_l  is  the  raw  interface  to  the  BSD-version  of the
+     _i_o_c_t_l_(_2_) system call.  The kind of the request is determined
+     by  a combination of code number, parameter type (i.e. input
+     parameter,  output  parameter,  or  in/out-parameter),   and
+     parameter  size.   Some  combinations  of  code  numbers and
+     parameter types are given as constants  above  (e.g.  _g_e_t_d).
+     _F_d is an open file descriptor of a character device, _r_e_q_u_e_s_t
+     is the combination of code number and parameter type,  _a_r_g_p_­
+     _s_i_z_e   the  size  of  the  corresponding  C-structure  (e.g.
+     ssiizzeeooff((ssttrruucctt ssggttttyybb)) = _S_i_z_e_O_f_S_g_t_t_y_b for _s_e_t_p request).  The
+     _a_r_g_p  parameter  must  be  at  least  as  large  as given by
+     _a_r_g_p_s_i_z_e.
+
+     _S_t_t_y and _G_t_t_y realize the _s_e_t_p and _g_e_t_p requests  with  type
+     conversion for Modula-2.  _G_e_t_W_i_n_S_i_z_e returns the filled _W_i_n_­
+     _s_i_z_e structure and is useful for  obtaining  the  number  of
+     rows and columns of a window device.  The number of rows and
+     columns equals 0 if _f_d is not connected to a window  device.
+     _I_s_a_t_t_y returns TTRRUUEE if _f_d is connected to a terminal device.
+     _B_a_u_d_r_a_t_e converts the baudrate  information  of  the  _S_g_t_t_y_b
+     record (_i_s_p_e_e_d or _o_s_p_e_e_d component) into a cardinal.
+
+CCAAVVEEAATT
+     _S_y_s_T_e_r_m_I_O_(_3_)  is  to  be  used  instead on System V releases
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+
+
+
+
+C Library Functions                                   SysIoctl(3)
+
+
+
+     (including Solaris 2.x).
+
+SSEEEE AALLSSOO
+     _i_o_c_t_l_(_2_), _t_t_y_(_4_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          4
+
+
+

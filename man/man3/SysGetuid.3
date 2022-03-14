@@ -1,0 +1,40 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysGetuid 3 "Ulm's Modula-2 System"
+.SH NAME
+SysGetuid \- get real and effective user or group ID of the current process
+.SH SYNOPSIS
+.Pg
+PROCEDURE Getuid() : CARDINAL;
+PROCEDURE Geteuid() : CARDINAL;
+PROCEDURE Getgid() : CARDINAL;
+PROCEDURE Getegid() : CARDINAL;
+.Pe
+.SH DESCRIPTION
+These procedures return following IDs of the current process:
+.IP
+.Tb Geteuid
+.Tp Getuid
+real user ID
+.Tp Geteuid
+effective user ID
+.Tp Getgid
+real group ID
+.Tp Getegid
+effective user ID
+.Te
+.SH "SEE ALSO"
+\fIgetuid(2)\fP, \fISysGetpid(3)\fP, \fISysSetuid(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysGetuid.3,v 1.2 1997/02/26 10:29:07 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysGetuid.3,v $
+.\" Revision 1.2  1997/02/26  10:29:07  borchert
+.\" reference to SysSetuid added
+.\"
+.\" Revision 1.1  1997/02/26  09:09:36  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

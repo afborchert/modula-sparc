@@ -1,0 +1,264 @@
+
+
+
+C Library Functions                                     SYSTEM(3)
+
+
+
+NNAAMMEE
+     SYSTEM  -  system-dependent built-ins of Ulm's Modula-2 Com­
+     piler
+
+SSYYNNOOPPSSIISS
+     TYPE BYTE = (* 1-byte generic type *);
+     TYPE WORD = (* 4-byte generic type *);
+     TYPE ADDRESS = POINTER TO WORD;
+
+     PROCEDURE ADR(VAR variable: AnyType) : ADDRESS;
+     PROCEDURE TSIZE(type: AnyTypeName) : CARDINAL;
+     PROCEDURE TSIZE(type: AnyTypeName;
+                     tagval1, tagval2, ...: AnyConst) : CARDINAL;
+
+     PROCEDURE NEWPROCESS(p: PROC;
+                          stack: ADDRESS; stacksize: CARDINAL;
+                          VAR cr: ADDRESS);
+     PROCEDURE TRANSFER(VAR cr1, cr2: ADDRESS);
+
+     PROCEDURE UNIXCALL(syscall: CARDINAL; VAR r0, r1: INTEGER;
+                        ...) : BOOLEAN;
+     PROCEDURE UNIXFORK(VAR pid: CARDINAL) : BOOLEAN;
+     PROCEDURE UNIXSIGNAL(signo: CARDINAL;
+                          p: PROCEDURE;
+                          VAR old: PROCEDURE;
+                          VAR result: CARDINAL) : BOOLEAN;
+
+     PROCEDURE SQRT(x: REAL) : REAL;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The module SSYYSSTTEEMM is provided by the compiler  itself,  does
+     not  have  associated  sources  (neither a definition nor an
+     implementation module) and therefore does  not  need  to  be
+     located in the search path like other modules.
+
+     The  Modula-2  reports  state that the contents of SSYYSSTTEEMM is
+     system-dependant which gives a great freedom  for  implemen­
+     tors  and declares every module which imports SSYYSSTTEEMM as non-
+     portable.  Luckily, a large subset of  SSYYSSTTEEMM  as  given  by
+     PIM3  is  widely available on many implementations including
+     Ulm's Modula-2  compiler.   Following  sections  show  which
+     parts  conform  to PIM3, which parts are not implemented and
+     which goodies of SSYYSSTTEEMM are specific to Ulm's Modula-2  com­
+     piler.
+
+  CCoommmmoonnllyy aavvaaiillaabbllee ppaarrttss
+     Ulm's  Modula-2  compiler  supports  the  types  BBYYTTEE, WWOORRDD,
+     AADDDDRREESSSS, and the procedures AADDRR, TTSSIIZZEE,  NNEEWWPPRROOCCEESSSS,  TTRRAANNSS­­
+     FFEERR.
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+
+
+
+
+C Library Functions                                     SYSTEM(3)
+
+
+
+     BBYYTTEE  is  assignment  compatible  to  all  other types which
+     occupy one byte while WWOORRDD is compatible to all other  types
+     which  have  a  size of four bytes.  Both, AARRRRAAYY OOFF BBYYTTEE and
+     AARRRRAAYY OOFF WWOORRDD are supported as formal parameter types  which
+     accept  any  actual  parameter.   The only exception is that
+     AARRRRAAYY OOFF WWOORRDD accepts only types which occupy a multiple  of
+     4  bytes  --  this includes all arrays, records, and pointer
+     types.  Note, however, that many  newer  implementations  do
+     not offer WWOORRDD or AARRRRAAYY OOFF WWOORRDD while BBYYTTEE and AARRRRAAYY OOFF BBYYTTEE
+     are to be expected on nearly all platforms.
+
+     AADDDDRREESSSS is assignment compatible to all  pointer  types  and
+     compatible  to  CCAARRDDIINNAALL.   Note  that  some implementations
+     define AADDDDRREESSSS as PPOOIINNTTEERR TTOO BBYYTTEE and define AADDDDRREESSSS  to  be
+     compatible  to  LLOONNGGCCAARRDD  or  LLOONNGGIINNTT  instead  of CCAARRDDIINNAALL.
+     Therefore, it is fairly portable to accept generic  pointers
+     as AADDDDRREESSSS and to pass it, for example, to _S_t_o_r_a_g_e but it is
+     very system-dependent to assume a size, a  structure,  or  a
+     compatibility  to  one  of  the integer types, or to perform
+     address arithmetics.  The duplication of  unstructured  byte
+     quantities  is best delegated to a library module which usu­
+     ally contains code which is tuned for the local  implementa­
+     tion.  In  Ulm's Modula-2 library this is done by the module
+     _B_y_t_e_s.
+
+     AADDRR is a function which returns the address of a given vari­
+     able as value of type AADDDDRREESSSS.
+
+     TTSSIIZZEE  returns the number of bytes of the specified type (as
+     value of type CCAARRDDIINNAALL).  Note that TTSSIIZZEE like  NNEEWW  accepts
+     further  constant  arguments which select by their tag value
+     specific variants of a record.  This may be useful  if  some
+     variants  of a record occupy much less space than others but
+     not all Modula-2 compilers support this feature.
+
+     Ulm's Modula-2 compiler supports coroutines and their  asso­
+     ciated  procedures  NNEEWWPPRROOCCEESSSS  and  TTRRAANNSSFFEERR.  Regrettably,
+     these procedures  require  some  system-dependent  knowledge
+     about  the  necessary  size  of  a  coroutine stack and even
+     TTRRAANNSSFFEERR is not without  system  dependencies.   The  SPARC-
+     implementation of Ulm's Modula-2 compiler consumes much more
+     stack space than other implementations and  requires  there­
+     fore  a minimum size of 8192 bytes for stacks.  Stacks which
+     are too small may lead to compiler errors (if a constant  is
+     given)  or to undefined effects at runtime (you are lucky if
+     it is just a segmentation violation because  the  system  is
+     unable  to  redzone protect stacks as long as they are given
+     by the programmer and not allocated by  the  system).   Cur­
+     rently,  there are no runtime checks for stecks but they are
+     not necessary if a redzone protected area is provided by the
+     programmer  (this is not a problem by using the _m_m_a_p_(_2_) sys­
+     tem call).
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          2
+
+
+
+
+
+
+C Library Functions                                     SYSTEM(3)
+
+
+
+     Note that NNEEWWPPRROOCCEESSSS and TTRRAANNSSFFEERR expect coroutines to be of
+     type AADDDDRREESSSS. The older revisions of Modula-2 expect PPRROOCCEESSSS
+     as argument type of NNEEWWPPRROOCCEESSSS and TTRRAANNSSFFEERR  which  is  pro­
+     vided  if one of the older revisions is selected (option --rr00
+     or --rr11 at the command line of _m_2_c_(_1_)).
+
+  UUnniimmpplleemmeenntteedd PPaarrttss
+     UNIX-systems restrict accesses of  devices  to  the  kernel.
+     Therefore, IIOOTTRRAANNSSFFEERR is not implemented.
+
+  SSppeecciiffiicc EExxtteennssiioonnss
+     Most  implementations  of Modula-2 for UNIX depend on the C-
+     library to access system  calls.   Ulm's  Modula-2  compiler
+     neither  supports  nor  needs  an access to system calls via
+     foreign libraries (i.e. the standard C-library.
+
+     UUNNIIXXCCAALLLL interfaces all system calls with the  exception  of
+     _f_o_r_k_(_2_)  and  _s_i_g_a_c_t_i_o_n_(_2_)  which  have  a different calling
+     scheme (on the machine instruction  level).   The  parameter
+     _s_y_s_c_a_l_l   must   be   a   constant  number  (see  _S_y_s_(_3_)  or
+     _/_u_s_r_/_i_n_c_l_u_d_e_/_s_y_s_/_s_y_s_c_a_l_l_._h for valid numbers).  Some  system
+     calls  expect under some UNIX-variants one or two parameters
+     in some specific registers or, more often, return some  val­
+     ues in these registers:
+
+     -------------------------------------------------------------
+     Platform                   OS Release      registers
+     -------------------------------------------------------------
+     Concurrent 3200 Series     XELOS R02       registers 0 and 1
+     Nixdorf Targon/31          System V.3      d0 and d1
+     Sun-3 Workstation          SunOS 4.1.x     d0 and d1
+     SPARC architecture         Solaris 2.x     o0 and o1
+     -------------------------------------------------------------
+
+     Any  number  of additional parameters may be passed as addi­
+     tional arguments. Note, however, that the compiler does  not
+     care  about  compatibility issues here. Strings and buffers,
+     for example, must be passed by address and  not  as  dynamic
+     arrays.  UUNNIIXXCCAALLLL returns FFAALLSSEE in case of errors. All UNIX-
+     architectures we know of (including  those  platforms  which
+     has  been listed above) return the error code (see _e_r_r_n_o_(_2_))
+     in the first register (VVAARR-parameter _r_0).  In case  of  suc­
+     cess,  some  results may be returned into the VVAARR-parameters
+     _r_0 and _r_1. _r_e_a_d_(_2_), for example, returns the number of bytes
+     read  in  _r_0, and _p_i_p_e_(_2_) returns (on many platforms but not
+     all) both file descriptors in _r_0 and _r_1.
+
+     Following example is taken from the library  and  shows  the
+     implementation  of _S_y_s_W_r_i_t_e on the Solaris 2.x system (which
+     runs in identical form  on  all  other  platforms  mentioned
+     above):
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          3
+
+
+
+
+
+
+C Library Functions                                     SYSTEM(3)
+
+
+
+     IMPLEMENTATION MODULE SysWrite;
+
+        FROM Errno IMPORT errno;
+        FROM Sys IMPORT write;
+        FROM SYSTEM IMPORT UNIXCALL, ADDRESS;
+
+        PROCEDURE Write(fd: CARDINAL; ptr: ADDRESS;
+                        VAR bytecount: CARDINAL) : BOOLEAN;
+           VAR r0, r1: CARDINAL;
+        BEGIN
+           IF UNIXCALL(write, r0, r1, fd, ptr, bytecount) THEN
+              bytecount := r0;
+              RETURN TRUE
+           ELSE
+              errno := r0;
+              bytecount := 0;
+              RETURN FALSE
+           END;
+        END Write;
+
+     END SysWrite.
+
+
+     UUNNIIXXFFOORRKK  is already interfaced by _S_y_s_F_o_r_k_(_3_) and should not
+     be used anywhere else. Note that in  case  of  failures  the
+     error  code is returned in _p_i_d. In case of success, _p_i_d will
+     contain the process id of the son (for the  father  process)
+     or 0 (in the child process).
+
+     Similarly,  UUNNIIXXSSIIGGNNAALL  is  interfaced  by  _S_y_s_S_i_g_n_a_l_(_3_) and
+     should not be called in other modules. The parameters  _s_i_g_n_o
+     and  _p specify which parameterless procedure is to be called
+     on which signal number. The old signal handler  is  returned
+     in  _o_l_d and, in case of failures, the error code is returned
+     in _r_e_s_u_l_t together with a return value of FFAALLSSEE.  Note  that
+     UUNNIIXXSSIIGGNNAALL  does  not  offer  all facilities of _s_i_g_a_c_t_i_o_n_(_2_)
+     (under Solaris 2.x) in their full generality  but  at  least
+     UUNNIIXXSSIIGGNNAALL  and _S_y_s_S_i_g_n_a_l_(_3_) work on all our implementations
+     without changes.
+
+  IInntteerrffaaccee ttoo SSppeecciiffiicc MMaacchhiinnee IInnssttrruuccttiioonnss
+     SSQQRRTT interfaces the equally named machine instruction on the
+     SPARC  architecture and is used by the SPARC-specific imple­
+     mentation of _M_a_t_h_L_i_b_(_3_).
+
+SSEEEE AALLSSOO
+     _m_2_c_(_1_), _S_t_o_r_a_g_e_(_3_), _S_y_s_F_o_r_k_(_3_), _S_y_s_S_i_g_n_a_l_(_3_)
+     PIM3: Niklaus Wirth, _P_r_o_g_r_a_m_m_i_n_g _i_n _M_o_d_u_l_a_-_2,  3rd  edition,
+     Springer-Verlag
+     _I_n_s_t_a_l_l_a_t_i_o_n _a_n_d _U_s_e_r _G_u_i_d_e _f_o_r _U_l_m_'_s _M_o_d_u_l_a_-_2 _S_y_s_t_e_m
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          4
+
+
+

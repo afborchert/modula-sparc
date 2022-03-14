@@ -1,0 +1,30 @@
+#------------------------------------------------------------------------------
+# prototype for mmm
+# afb 2/97
+#------------------------------------------------------------------------------
+# $Id: mmm_proto,v 0.2 1997/02/24 08:52:31 borchert Exp $
+#------------------------------------------------------------------------------
+# $Log: mmm_proto,v $
+# Revision 0.2  1997/02/24  08:52:31  borchert
+# cut mark included
+#
+# Revision 0.1  1997/02/24  08:46:51  borchert
+# Initial revision
+#
+#------------------------------------------------------------------------------
+# cut here
+# {created by mmm: Fri Mar 25 17:30:30 1988 MEZ}
+# {flags: -a- -l- -L- -1- -v-}
+# {rules}
+# {macros}
+# {precious}
+# {all}
+# {linkage}
+# {dependencies}
+#
+tags:		$(TAGSRC)
+		mtags $(TAGSRC)
+#
+#
+clean:		; rm -f $(OBJS) $(SYMS) $(REFS)
+realclean:	; rm -f $(OBJS) $(SYMS) $(REFS) $T

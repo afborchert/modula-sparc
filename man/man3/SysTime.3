@@ -1,0 +1,27 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysTime 3 "Ulm's Modula-2 System"
+.SH NAME
+SysTime \- return current time
+.SH SYNOPSIS
+.Pg
+PROCEDURE Time(VAR t: SystemTypes.TIME) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Time
+returns the current time in seconds since 00:00:00
+GMT, January 1, 1970.
+.SH DIAGNOSTICS
+Despite the \fBBOOLEAN\fP return type \fITime\fP is not expected to fail.
+.SH "SEE ALSO"
+\fItime(2)\fP, \fICalendar(3)\fP, \fIClock(3)\fP, \fITimeIO(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysTime.3,v 1.1 1997/02/26 10:47:22 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysTime.3,v $
+.\" Revision 1.1  1997/02/26  10:47:22  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

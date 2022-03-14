@@ -1,0 +1,132 @@
+
+
+
+User Commands                                              m2b(1)
+
+
+
+NNAAMMEE
+     m2b - Modula-2 beautifier
+
+SSYYNNOOPPSSIISS
+     m2b [ arg ] ... [ infile [ outfile ] ]
+
+DDEESSCCRRIIPPTTIIOONN
+     _M_2_b  is a beautifier (i.e., formator) for Modula-2 programs.
+     _M_2_b accepts the revised Modula-2 grammar.   _I_n_f_i_l_e  (default
+     standard  input) is formatted and stored in _o_u_t_f_i_l_e (default
+     standard output).  The arguments are interpreted as follows:
+
+     --cc   the  following  argument  defines  where  comments  are
+          aligned (default 40).
+
+     --hh   requests the header to be printed.
+
+     --ll   the following argument defines the  approximate  output
+          line  length  (default 80); zero length means no limit.
+          Comments are not shortened.
+
+     --pp   requests parameter lists to be piled.
+
+     --ss   the  following  argument  defines   indentation   width
+          (default 3).
+
+     --vv   requests variable declarations to be piled.
+
+     The  options  can  also be set from within a Modula-2 source
+     using a comment as follows:
+
+     (*%p+;c40*)
+          requests parameter lists to be piled and sets the  com­
+          ment  column at 40.  Blanks are not permitted, `%' sig­
+          nals the controlling comment,  and  `;'  joins  several
+          options.   All  command  line  options are supported in
+          this fashion.
+
+     (*%-*)
+          turns formating off. Subsequent text is passed  through
+          as is until `%+' is found.
+
+     %+   turns  formating back on.  Modula-2 syntax and formator
+          operation must be nested properly.
+
+     _M_2_b can be used as a filter.
+
+FFIILLEESS
+     _/f_ui_sl_re_/_lw_oi_ct_ah_l_/e_lr_ir_bo_/r_m_om_de_us_ls_aa_/g_me_2s___e_r_r_o_r
+
+SSEEEE AALLSSOO
+     _m_2_c_(_1_)
+
+
+
+Release 3.0b6Last change: Last change: 24 February 1997          1
+
+
+
+
+
+
+User Commands                                              m2b(1)
+
+
+
+BBUUGGSS
+     Your mileage may vary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 24 February 1997          2
+
+
+

@@ -1,0 +1,27 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysClose 3 "Ulm's Modula-2 System"
+.SH NAME
+SysClose \- close a file descriptor
+.SH SYNOPSIS
+.Pg
+PROCEDURE Close(fd: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Close
+closes the given file descriptor.
+.SH DIAGNOSTICS
+.I Close
+returns \fBFALSE\fP and sets \fIErrno.errno\fP in case of errors.
+.SH "SEE ALSO"
+\fIclose(2)\fP, \fISysOpen(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysClose.3,v 1.1 1997/02/25 18:53:23 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysClose.3,v $
+.\" Revision 1.1  1997/02/25  18:53:23  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

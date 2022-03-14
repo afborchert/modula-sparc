@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                      Chars(3)
+
+
+
+NNAAMMEE
+     Chars - character classifications
+
+SSYYNNOOPPSSIISS
+     CONST
+        (* control characters as by ASCII(3) *)
+        nul  =  0C; soh  =  1C; stx =  2C; etx =  3C; eot =   4C;
+        enq  =  5C; ack  =  6C; bel =  7C; bs  = 10C; ht  =  11C;
+        lf   = 12C; vt   = 13C; ff  = 14C; cr  = 15C; so  =  16C;
+        si   = 17C; dle  = 20C; dc1 = 21C; dc2 = 22C; dc3 =  23C;
+        dc4  = 24C; nak  = 25C; syn = 26C; etb = 27C; can =  30C;
+        em   = 31C; sub  = 32C; esc = 33C; fs  = 34C; gs  =  35C;
+        us   = 37C; rs   = 36C; sp  = 40C;            del = 177C;
+
+        null = nul; bell = bel; tab =  ht; nl  =  lf; np   =  ff;
+
+        (* names easy to remember *)
+        CtrlA =  1C; CtrlB =  2C; CtrlC =  3C; CtrlD = 4C;
+        CtrlE =  5C; CtrlF =  6C; CtrlG =  7C; CtrlH = 10C;
+        CtrlI = 11C; CtrlJ = 12C; CtrlK = 13C; CtrlL = 14C;
+        CtrlM = 15C; CtrlN = 16C; CtrlO = 17C; CtrlP = 20C;
+        CtrlQ = 21C; CtrlR = 22C; CtrlS = 23C; CtrlT = 24C;
+        CtrlU = 25C; CtrlV = 26C; CtrlW = 27C; CtrlX = 30C;
+        CtrlY = 31C; CtrlZ = 32C;
+
+     TYPE
+        CharSet   = SET OF CHAR;
+        CharClass = (nullc, letter, digit, punct,
+                     space, control, nonascii);
+
+     CONST
+        (* character sets *)
+        UpperS      = CharSet {'A'..'Z'};
+        LowerS      = CharSet {'a'..'z'};
+        LetterS     = UpperS + LowerS;
+        OctDigitS   = CharSet {'0'..'7'};
+        DigitS      = OctDigitS + CharSet {'8','9'};
+        HexDigitS   = DigitS + CharSet {'a'..'f','A'..'F'};
+        AlphaNumS   = LetterS + DigitS;
+        SpaceS      = CharSet {sp,ht,nl};
+        WhiteS      = CharSet {sp,ht};
+        AsciiS      = CharSet {0C..177C};
+        ControlS    = CharSet {1C..37C, del};
+        NonControlS = CharSet {40C..176C};
+        PrintS      = NonControlS + SpaceS;
+        NonPrintS   = AsciiS - PrintS;
+        PunctS      = NonControlS - CharSet {sp} - AlphaNumS;
+
+     PROCEDURE Lower(VAR ch : CHAR);
+     PROCEDURE Upper(VAR ch : CHAR);
+     PROCEDURE Class(ch : CHAR) : CharClass;
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                      Chars(3)
+
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _L_o_w_e_r substitutes an upper case letter _c_h by the correspond­
+     ing lower case letter, _U_p_p_e_r  works  the  other  way  round.
+     Both procedures have no effect on other arguments.
+
+     _C_l_a_s_s  returns the class of a character due to the following
+     mapping rules (_c_h in set -> value returned):
+
+
+          {{_n_u_l}}                      -->> nnuullllcc
+          _L_e_t_t_e_r_S                    -->> lleetttteerr
+          _D_i_g_i_t_S                     -->> ddiiggiitt
+          _S_p_a_c_e_S                     -->> ssppaaccee
+          _P_u_n_c_t_S                     -->> ppuunncctt
+          _C_o_n_t_r_o_l_S _- _S_p_a_c_e_S          -->> ccoonnttrrooll
+          {{220000CC....MMAAXX((CCHHAARR))}}          -->> nnoonnaasscciiii
+
+SSEEEE AALLSSOO
+     _A_S_C_I_I_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

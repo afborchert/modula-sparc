@@ -1,0 +1,265 @@
+(* Ulm's Modula-2 System: Makefile Generator
+   Copyright (C) 1987-1997 by University of Ulm, SAI, D-89069 Ulm, Germany
+   ----------------------------------------------------------------------------
+   Ulm's Makefile Generator for Modula-2 is free software; you can
+   redistribute it and/or modify it under the terms of the GNU General
+   Public License as published by the Free Software Foundation; either
+   version 2 of the License, or (at your option) any later version.
+
+   Ulm's Makefile Generator for Modula-2 is distributed in the hope
+   that it will be useful, but WITHOUT ANY WARRANTY; without even the
+   implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+   PURPOSE.  See the GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this library; if not, write to the Free Software
+   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+   ----------------------------------------------------------------------------
+   E-mail contact: modula@mathematik.uni-ulm.de
+   ----------------------------------------------------------------------------
+   $Id: mmm.m2,v 0.2 1997/02/27 08:45:02 borchert Exp $
+   ----------------------------------------------------------------------------
+   $Log: mmm.m2,v $
+   Revision 0.2  1997/02/27  08:45:02  borchert
+   search path for mmm_proto changed:
+   - honour MODLIB before looking in the default library directory
+   - fetch library directory from SysConf.GetLibDir
+
+   Revision 0.1  1997/02/24  08:36:24  borchert
+   Initial revision
+
+   ----------------------------------------------------------------------------
+*)
+
+MODULE mmm; (* AFB 3/87 *)
+
+   FROM Arguments IMPORT GetFlag, InitArgs, Usage, GetArg, FetchString;
+   FROM SymTab IMPORT InitSymTab, InitModules, CheckFileNames;
+   FROM FileNames IMPORT filenmlen, EnterFileName, FileName,
+      ConvertFileName;
+   FROM Errors IMPORT Fatal, Errors, Error, Warning;
+   FROM Sources IMPORT ScanSources;
+   FROM Library IMPORT ScanLibraries;
+   FROM TopSort IMPORT TopSort, PrintSortedArgs, PrintDepsForTsort,
+      ProcCallsTopSort;
+   FROM Makefile IMPORT PrintRules, PrintLinkage, PrintDependencies;
+   FROM Options IMPORT SYMarchive, aronce, versmanag, VersionsManagement,
+      library, scanlibs, profile, lookforenv;
+   FROM Update IMPORT FirstMakefile, Update, FirstScan;
+   FROM Suffix IMPORT Sm2impl, Sm2def, Smrimpl, Smrdef;
+   FROM SysConf IMPORT GetLibDir;
+   FROM SysExit IMPORT Exit;
+   FROM Files IMPORT Delete, Rename, Done;
+   FROM Environment IMPORT GetEnv;
+   FROM Strings IMPORT StrCat, StrCpy, StrCmp;
+   FROM StdIO IMPORT Fopen, read, Fclose, FILE;
+
+   CONST
+      usage = "[-aelLmtP1] [-v(r|s|-)] [-p file] [(-c|-C|-u) file] file...";
+   VAR
+      create: BOOLEAN;		(* if on: create new makefile *)
+      update: BOOLEAN;		(* if on: update given makefile *)
+      proto: BOOLEAN;		(* if on: protofile given *)
+      noproto: BOOLEAN;		(* if on: don't look for proto file *)
+      lookforSRC: BOOLEAN;	(* look for SRC-macro on update *)
+      topsort: BOOLEAN;		(* if on: give arguments in topsorted order *)
+      psort: BOOLEAN;           (* if on: report calling reference cycles *)
+      tsortout: BOOLEAN;	(* if on: produce output suitable for tsort *)
+      protofile, updatefile: ARRAY [0..filenmlen-1] OF CHAR;
+
+   PROCEDURE WorkupArguments;
+      VAR
+	 flag: CHAR;
+	 filenm: ARRAY [0..filenmlen-1] OF CHAR;
+	 arg: ARRAY [0..3] OF CHAR;
+   BEGIN
+      create := FALSE; update := FALSE; proto := FALSE; noproto := FALSE;
+
+      InitArgs(usage);
+      WHILE GetFlag(flag) DO
+	 CASE flag OF
+	 | 'a', 'e', '1', 'l', 'L', 'm', 't', 'T', 'P': (* later *)
+	 | 'C': FetchString(updatefile); create := TRUE; noproto := TRUE;
+	 | 'c': FetchString(updatefile); create := TRUE;
+	 | 'p': FetchString(protofile); proto := TRUE;
+	 | 'u': FetchString(updatefile); update := TRUE;
+	 | 'v': FetchString(arg); (* later *)
+	 ELSE
+	    Usage;
+	 END;
+      END;
+
+      IF update AND create THEN
+	 Fatal("-u and -c", "cannot be combined");
+      END;
+      IF update AND proto THEN
+	 Fatal("-u and -p", "cannot be combined");
+      END;
+      IF proto AND NOT create THEN
+	 Fatal("-p", "cannot be given without -c");
+      END;
+      IF proto AND noproto THEN
+	 Fatal("-C", "cannot be combined with -p");
+      END;
+
+      lookforSRC := TRUE;
+      WHILE GetArg(filenm) DO
+	 EnterFileName(filenm);
+	 lookforSRC := FALSE;
+      END;
+   END WorkupArguments;
+
+   PROCEDURE WorkupFlags;
+      VAR
+	 flag: CHAR;
+	 arg: ARRAY [0..filenmlen-1] OF CHAR;
+   BEGIN
+      topsort := FALSE; tsortout := FALSE; psort := FALSE;
+      InitArgs(usage);
+      WHILE GetFlag(flag) DO
+	 CASE flag OF
+	 | 'C', 'c', 'p', 'u': FetchString(arg); (* already done *)
+	 | 'a': SYMarchive := NOT SYMarchive;
+	 | 'e': lookforenv := NOT lookforenv;
+	 | 'l': library := NOT library;
+	 | 'L': scanlibs := NOT scanlibs;
+	 | 'm': profile := NOT profile;
+	 | 'P': psort := TRUE;
+	 | 't': topsort := TRUE;
+	 | 'T': tsortout := TRUE;
+	 | 'v': FetchString(arg);
+		CASE arg[0] OF
+		| 'r': versmanag := rcs;
+		| 's': versmanag := sccs;
+		| '-': versmanag := none;
+		ELSE
+		  Usage;
+		END;
+	 | '1': aronce := NOT aronce;
+	 ELSE
+	    Usage;
+	 END;
+      END;
+      IF topsort AND tsortout THEN
+	 Fatal("-t", "cannot be combined with -T");
+      END;
+      IF topsort AND (create OR update) THEN
+	 Fatal("-t", "cannot be given together with -c or -u");
+      END;
+      IF tsortout AND (create OR update) THEN
+	 Fatal("-T", "cannot be given together with -c or -u");
+      END;
+      IF psort AND (create OR update) THEN
+	 Fatal("-P", "cannot be given together with -c or -u");
+      END;
+      IF psort AND (topsort OR tsortout) THEN
+	 Fatal("-P", "cannot be given together with -t or -T");
+      END;
+      IF profile AND NOT library THEN
+	 Warning("-m", "implies -l");
+	 library := TRUE;
+      END;
+   END WorkupFlags;
+
+   PROCEDURE LookForProtoFile(VAR protofile: ARRAY OF CHAR) : BOOLEAN;
+      VAR
+	 ok: BOOLEAN;
+
+      PROCEDURE Readable(file: ARRAY OF CHAR) : BOOLEAN;
+	 VAR fp: FILE;
+      BEGIN
+	 IF Fopen(fp, file, read, (* buffered = *) FALSE) THEN
+	    IF NOT Fclose(fp) THEN END;
+	    RETURN TRUE
+	 END;
+	 RETURN FALSE
+      END Readable;
+
+   BEGIN
+      GetEnv("HOME", protofile, ok);
+      IF ok THEN
+	 StrCat(protofile, "/.mmm_proto");
+	 IF Readable(protofile) THEN RETURN TRUE END;
+      END;
+      GetEnv("MODLIB", protofile, ok);
+      IF ok THEN
+	 StrCat(protofile, "/mmm_proto");
+	 IF Readable(protofile) THEN RETURN TRUE END;
+      END;
+      GetLibDir(protofile);
+      StrCat(protofile, "/mmm_proto");
+      RETURN Readable(protofile)
+   END LookForProtoFile;
+
+   PROCEDURE CheckForSourceSuffix(filename: ARRAY OF CHAR) : BOOLEAN;
+      VAR
+	 fn: FileName;
+
+      PROCEDURE Equal(s1, s2: ARRAY OF CHAR) : BOOLEAN;
+      BEGIN
+	 RETURN StrCmp(s1, s2) = 0
+      END Equal;
+
+   BEGIN
+      ConvertFileName(filename, fn);
+      WITH fn DO
+	 RETURN Equal(suffix, Sm2impl) OR Equal(suffix, Sm2def) OR
+	        Equal(suffix, Smrimpl) OR Equal(suffix, Smrdef)
+      END;
+   END CheckForSourceSuffix;
+
+BEGIN
+   WorkupArguments;
+
+   IF update OR create THEN
+      (* check against mmm -c *.d *.m2 *)
+      IF CheckForSourceSuffix(updatefile) THEN
+	 Fatal(updatefile, "not destroyed. Specify a makefile to -u or -c.");
+      END;
+   END;
+
+   IF create AND NOT noproto AND NOT proto AND LookForProtoFile(protofile) THEN
+      proto := TRUE;
+   END;
+   IF update THEN
+      FirstScan(updatefile, lookforSRC);
+   ELSIF proto THEN
+      FirstScan(protofile, (* lookforSRC = *) FALSE);
+   END;
+   WorkupFlags;
+
+   IF scanlibs THEN
+      ScanLibraries;
+   END;
+   InitSymTab;
+   ScanSources;
+   InitModules;
+   CheckFileNames;
+   TopSort;
+
+   IF update THEN
+      Update(updatefile, "mmm_tmp");
+      IF Errors() = 0 THEN
+	 Rename("mmm_tmp", updatefile);
+      ELSE
+	 Delete("mmm_tmp");
+      END;
+      IF NOT Done THEN Error(updatefile, "cannot update") END;
+   ELSIF proto THEN
+      Update(protofile, updatefile);
+   ELSIF create THEN
+      FirstMakefile(updatefile);
+   ELSIF topsort THEN
+      PrintSortedArgs;
+   ELSIF tsortout THEN
+      PrintDepsForTsort;
+   ELSIF psort THEN
+      ProcCallsTopSort;
+   ELSE
+      PrintRules;
+      PrintLinkage;
+      PrintDependencies;
+   END;
+
+   Exit(Errors());
+END mmm.

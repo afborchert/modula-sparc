@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                  SysSignal(3)
+
+
+
+NNAAMMEE
+     SysSignal - UNIX signal handling
+
+SSYYNNOOPPSSIISS
+     VAR default, ignore: PROC;
+     VAR old: PROC;
+
+     PROCEDURE Signal(sig: SystemTypes.Sig; p: PROC) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_i_g_n_a_l  installs _p as signal handler for the signal _s_i_g (see
+     _S_y_s_t_e_m_T_y_p_e_s_(_3_) for the set of possible signals).  The signal
+     handler  may  be  a  parameterless  procedure which is to be
+     called on receiving _s_i_g, or _d_e_f_a_u_l_t (the receipt of a signal
+     causes program abortion then), or _i_g_n_o_r_e if the signal is to
+     be ignored.  On success, the previous signal handler for _s_i_g
+     is stored into _o_l_d.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failure, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _s_i_g_a_c_t_i_o_n_(_2_)   the original interface
+     _s_i_g_n_a_l_(_5_)      an overview of all signals
+     _S_y_s_K_i_l_l_(_3_)     delivery of signals
+
+BBUUGGSS
+     _S_y_s_S_i_g_n_a_l provides a very restricted interface to the origi­
+     nal system call.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

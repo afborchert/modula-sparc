@@ -1,0 +1,30 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysRead 3 "Ulm's Modula-2 System"
+.SH NAME
+SysRead \- read from a file descriptor
+.SH SYNOPSIS
+.Pg
+PROCEDURE Read(fd: CARDINAL; ptr: ADDRESS;
+               VAR bytecount: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Read
+reads up to \fIbytecount\fP bytes from \fIfd\fP and
+stores them into the memory area pointed to by \fIptr\fP.
+The parameter \fIbytecount\fP is afterwards set to
+the number of bytes actually read.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIread(2)\fP, \fISysWrite(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysRead.3,v 1.1 1997/02/26 10:25:02 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysRead.3,v $
+.\" Revision 1.1  1997/02/26  10:25:02  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

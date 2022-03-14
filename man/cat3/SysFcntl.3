@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   SysFcntl(3)
+
+
+
+NNAAMMEE
+     SysFcntl - file control operations
+
+SSYYNNOOPPSSIISS
+     TYPE FcntlRequest = (dupfd, getfd, setfd, getfl, setfl, getown,
+                          setown, getlk, setlk, setlkw);
+
+     PROCEDURE Fcntl(fd: CARDINAL; cmd: FcntlRequest; VAR arg: WORD) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_y_s_F_c_n_t_l  offers  various  file  control operations for open
+     files.  See _f_c_n_t_l_(_2_) for a detailed description.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failure, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _f_c_n_t_l_(_2_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

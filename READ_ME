@@ -1,0 +1,78 @@
+Ulm Modula-2 System:
+~~~~~~~~~~~~~~~~~~~~
+Modula-2 and the origins of our family of Modula-2 compilers have been
+designed and developed at the Department of Computer Science, ETH
+Zurich in Switzerland (see http://www.inf.ethz.ch) by Niklaus Wirth
+and his team.
+
+In December 1981, we licensed the sources of the M2M compiler (4-pass
+compiler for the famous Lilith machine) and derived new compilers from
+it for the Concurrent 3200 architecture, the m68k processor and the
+SPARCv8 architecture. All these compilers conform to PIM3 (Niklaus
+Wirth, Programming in Modula-2, 3rd Edition, Springer-Verlag) but not
+yet to the ISO standard which finished recently.  The compiler is
+accompanied by a moderate number of library modules (which likewise do
+not conform to ISO yet), and some tools.
+
+We have now an agreement with the ETH Zurich that the sources which
+have been derived from the M2M-compiler may be freely redistributed
+provided that
+
+    all derived sources clearly state that Modula-2 has been designed
+    and developed at the Department of Computer Science, ETH Zurich in
+    Switzerland
+
+All sources with the exception of the library (subdirectory src/lib) of
+this distribution may be freely redistributed if you follow the above
+term for the ETH-derived sources (each of them is clearly marked as
+such) *and* the terms of the GNU General Public License, Version 2 (as
+found in the file COPYING).
+
+The sources of the library (subdirectory src/lib) may be freely
+redistributed under the terms of the GNU Library General Public
+License, Version 2 (as found in the file COPYING.LIB).
+Note that the MathLib module has been derived from the GNU library
+(distributed under the terms of the GNU Library General Public License)
+which in turn has been derived from sources which have been developed
+at the University of California, Berkeley:
+This product includes software developed by the University of
+California, Berkeley and its contributors.
+
+Supported Platforms:
+~~~~~~~~~~~~~~~~~~~~
+This distribution supports all platforms which conform to SPARCv8 and run
+Solaris 2.x (we have tested it for 2.3, 2.4, 2.5, 2.5.1, 2.6, 7, 8, 9,
+and 10). Note that nearly all SPARCs sold by Sun conform to SPARCv8 but
+there may be some ancient unsupported platforms (i.e. SPARCv7 and older).
+
+Documentation
+~~~~~~~~~~~~~
+Manual pages are included. HTML-variants of the manual pages may be
+found at
+
+   http://www.mathematik.uni-ulm.de/modula/
+
+and if you want to have a local copy of this tree under
+
+   ftp://ftp.mathematik.uni-ulm.de/pub/soft/modula/ulm/sun4/htmldoc.tar.gz
+
+In addition to the man pages the web tree contains additional
+documentation of the compiler and the associated tools.
+
+Portability
+~~~~~~~~~~~
+Similar Modula-2 systems are available for Sun3, Nixdorf Targon/31 and
+Concurrent Computer 3200 Series.
+
+Contact
+~~~~~~~
+Please feel free to send problems, bugs and suggestions to
+
+Dr. Andreas Borchert
+Universitaet Ulm
+Institut fuer Numerische Mathematik
+D-89069 Ulm, Germany
+
+Phone: (+49) 731 50-23572
+Email: andreas.borchert AT uni-ulm.de
+WWW:   http://www.mathematik.uni-ulm.de/sai/borchert/

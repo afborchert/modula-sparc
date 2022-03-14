@@ -1,0 +1,41 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysBreak 3 "Ulm's Modula-2 System"
+.SH NAME
+SysBreak \- heap allocation
+.SH SYNOPSIS
+.Pg
+PROCEDURE Break(addr: ADDRESS) : BOOLEAN;
+PROCEDURE Sbreak(incr: CARDINAL) : ADDRESS;
+.Pe
+.SH DESCRIPTION
+The memory area between the end of the data segment upto
+the break is used as heap.
+By moving the break to higher addresses the heap may
+be extended.
+.PP
+.I Break
+sets the break to the given absolute address.
+.I Sbreak
+advances the break by \fIincr\fP
+and returns the current value of the break.
+.PP
+Note that neither \fIBreak\fP nor \fISbreak\fP should be
+called directly except by \fIStorage(3)\fP.
+.SH DIAGNOSTICS
+Both operations may fail due to insufficient memory.
+In this case, \fBFALSE\fP is returned by \fBBreak\fP,
+and \fISbreak\fP returns the old break value.
+Additionally, \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIbrk(2)\fP, \fIStorage(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysBreak.3,v 1.1 1997/02/25 18:50:11 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysBreak.3,v $
+.\" Revision 1.1  1997/02/25  18:50:11  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

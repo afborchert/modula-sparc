@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                   OutLines(3)
+
+
+
+NNAAMMEE
+     OutLines - pagewise output
+
+SSYYNNOOPPSSIISS
+     VAR MaxLines : INTEGER;
+
+     PROCEDURE SetFile(file : FILE);
+     PROCEDURE SetLong(long : Long);
+
+     PROCEDURE DefineLine(relatively: BOOLEAN; line : INTEGER) : BOOLEAN;
+
+     PROCEDURE OutAll() : BOOLEAN;
+     PROCEDURE OutNext() : BOOLEAN;
+     PROCEDURE OutPrev() : BOOLEAN;
+     PROCEDURE OutRange (begin, end : INTEGER) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _O_u_t_L_i_n_e_s  allows  a  pagewise  output  of  text  stored in a
+     dynamic string of type _L_o_n_g (imported from  _L_o_n_g_S_t_r_i_n_g_s_(_3_)).
+
+     _S_e_t_F_i_l_e   defines   a   new   out   stream   _f_i_l_e   (default
+     _S_t_d_I_O_._s_t_d_o_u_t), _S_e_t_L_o_n_g defines a new output source _l_o_n_g  (no
+     default) and marks 00 as the current line.
+
+     _O_u_t_N_e_x_t outputs the next at most _M_a_x_L_i_n_e_s lines (default 23)
+     found in long to stream _f_i_l_e.  The last output line  becomes
+     the new current line.
+
+     _O_u_t_P_r_e_v outputs at most _M_a_x_L_i_n_e_s preceding the current line.
+     The first output line becomes the new current line.
+
+     _D_e_f_i_n_e_L_i_n_e defines a new current  line.   If  _r_e_l_a_t_i_v_e_l_y  is
+     TTRRUUEE  the  old value is incremented by _l_i_n_e else the current
+     line is set to _l_i_n_e (absolutely).  An absolute  line  number
+     may  specified as 00 or --11 to mark positions before or beyond
+     any other line.
+
+     _O_u_t_A_l_l outputs _l_o_n_g completely and sets the current line  to
+     -1 (beyond any other).
+
+     _O_u_t_R_a_n_g_e  outputs  the  range  defined  by [_f_r_o_m,_t_o] without
+     affecting the current line.
+
+     Each redefinition of _M_a_x_L_i_n_e_s and any update of the contents
+     behind   long  requires  a  reinitialization  of  output  by
+     _S_e_t_L_o_n_g.
+
+     The output produced by this modules will be echoed  to  fur­
+     ther files after suitable calls of _L_o_n_g_S_t_r_i_n_g_s._E_c_h_o.
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                   OutLines(3)
+
+
+
+DDIIAAGGNNOOSSTTIICCSS
+     Output  routines return FFAALLSSEE if output is exhausted, if the
+     requested lines are not available  or  if  writing  to  _f_i_l_e
+     fails.
+
+SSEEEE AALLSSOO
+     _L_o_n_g_S_t_r_i_n_g_s_(_3_), _L_(_3_), _S_t_d_I_O_(_3_)
+
+BBUUGGSS
+     Output  will  fail,  if  the last character of _l_o_n_g is not a
+     newline (12C).
+
+     Unpredictable effects may occur if the contents of _l_o_n_g  has
+     been  updated without a following reinitialization of output
+     by _S_e_t_L_o_n_g.
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

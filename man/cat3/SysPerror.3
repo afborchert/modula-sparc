@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                  SysPerror(3)
+
+
+
+NNAAMMEE
+     SysPerror - system error messages
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Perror(str: ARRAY OF CHAR);
+     PROCEDURE GetErrorString(errno: CARDINAL; VAR str: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _P_e_r_r_o_r  prints  the  most  recent system error in a readable
+     form onto _S_t_d_I_O_._s_t_d_e_r_r.  The error message  is  preceded  by
+     _s_t_r  and  a  colon.   The  system  error  code is taken from
+     _E_r_r_n_o_._e_r_r_n_o and  set  by  various  system  modules.   _G_e_t_E_r_­
+     _r_o_r_S_t_r_i_n_g returns the error message associated with _e_r_r_n_o in
+     _s_t_r.
+
+SSEEEE AALLSSOO
+     _S_t_d_I_O_(_3_), _E_r_r_n_o_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                  Arguments(3)
+
+
+
+NNAAMMEE
+     Arguments - procedures for command line processing
+
+SSYYNNOOPPSSIISS
+     PROCEDURE InitArgs(infostring: ARRAY OF CHAR);
+     PROCEDURE Usage;
+     PROCEDURE AllArgs;
+     PROCEDURE GetFlag(VAR flag: CHAR): BOOLEAN;
+     PROCEDURE GetOpt( VAR flag: CHAR; VAR plus: BOOLEAN): BOOLEAN;
+     PROCEDURE UngetOpt;
+     PROCEDURE GetArg(VAR argument: ARRAY OF CHAR): BOOLEAN;
+     PROCEDURE UngetArg;
+     PROCEDURE FetchString(VAR string: ARRAY OF CHAR);
+     PROCEDURE FetchInt(   VAR number: INTEGER);
+     PROCEDURE FetchCard(  VAR number: CARDINAL);
+     PROCEDURE FetchOct(   VAR number: CARDINAL);
+     PROCEDURE FetchHex(   VAR number: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The  _A_r_g_u_m_e_n_t_s module supports reading and interpreting com­
+     mand arguments, according to the following standard:
+
+          --_x       Flags are single characters preceded by a --.
+
+          ++_x       Options, however, can be preceded either by  --
+                   or ++.
+
+          --_x_y      Flags  or  options with the same prefix may be
+                   concatenated to one command argument,  without
+                   repeating the prefix.
+
+          --_x _v_a_l_u_e A  value  follows a flag/option as the rest of
+                   the command argument or as  the  next  command
+                   argument.   Nothing  can follow a value in the
+                   same command argument.  The type  of  a  value
+                   may  be  one  of  the following: _s_t_r_i_n_g_, or an
+                   IINNTTEEGGEERR,, CCAARRDDIINNAALL,, _o_c_t_a_l or  _h_e_x_a_d_e_c_i_m_a_l  num­
+                   ber.
+
+          --        as a command argument is interpreted as a non-
+                   flag/non-option argument.  It should designate
+                   standard  input or standard output in place of
+                   a file.
+
+          ----       as a command argument  terminates  flag/option
+                   processing but is itself not interpreted as an
+                   argument.  Successing command arguments,  even
+                   when  beginning with -- or ++ are considered not
+                   to contain flags nor options.
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 January 1999           1
+
+
+
+
+
+
+C Library Functions                                  Arguments(3)
+
+
+
+     The procedures are used as follows:
+
+     _I_n_i_t_A_r_g_s specifies _i_n_f_o_s_t_r_i_n_g for _U_s_a_g_e and  (re)starts  the
+     reading  cycle,  i.e.  makes  the first command argument the
+     next one to be read.
+
+     _U_s_a_g_e prints 'Usage: command infostring' onto standard-error
+     and  aborts program execution ('command' stands here for the
+     actual processes' name).
+
+     _A_l_l_A_r_g_s calls _U_s_a_g_e if any command  arguments  are  not  yet
+     read.
+
+     _G_e_t_F_l_a_g and _G_e_t_O_p_t read one flag resp. option from the argu­
+     ment list or return FFAALLSSEE if all of  them  have  been  read.
+     _G_e_t_O_p_t  sets  _p_l_u_s  TTRRUUEE if the actual option is of the kind
+     ++_x_, otherwise FFAALLSSEE.
+
+     _G_e_t_A_r_g reads one arbitrary argument or returns FFAALLSSEE if  all
+     arguments have been read already.
+
+     _F_e_t_c_h_S_t_r_i_n_g, _F_e_t_c_h_I_n_t, _F_e_t_c_h_C_a_r_d, _F_e_t_c_h_O_c_t and _F_e_t_c_h_H_e_x read
+     a value of the specified type.   If  the  selected  argument
+     (part)  is  missing,  is  not  of  the required type or if a
+     numerical value exceeds the range of _n_u_m_b_e_r, _U_s_a_g_e is called
+     implicitly.
+
+     _U_n_g_e_t_O_p_t and _U_n_g_e_t_A_r_g push back one flag/option resp.  argu­
+     ment per call to the list of not yet read command arguments.
+     Note  that  _U_n_g_e_t_O_p_t  is  not able to skip command arguments
+     that have been read using _G_e_t_A_r_g or one of the _F_e_t_c_h_X_X_X pro­
+     cedures.
+
+EEXXAAMMPPLLEE
+     The  following example may illustrate how to use some of the
+     procedures:
+
+     xflag := FALSE;
+     number := 1;
+     string := defaultstring;
+     InitArgs("[-x] [-s string] [-nnn] [file]...");
+     WHILE GetFlag(flag) DO
+        CASE flag OF
+           "x":     xflag := TRUE;
+        |  "s":     FetchString(string);
+        |  "0".."9":
+                    UngetOpt;
+                    FetchCard(number);
+           ELSE  Usage
+        END;
+     END; (*WHILE GetFlag*)
+     WHILE GetArg(filename) DO
+
+
+
+Release 3.0b6Last change: Last change: 25 January 1999           2
+
+
+
+
+
+
+C Library Functions                                  Arguments(3)
+
+
+
+        IF StrCmp(filename,"-") = 0 THEN
+           (* process stdin *)
+        ELSE
+           (* process filename *)
+        END;
+     END; (*WHILE GetArg*)
+
+
+SSEEEE AALLSSOO
+     _A_R_G_C_(_3_), _S_t_r_T_o_N_u_m_(_3_), _S_t_r_i_n_g_s_(_3_), _S_t_r_S_p_e_c_(_3_), _S_t_d_I_O_(_3_)
+
+AAUUTTHHOORR
+     Martin Hasch, University of Ulm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 January 1999           3
+
+
+

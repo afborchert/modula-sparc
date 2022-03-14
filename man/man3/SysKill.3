@@ -1,0 +1,28 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysKill 3 "Ulm's Modula-2 System"
+.SH NAME
+SysKill \- send a signal to a process or a group of processes
+.SH SYNOPSIS
+.Pg
+PROCEDURE Kill(pid: SystemTypes.ProcessId;
+               sig: SystemTypes.Sig) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Kill
+sends \fIsig\fP to the process or process group specified by \fIpid\fP.
+See \fIkill(2)\fP for a more detailed description.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIkill(2)\fP, \fISysSignal(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysKill.3,v 1.1 1997/02/26 09:09:26 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysKill.3,v $
+.\" Revision 1.1  1997/02/26  09:09:26  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

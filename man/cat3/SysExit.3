@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    SysExit(3)
+
+
+
+NNAAMMEE
+     SysExit - terminate process
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Exit(errorCode: CARDINAL);
+
+     PROCEDURE EnterCleanup(p: PROC);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The  call  of _E_x_i_t causes the process to terminate with exit
+     code _e_r_r_o_r_C_o_d_e.  An _e_r_r_o_r_C_o_d_e of 0 indicates  success.   All
+     other  codes  are  interpreted as failure by command shells.
+     _E_n_t_e_r_C_l_e_a_n_u_p causes _p to be  called  on  exiting.   Multiple
+     calls of _E_n_t_e_r_C_l_e_a_n_u_p are possible.  In this case _E_x_i_t calls
+     the cleanup procedures in reverse order  (LIFO).   Recursive
+     calls  of  _E_x_i_t  (by  cleanup procedures) cause _E_x_i_t to exit
+     immediately.
+
+     On return of the main  module  body,  _E_x_i_t  is  called  with
+     _e_r_r_o_r_C_o_d_e 0.  _E_x_i_t is not called on run time error aborts.
+
+SSEEEE AALLSSOO
+     _e_x_i_t_(_2_), _s_h_(_1_)
+
+BBUUGGSS
+     The number of cleanup procedures is limited.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

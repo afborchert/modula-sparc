@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                SystemTypes(3)
+
+
+
+NNAAMMEE
+     SystemTypes - system types and constants
+
+SSYYNNOOPPSSIISS
+     CONST
+        DirSize = 14;
+        MaxOpenFiles = 40;
+
+     CONST
+        (* file control options;
+           arguments of SysFcntl(2) and SysOpen(2) *)
+        rdonly = {};
+        wronly = { 31 };
+        rdwr = { 30 };
+        ndelay = { 29 };
+        append = { 28 };
+        creat = { 23 };
+        trunc = { 22 };
+        excl = { 21 };
+
+     TYPE
+        Sig = (SIGRTI, SIGHUP, SIGINT, SIGQUIT, SIGILL,
+               SIGTRAP, SIGIOT, SIGEMT, SIGFPE, SIGKILL,
+               SIGBUS, SIGSEGV, SIGSYS, SIGPIPE,
+               SIGALRM, SIGTERM, SIGUSR1, SIGUSR2,
+               SIGCLD, SIGPWR);
+
+     TYPE
+        ProcessId = INTEGER; (* ProcessId may be -1 for kill *)
+        TIME = LONGINT;
+        OFF = LONGINT; (* offset/size of files *)
+
+
+DDEESSCCRRIIPPTTIIOONN
+     This  module  defines  some  system  dependent constants and
+     types.  _D_i_r_S_i_z_e defines the maximal file name length  (with­
+     out  path).   _M_a_x_O_p_e_n_F_i_l_e_s  gives the maximal number of open
+     files.  So possibly valid file descriptors range from  0  to
+     _M_a_x_O_p_e_n_F_i_l_e_s-1.   The  file  control  flags  can be given as
+     argument to _S_y_s_O_p_e_n_(_3_) and _S_y_s_F_c_n_t_l_(_3_).  The  signal  number
+     type _S_i_g is used by _S_y_s_S_i_g_n_a_l_(_3_) and _S_y_s_K_i_l_l_(_3_).  Any signal
+     number beyond _S_I_G_T_E_R_M is to be considered system  dependent.
+
+FFIILLEESS
+     Constants and types are derived from:
+     /usr/include/fcntl.h
+     /usr/include/signal.h
+     /usr/include/sys/dir.h
+     /usr/include/sys/param.h
+     /usr/include/sys/types.h
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                SystemTypes(3)
+
+
+
+SSEEEE AALLSSOO
+     _C_a_l_e_n_d_a_r_(_3_), _T_i_m_e_I_O_(_3_), _f_c_n_t_l_(_2_), _o_p_e_n_(_2_), _s_i_g_a_c_t_i_o_n_(_2_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

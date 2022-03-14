@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    SysRead(3)
+
+
+
+NNAAMMEE
+     SysRead - read from a file descriptor
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Read(fd: CARDINAL; ptr: ADDRESS;
+                    VAR bytecount: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _R_e_a_d  reads  up  to  _b_y_t_e_c_o_u_n_t bytes from _f_d and stores them
+     into the memory area pointed to by _p_t_r.  The parameter _b_y_t_e_­
+     _c_o_u_n_t  is  afterwards  set  to  the number of bytes actually
+     read.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failure, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _r_e_a_d_(_2_), _S_y_s_W_r_i_t_e_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

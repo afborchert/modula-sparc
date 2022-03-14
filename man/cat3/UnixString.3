@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                 UnixString(3)
+
+
+
+NNAAMMEE
+     UnixString - auxiliary module for string conversions
+
+SSYYNNOOPPSSIISS
+     CONST BufSiz = 512;
+     TYPE Buffer = ARRAY[0..BufSiz-1] OF CHAR;
+
+     PROCEDURE Copy(VAR buf: Buffer; str: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     UNIX system calls expect null-terminated path names but Mod­
+     ula-2  does  not  guarantee   0C-termination   of   strings.
+     _U_n_i_x_S_t_r_i_n_g is used by all system call interfaces of the Mod­
+     ula-2 library to assure 0C-termination of strings which  are
+     passed  to  the  system  call.  _C_o_p_y copies _s_t_r into _b_u_f and
+     guarantees a 0C-termination of _b_u_f.  If  _s_t_r  does  not  fit
+     into _b_u_f it is silently truncated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

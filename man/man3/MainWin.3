@@ -1,0 +1,81 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH MainWin 3 "local:Borchert"
+.SH NAME
+MainWin \- simple screen operations
+.SH SYNOPSIS
+.Pg
+VAR mainwin: Window;
+VAR lines, columns: CARDINAL;
+VAR Done: BOOLEAN;
+.sp 0.7
+PROCEDURE SetPos(line, column: CARDINAL);
+PROCEDURE GetPos(VAR line, column: CARDINAL);
+.sp 0.7
+PROCEDURE Clear;
+PROCEDURE Flush;
+.sp 0.7
+PROCEDURE WriteString(s: ARRAY OF CHAR);
+PROCEDURE Write(ch: CHAR);
+PROCEDURE WriteLn;
+.sp 0.7
+PROCEDURE Read(VAR ch: CHAR);
+PROCEDURE ReadString(VAR s: ARRAY OF CHAR);
+.sp 0.7
+PROCEDURE WriteInt(i: INTEGER; w: CARDINAL);
+PROCEDURE ReadInt(VAR i: INTEGER);
+.sp 0.7
+PROCEDURE WriteCard(c: CARDINAL; w: CARDINAL);
+PROCEDURE ReadCard(VAR c: CARDINAL);
+.Pe
+.SH DESCRIPTION
+.I MainWin
+bases on
+.I Windows(3)
+and
+.I FtdWin(3)
+and offers some less sophisticated procedures.
+All procedures affect
+.I mainwin
+which is created during initialization.
+The attributes
+.I flushoninput,
+.I echo,
+and
+.I movecursor
+(see Windows(3)) are initially set.
+The number of lines and columns are stored in
+.I lines
+and
+.I columns.
+Cleanup and terminal resetting is done automatically on program termination.
+See \fIWindows(3)\fP and \fIFtdWin(3)\fP for more detailed explanations.
+.PP
+Note that
+.I OpenDevice
+must not called if
+.I MainWin
+is imported.
+Further windows must be created using
+.IR mainwin .
+.SH DIAGNOSTICS
+.I Done
+is set to
+.B FALSE
+on failures.
+.SH "SEE ALSO"
+\fIFtdWin(3)\fP,
+\fIWindows(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: MainWin.3,v 1.2 1997/02/25 17:40:23 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: MainWin.3,v $
+.\" Revision 1.2  1997/02/25  17:40:23  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:20  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

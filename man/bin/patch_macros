@@ -1,0 +1,97 @@
+#!/bin/sh
+#------------------------------------------------------------------------------
+# replace macro section at the beginning with the contents of `macros'
+#------------------------------------------------------------------------------
+
+	name=`basename $0`
+	usage="Usage: $name [-l libdir] [-p pm2libdir] [-m macros] [-r release] manualpage"
+
+	PATH=/usr/5bin:/usr/ucb:/usr/bin:/usr/local/bin
+	export PATH
+
+# defaults
+	macros=macros
+	libdir=/usr/local/lib/modula
+	pm2libdir=/usr/local/lib/pm2
+	release=3.0b6
+
+while [ $# -gt 0 ]
+do	case $1
+	in --)	shift; break
+	;; -l)	shift; libdir="$1"
+	;; -p)  shift; pm2libdir="$1"
+	;; -m)	shift; macros="$1"
+	;; -r)	shift; release="$1"
+	;; -*)	echo 2>&1 "Usage: $usage"; exit 1
+	;; *)	break
+	esac
+	shift
+done
+
+if [ $# -ne 1 ]
+then	echo >&2 "$usage"; exit 1
+fi
+input="$1"; shift
+
+if [ ! -r "$macros" ]
+then	echo >&2 "$name: cannot find $macros"; exit 1
+fi
+
+# generate header line with hints about the necessary preprocessors
+pre=
+if grep '^\.TS' "$input" >/dev/null 2>&1
+then	pre="t$pre"
+fi
+if grep '^\.EQ' "$input" >/dev/null 2>&1
+then	pre="e$pre"
+fi
+if [ "" != "$pre" ]
+then	echo "'"'\" '"$pre"
+fi
+
+sed -n '/^\.TH/q; p' "$input"
+cat $macros
+(	if grep '\$Id:' "$input" >/dev/null
+	then	set `grep '\$Id:' "$input"` >/dev/null; shift
+	else	set ""
+	fi
+	th_line=`grep '^\.TH' "$input"`
+	echo `echo "$th_line" | sed 's/ ".*//'`'\c'
+	# 1st: below centered, 2nd: below left, 3rd: centered header
+	# echo ' "Last change: '"$4"'"\c'
+	{	year=`echo "$4" | awk -F/ '{ print $1 }'`
+		case $year
+		in ??)	year="19$year"
+		esac
+		month=`echo "$4" | awk -F/ '{ print $2 }'`
+		case $month
+		in 01)	month=January
+		;; 02)	month=February
+		;; 03)	month=March
+		;; 04)	month=April
+		;; 05)	month=May
+		;; 06)	month=June
+		;; 07)	month=July
+		;; 08)	month=August
+		;; 09)	month=September
+		;; 10)	month=October
+		;; 11)	month=November
+		;; 12)	month=December
+		esac
+		day=`echo "$4" | awk -F/ '{ print $3 }' | sed 's/^0//'`
+		echo ' "Last change: '"$day $month $year"'"\c'
+	}
+	# echo ' "Release '"$3"'"\c'
+	# echo ' "Release 1.0beta"\c'
+	echo ' "Release '"$release"'"\c'
+	echo ' "Ulm'"'s Modula-2 System"'\c'
+	#if echo "$th_line" | grep ':' >/dev/null 2>/dev/null
+	#then	version=`echo "$th_line" | sed 's/^.*://; s/"//g'`
+	#	echo ": $version\c"
+	#fi
+	echo '"\c'
+	echo
+)
+sed '/^\.SH NAME/,$!d' "$input" |
+sed 's,@LIBDIR@,'"$libdir"',g' |
+sed 's,@PM2LIBDIR@,'"$pm2libdir"',g'

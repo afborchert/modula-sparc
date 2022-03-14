@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                      Menus(3)
+
+
+
+NNAAMMEE
+     Menus - display and execution of menu windows
+
+SSYYNNOOPPSSIISS
+     TYPE Menu;
+
+     VAR Done: BOOLEAN;
+
+     PROCEDURE CreateMenu(VAR menu: Menu; title: ARRAY OF CHAR);
+
+     PROCEDURE AddCommand(menu: Menu;
+                          cmd: ARRAY OF CHAR;
+                          cmdno: CARDINAL);
+     PROCEDURE AddProcedure(menu: Menu;
+                            cmd: ARRAY OF CHAR;
+                            cmdproc: PROC);
+     PROCEDURE AddSubMenu(menu: Menu;
+                          cmd: ARRAY OF CHAR;
+                          submenu: Menu);
+
+     PROCEDURE ExecMenu(menu: Menu; background: Window;
+                        VAR selected: CARDINAL);
+
+     PROCEDURE DisposeMenu(VAR menu: Menu);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _M_e_n_u_s  is  based on _W_i_n_d_o_w_s_(_3_) and allows to create and exe­
+     cute menus.  A menu with headline _t_i_t_l_e is  created  calling
+     _C_r_e_a_t_e_M_e_n_u.   The  headline  may  be  empty.   The resulting
+     parameter _m_e_n_u is used as  reference  on  subsequent  calls.
+     _D_i_s_p_o_s_e_M_e_n_u releases the space allocated with it.
+
+     A  menu  is  constructed  line  by  line  by  calling either
+     _A_d_d_S_u_b_M_e_n_u, _A_d_d_P_r_o_c_e_d_u_r_e, or _A_d_d_C_o_m_m_a_n_d.   The  text  to  be
+     printed on the menu line is given in _c_m_d.  _A_d_d_S_u_b_M_e_n_u allows
+     the construction of hierarchical menus.  The parameter  _s_u_b_­
+     _m_e_n_u must be initialized previously by _C_r_e_a_t_e_M_e_n_u but is not
+     necessarily complete.  So,  recursive  menus  are  possible.
+     _A_d_d_P_r_o_c_e_d_u_r_e  causes  _c_m_d_p_r_o_c to be called if the associated
+     menu line is selected.  After having called _c_m_d_p_r_o_c the user
+     returns  to  the menu point selected previously.  _A_d_d_C_o_m_m_a_n_d
+     causes on selection the complete menu  hierarchy  to  disap­
+     pear.   The  parameter _c_m_d_n_o is then returned in _s_e_l_e_c_t_e_d of
+     _E_x_e_c_M_e_n_u_.
+
+     _E_x_e_c_M_e_n_u creates a window using _N_e_w_W_i_n_d_o_w  (see  _W_i_n_d_o_w_s_(_3_))
+     which  fits  into  _b_a_c_k_g_r_o_u_n_d.  The window is boxed and con­
+     sists of the underlined header line and the lines defined by
+     _A_d_d_S_u_b_M_e_n_u,  _A_d_d_P_r_o_c_e_d_u_r_e,  and _A_d_d_C_o_m_m_a_n_d.  The location of
+     the upper left corner depends on  the  current  position  in
+     _b_a_c_k_g_r_o_u_n_d.  The size of the window depends on the number of
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                      Menus(3)
+
+
+
+     menu lines and the maximum width of the _c_m_d  parameters  and
+     the  headline.   If  the  number  of lines does not fit into
+     _b_a_c_k_g_r_o_u_n_d only a part of the menu is displayed, but  scroll
+     commands  and  a scroll bar enable quick access to the other
+     parts.  _E_x_e_c_M_e_n_u returns when the menu is left,  or  a  menu
+     line  created  by  _A_d_d_C_o_m_m_a_n_d  is  selected.   The resulting
+     parameter _s_e_l_e_c_t_e_d equals 0 if the menu is left.   The  menu
+     must  not  be  changed during running _E_x_e_c_M_e_n_u by the proce­
+     dures given to _A_d_d_P_r_o_c_e_d_u_r_e_.  But it is possible  to  append
+     further menu lines when _E_x_e_c_M_e_n_u returns.  If calls of _E_x_e_c_­
+     _M_e_n_u are  nested  (due  to  calls  of  procedures  given  to
+     _A_d_d_P_r_o_c_e_d_u_r_e)  redisplays  (on  return  of  such procedures)
+     affect the innermost menu hierarchy only.
+
+     Menu selection is done by function keys:  _u_p  and  _d_o_w_n  for
+     movement,  _r_i_g_h_t  for  selection,  and  _l_e_f_t for leaving the
+     menu.  Alternatively the _v_i_(_1_) movement commands ('h',  'j',
+     'k',  and  'l') and the return key for menu selection can be
+     used.  The _v_i_(_1_) commands for fast movement can be  used  on
+     menus with scroll bar as follows:
+
+
+          ^^hhDDaallff ppaaggee ffoorrwwaarrdd
+          ^^ffFFuullll ppaaggee ffoorrwwaarrdd
+          ^^hhUUaallff ppaaggee bbaacckkwwaarrdd
+          ^^ffBBuullll ppaaggee bbaacckkwwaarrdd
+
+DDIIAAGGNNOOSSTTIICCSS
+     _D_o_n_e is set to FFAALLSSEE if _E_x_e_c_M_e_n_u fails.  This is possible if
+     _b_a_c_k_g_r_o_u_n_d has less then four lines or not enough columns.
+
+SSEEEE AALLSSOO
+     _W_i_n_d_o_w_s_(_3_), _v_i_(_1_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

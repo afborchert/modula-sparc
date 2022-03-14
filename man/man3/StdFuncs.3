@@ -1,0 +1,48 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH StdFuncs 3 "local:Borchert"
+.SH NAME
+StdFuncs \- provide standard real valued functions and constants
+.SH SYNOPSIS
+.Pg
+IMPORT StdFuncs;
+.Pe
+.SH DESCRIPTION
+.I StdFuncs
+provides a set of standard functions and constants for
+.IR Functions(3) .
+Importing the module is all that is needed to employ them.
+.LP
+Currently, implemented functions and constants include:
+.TS
+lB lB lB
+lI n l.
+name	arguments	description
+arctan	1	arc tangent function
+exp	1	natural exponential function
+ln	1	natural logarithm function
+sin	1	sine function
+cos	1	cosine function
+sqrt	1	sqare root function
+log10	1	decimal (base 10) logarithm function
+tan	1	tangent function
+log	2	general logarithm function
+pow	2	power function
+pi	\(mi	circle constant (3.14159...)
+e	\(mi	Euler constant (2.71828...)
+.TE
+.SH "SEE ALSO"
+\fIFunctions(3)\fP, \fIMathLib(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: StdFuncs.3,v 1.2 1997/02/25 17:41:56 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: StdFuncs.3,v $
+.\" Revision 1.2  1997/02/25  17:41:56  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/10  17:16:42  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

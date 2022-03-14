@@ -1,0 +1,43 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysLocation 3 "Ulm's Modula-2 System"
+.SH NAME
+SysLocation \- special locations in the address space of the current process
+.SH SYNOPSIS
+.Pg
+VAR ProgramEnd, Etext, Edata, Break, Environment: ADDRESS;
+.Pe
+.SH DESCRIPTION
+.I SysLocation
+exports a set of special locations in the address space of
+the current process which are initialized by the runtime start
+and to be treated as read-only:
+.IP
+.Tb Environment
+.Tp ProgramEnd
+designates the end of the program image during loading
+and equals the initial position of the break (see \fISysBreak(3)\fP).
+.Tp Etext
+points to the beginning of the initialized data segment.
+.Tp Edata
+points to the beginning of the bss segment
+(global variables in Modula-2).
+.Tp Break
+is the current position of the break which is maintained
+by \fISysBreak(3)\fP and \fIStorage(3)\fP
+.Tp Environment
+points to the environment parameters
+which are better accessed by \fIEnvironment(3)\fP.
+.Te
+.SH "SEE ALSO"
+\fIend(3c)\fP, \fIEnvironment(3)\fP, \fIStorage(3)\fP, \fISysBreak(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysLocation.3,v 1.1 1997/02/26 09:23:12 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysLocation.3,v $
+.\" Revision 1.1  1997/02/26  09:23:12  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    Strings(3)
+
+
+
+NNAAMMEE
+     Strings - simple string operations
+
+SSYYNNOOPPSSIISS
+     PROCEDURE StrLen(s: ARRAY OF CHAR) : CARDINAL;
+     PROCEDURE StrCat(VAR s1: ARRAY OF CHAR; s2: ARRAY OF CHAR);
+     PROCEDURE StrCmp(s1, s2: ARRAY OF CHAR) : INTEGER;
+     PROCEDURE StrCpy(VAR s1: ARRAY OF CHAR; s2: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_t_r_i_n_g_s  offers  some  basic string operations for character
+     arrays.  All procedures interpret the first null byte or the
+     end of the array as the end of the string.
+
+     _S_t_r_L_e_n  returns the number of leading non-null characters in
+     _s.
+
+     _S_t_r_C_a_t appends a copy of string _s_2 to the end of string  _s_1.
+     Note  that  the resulting string is silently truncated if it
+     does not fit into _s_1.
+
+     _S_t_r_C_m_p compares its arguments and returns an integer greater
+     than,  equal  to, or less than 0, according as _s_1 is lexico­
+     graphically greater than, equal to, or less than  _s_2.   Note
+     that  the ordering just depends on the ordinal values of the
+     characters and not on local conventions.
+
+     _S_t_r_C_p_y copies _s_2 to _s_1.  The result string  _s_1  is  silently
+     truncated if _s_2 does not fit into _s_1.
+
+SSEEEE AALLSSOO
+     _C_o_n_v_e_r_s_i_o_n_s_(_3_)   number to string conversions
+     _S_t_r_S_p_e_c_(_3_)       more sophisticated string operations
+     _S_t_r_T_o_N_u_m_(_3_)      string to number conversions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 17 March 1997            1
+
+
+

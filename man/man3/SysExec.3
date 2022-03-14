@@ -1,0 +1,40 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysExec 3 "Ulm's Modula-2 System"
+.SH NAME
+SysExec \- replace execution image
+.SH SYNOPSIS
+.Pg
+PROCEDURE Exec(name: ARRAY OF CHAR; argv: ADDRESS);
+PROCEDURE Exece(name: ARRAY OF CHAR; argv, envp: ADDRESS);
+.Pe
+.SH DESCRIPTION
+.I Exec
+and
+.I Exece
+replace the current image of the process by that of the
+executable file specified by \fIname\fP.
+On success, these calls will not return.
+The argument vector \fIargv\fP is a pointer to a
+null-terminated (not necessarily \fBNIL\fP-terminated!)
+list of pointers which point to the argument strings.
+.I Exec
+passes the inherited environment parameters
+(see \fIEnvironment(3)\fP)
+while
+.I Exece
+takes \fIenvp\fP instead.
+.SH DIAGNOSTICS
+On failure, these procedures return and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIexec(2)\fP, \fISysFork(3)\fP, \fISysWait(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysExec.3,v 1.1 1997/02/26 08:43:28 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysExec.3,v $
+.\" Revision 1.1  1997/02/26  08:43:28  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

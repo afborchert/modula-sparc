@@ -1,0 +1,30 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysSetuid 3 "Ulm's Modula-2 System"
+.SH NAME
+SysSetuid \- set user and group IDs
+.SH SYNOPSIS
+.Pg
+PROCEDURE Setuid(uid: CARDINAL) : BOOLEAN;
+PROCEDURE Setgid(gid: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Setuid
+and
+.I Setgid
+allow to set the user and group IDs.
+For a detailed explanation see \fIsetuid(2)\fP.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIsetuid(2)\fP, \fISysGetuid(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysSetuid.3,v 1.1 1997/02/26 10:29:24 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysSetuid.3,v $
+.\" Revision 1.1  1997/02/26  10:29:24  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

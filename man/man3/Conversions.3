@@ -1,0 +1,47 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Conversions 3 "local:Borchert"
+.SH NAME
+Conversions \- number to string conversions
+.SH SYNOPSIS
+.Pg
+PROCEDURE ConvertOctal(num, len: CARDINAL; VAR str: ARRAY OF CHAR);
+PROCEDURE ConvertHex(num, len: CARDINAL; VAR str: ARRAY OF CHAR);
+PROCEDURE ConvertCardinal(num, len: CARDINAL; VAR str: ARRAY OF CHAR);
+PROCEDURE ConvertInteger(num: INTEGER; len: CARDINAL;
+                         VAR str: ARRAY OF CHAR); 
+.Pe
+.SH DESCRIPTION
+All conversion routines
+convert the number
+.I num
+to a string
+with at least
+.I n
+characters.
+If
+.I n
+is greater than the number of digits needed,
+blanks are added preceding the number.
+The resulting string is returned in
+.IR str .
+.SH AUTHOR
+Leo Geissmann, ETH Z\*urich,
+.br
+manual page and some minor revisions are due to Andreas Borchert
+.\" ---------------------------------------------------------------------------
+.\" $Id: Conversions.3,v 1.3 1997/02/25 17:38:33 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Conversions.3,v $
+.\" Revision 1.3  1997/02/25  17:38:33  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.2  1996/12/11  15:37:48  martin
+.\" file name corrected
+.\"
+.\" Revision 1.1  1996/12/04  18:19:06  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

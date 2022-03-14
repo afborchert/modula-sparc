@@ -1,0 +1,42 @@
+#!/bin/sh
+#------------------------------------------------------------------------------
+# update SysConf
+# afb 2/97
+#------------------------------------------------------------------------------
+
+source=SysConf.m2
+name=`basename $0`
+
+if [ $# -ne 2 ]
+then	echo >&2 "Usage: $name libdir release"; exit 1
+fi
+libdir="$1"; shift
+release="$1"; shift
+
+if [ ! -w $source ]
+then	echo >&2 "$name: cannot update $source"; exit 1
+fi
+
+tmpfile=/tmp/$name.$$
+
+awk_script='
+BEGIN {
+   part = 0
+   params["libdir"] = "'"$libdir"'"
+   params["release"] = "'"$release"'"
+   }
+/end of parameter section/ { part = 2 }
+   {
+      if (part == 1 && $1 in params) {
+	 printf "      %s = \"%s\";\n", $1, params[$1]
+      } else {
+	 print
+      }
+   }
+/following parameters are updated automatically/ { part = 1 }
+'
+
+nawk "$awk_script" <"$source" >"$tmpfile" &&
+cp "$source" "$source".orig &&
+cp "$tmpfile" "$source"
+rm -f "$tmpfile"

@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                               FunctionKeys(3)
+
+
+
+NNAAMMEE
+     FunctionKeys - scan input for function keys
+
+SSYYNNOOPPSSIISS
+     FROM StdIO IMPORT FILE;
+     FROM TermInfo IMPORT Term;
+
+     TYPE FunctionKey =
+           (nokey,   (* no function key *)
+            backspace,
+            catab,   (* clear-all-tabs *)
+            clear,   (* clear screen or erase *)
+            ctab,    (* clear tab *)
+            dc,      (* delete character *)
+            dl,      (* delete line *)
+            down,    (* down arrow key *)
+            eic,     (* sent by rmir or smir in insert mode *)
+            eol,     (* clear-to-end-of-line *)
+            eos,     (* clear-to-end-of-screen *)
+            f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10,
+            home,
+            ic,      (* ins char/enter ins mode key *)
+            il,      (* insert line *)
+            left,    (* left arrow *)
+            ll,      (* home-down *)
+            npage,   (* next page *)
+            right,   (* right arrow *)
+            sf,      (* scroll-forward *)
+            sr,      (* scroll-backward *)
+            stab,    (* set-tab *)
+            up);     (* up arrow *)
+     TYPE FunctionKeySet = SET OF FunctionKey;
+     TYPE CharSet = SET OF CHAR;
+     TYPE FKInfo;
+
+     PROCEDURE OpenFKInfo(VAR fki: FKInfo; VAR t: Term;
+                          baudrate: CARDINAL;
+                          in, out: FILE);
+     PROCEDURE CloseFKInfo(VAR fki: FKInfo);
+     PROCEDURE Available(fki: FKInfo; VAR fkeys: FunctionKeySet);
+     PROCEDURE StartSet(fki: FKInfo; VAR startset: CharSet);
+     PROCEDURE EnableFunctionKeys(fki: FKInfo);
+     PROCEDURE DisableFunctionKeys(fki: FKInfo);
+     PROCEDURE Read(fki: FKInfo; timeout: BOOLEAN;
+                    VAR fkey: FunctionKey; VAR ch: CHAR) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _F_u_n_c_t_i_o_n_K_e_y_s  allows  to process function keys as defined in
+     the _t_e_r_m_i_n_f_o_(_4_) database.  _O_p_e_n_F_K_I_n_f_o associates _f_k_i  (which
+     is  to be given as reference on further calls) with a termi­
+     nal  description  and  file  pointers  (_o_u_t   is   used   by
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                               FunctionKeys(3)
+
+
+
+     _E_n_a_b_l_e_F_u_n_c_t_i_o_n_K_e_y_s and _D_i_s_a_b_l_e_F_u_n_c_t_i_o_n_K_e_y_s and _i_n is used by
+     _R_e_a_d).  Padding depends on _b_a_u_d_r_a_t_e.  If _b_a_u_d_r_a_t_e is zero no
+     padding  will  be  done.  The terminal description _t must be
+     non-local because _F_u_n_c_t_i_o_n_K_e_y_s does not copy it but keeps  a
+     pointer  to  it.   The  space  associated  with  _f_k_i  can be
+     released by calling _C_l_o_s_e_F_K_I_n_f_o.
+
+     _A_v_a_i_l_a_b_l_e  returns  the  set  of  supported  function  keys.
+     _S_t_a_r_t_S_e_t  returns  the  set of characters function key codes
+     start with.  This is useful to decide whether  timeouts  are
+     needed  or not.  Single character function key codes are not
+     included in this set.
+
+     _E_n_a_b_l_e_F_u_n_c_t_i_o_n_K_e_y_s and _D_i_s_a_b_l_e_F_u_n_c_t_i_o_n_K_e_y_s output  code  (if
+     defined  in  the  terminfo  database)  to enable, or disable
+     respectively, the generation of function key codes.
+
+     _R_e_a_d reads subsequently characters from input until a  func­
+     tion  key  is  encoded, or the input read so far cannot be a
+     function key, or if _t_i_m_e_o_u_t is set and a timeout  (one  sec­
+     ond)  occurred.   If no function key has been found, _f_k_e_y is
+     set to _n_o_k_e_y and the first character read is returned in _c_h.
+     Remaining  characters  are  returned  in  subsequent  calls.
+     Function keys are returned in _f_k_e_y.  Single character  func­
+     tion  key codes are returned in _f_k_e_y and _c_h.  Else _c_h is set
+     to 0C.
+
+SSEEEE AALLSSOO
+     _T_e_r_m_I_n_f_o_(_3_), _W_i_n_d_o_w_s_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

@@ -1,0 +1,26 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysUnlink 3 "Ulm's Modula-2 System"
+.SH NAME
+SysUnlink \- remove a link to a file
+.SH SYNOPSIS
+.Pg
+PROCEDURE Unlink(name: ARRAY OF CHAR) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Unlink
+removes the named link to a file.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIunlink(2)\fP, \fIFiles(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysUnlink.3,v 1.1 1997/02/26 10:51:02 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysUnlink.3,v $
+.\" Revision 1.1  1997/02/26  10:51:02  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

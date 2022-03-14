@@ -1,0 +1,28 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysWait 3 "Ulm's Modula-2 System"
+.SH NAME
+SysWait \- wait for a child process to terminate
+.SH SYNOPSIS
+.Pg
+PROCEDURE Wait(VAR pid, status: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Wait
+blocks the current process until the next child process terminates
+and returns its process ID in \fIpid\fP and its
+termination status in \fIstatus\fP.
+A more detailed explanation is given by \fIwait(2)\fP.
+.SH "SEE ALSO"
+\fIwait(2)\fP, \fISysExec(3)\fP, \fISysExit(3)\fP, \fISysFork(3)\fP
+.SH BUGS
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysWait.3,v 1.1 1997/02/26 10:54:25 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysWait.3,v $
+.\" Revision 1.1  1997/02/26  10:54:25  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

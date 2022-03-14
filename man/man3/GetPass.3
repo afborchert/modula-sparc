@@ -1,0 +1,41 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH GetPass 3 "local:Borchert"
+.SH NAME
+GetPass \- read a password
+.SH SYNOPSIS
+.Pg
+PROCEDURE GetPass(prompt: ARRAY OF CHAR; VAR passwd: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+If the
+.I stdin
+is a terminal,
+.I Getpass
+reads a passwd from it;
+otherwise,
+the file \fI/dev/tty\fP is opened for this purpose.
+The string
+.I prompt
+is prompted
+before the
+password
+is read into the array
+.IR passwd .
+Normal echoing is disabled.
+Instead, for each typed character, some random garbage is echoed.
+.SH FILES
+\fI/dev/tty\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: GetPass.3,v 1.2 1997/02/25 17:39:54 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: GetPass.3,v $
+.\" Revision 1.2  1997/02/25  17:39:54  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:16  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

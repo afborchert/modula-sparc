@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                          F(3)
+
+
+
+NNAAMMEE
+     F - formatted output to files
+
+SSYYNNOOPPSSIISS
+     (* diagnostic *)
+     PROCEDURE done () : BOOLEAN;
+     PROCEDURE success() : FmtExitCode;
+
+     (* error handling *)
+     PROCEDURE setmode (mode : BITSET);
+     PROCEDURE getmode (VAR mode : BITSET);
+
+     (* output *)
+     PROCEDURE printf0 (file : FILE; fmt : ARRAY OF CHAR);
+     PROCEDURE printf1 (file : FILE; fmt : ARRAY OF CHAR; i1 : ARRAY OF BYTE);
+     PROCEDURE printf2 (file : FILE; fmt : ARRAY OF CHAR; i1,i2 : ARRAY OF BYTE);
+     (* ... *)
+     PROCEDURE printf8 (file : FILE; fmt : ARRAY OF CHAR;
+        i1, i2, i3, i4, i5, i6, i7 , i8 : ARRAY OF BYTE);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _p_r_i_n_t_f_0  ..  _p_r_i_n_t_f_8  convert  their  parameters  _i_1 ..  _i_8,
+     instantiate them into the format string _f_m_t  and  write  the
+     resulting  text to the file _f_i_l_e _.  Refer to _P_r_i_n_t_f_(_3_) for a
+     detailed description of formatting capabilities.
+
+     The output  to  _f_i_l_e  is  echoed  after  suitable  calls  of
+     _L_o_n_g_S_t_r_i_n_g_s_._E_c_h_o.
+
+     _d_o_n_e returns TTRRUUEE if the last call of _p_r_i_n_t_f_0 .. _p_r_i_n_t_f_8 was
+     successful, more detailed information  can  be  obtained  by
+     _s_u_c_c_e_s_s (_F_m_t_E_x_i_t_C_o_d_e is imported from _P_r_i_n_t_f).
+
+     _s_e_t_m_o_d_e  defines  a new error handling mode _m_o_d_e which is by
+     default set to _P_r_i_n_t_f_._D_e_f_a_u_l_t.  _g_e_t_m_o_d_e yields  the  current
+     mode.
+
+DDIIAAGGNNOOSSTTIICCSS
+     Diagnostic  is  unnecessary  unless  default  error handling
+     strategy has been explicitly  modified  by  prior  calls  of
+     _s_e_t_m_o_d_e.  See _P_r_i_n_t_f_(_3_) for more details.
+
+     Besides  for  reasons  of illegal format strings, _p_r_i_n_t_f_1 ..
+     _p_r_i_n_t_f_8 will fail if _f_i_l_e  cannot  be  written  (error  code
+     _C_a_n_n_o_t_W_r_i_t_e_F_i_l_e).
+
+     Error  messages  issued  by _F will contain information about
+     the their reason (including a system message  if  available)
+     and the affected procedure call:
+
+          [fatal] F.printf0(...,"Hallo.0);
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                          F(3)
+
+
+
+                  Bad file number: cannot write to file.  [a.out]
+          Exit code 202. Stop.
+
+SSEEEE AALLSSOO
+     _P_r_i_n_t_f_(_3_), _S_t_d_I_O_(_3_), _L_o_n_g_S_t_r_i_n_g_s_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

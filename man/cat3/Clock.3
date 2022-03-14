@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                      Clock(3)
+
+
+
+NNAAMMEE
+     Clock - report real and CPU time used
+
+SSYYNNOOPPSSIISS
+     CONST UnitsPerSecond = 100;
+
+     PROCEDURE RealTime(reset: BOOLEAN): CARDINAL;
+     PROCEDURE CPUTime (reset: BOOLEAN): CARDINAL;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _U_n_i_t_s_P_e_r_S_e_c_o_n_d  stands for the local clock resolution, which
+     can vary from system to system.
+
+     _R_e_a_l_T_i_m_e and _C_P_U_T_i_m_e return the  real,  resp.  CPU  time  in
+     units  elapsed  since  the  start  of the current process or
+     since the last call with argument TTRRUUEE..  They work  indepen­
+     dently  from  each other. Note that after each MMAAXX((CCAARRDDIINNAALL))
+     units a wrap-around will happen.
+
+SSEEEE AALLSSOO
+     _t_i_m_e_s_(_2_)
+
+AAUUTTHHOORR
+     Martin Hasch, University of Ulm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

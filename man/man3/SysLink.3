@@ -1,0 +1,28 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysLink 3 "Ulm's Modula-2 System"
+.SH NAME
+SysLink \- create a hard link to a file
+.SH SYNOPSIS
+.Pg
+PROCEDURE Link(name1, name2: ARRAY OF CHAR) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Link
+creates a hard link named \fIname2\fP
+to the existing file \fIname1\fP.
+See \fIlink(2)\fP for more details.
+.SH DIAGNOSTICS
+On failure, \fBFALSE\fP is returned and \fIErrno.errno\fP is set.
+.SH "SEE ALSO"
+\fIlink(2)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysLink.3,v 1.1 1997/02/26 09:11:44 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysLink.3,v $
+.\" Revision 1.1  1997/02/26  09:11:44  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

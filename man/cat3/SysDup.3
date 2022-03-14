@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                     SysDup(3)
+
+
+
+NNAAMMEE
+     SysDup - duplicate an open file descriptor
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Dup(fd: CARDINAL; VAR newfd: CARDINAL) : BOOLEAN;
+     PROCEDURE Dup2(fd, newfd: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     A  duplicated file descriptor shares all properties with the
+     original file descriptor and  works  as  alias.   While  _D_u_p
+     returns  the lowest file descriptor available in _n_e_w_f_d, _D_u_p_2
+     enforces _n_e_w_f_d as alias (if _n_e_w_f_d  was  open  it  is  closed
+     first).
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failures, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _d_u_p_(_2_), _f_c_n_t_l_(_2_), _S_y_s_F_c_n_t_l_(_3_)
+
+HHIISSTTOORRYY
+     _D_u_p_2  was  a native system call on UNIX Edition VII and BSD-
+     systems but may be implemented on base of _f_c_n_t_l_(_2_)  on  UNIX
+     System V.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

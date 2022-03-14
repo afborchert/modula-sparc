@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                    TermCap(3)
+
+
+
+NNAAMMEE
+     TermCap - interface to terminal capability data base
+
+SSYYNNOOPPSSIISS
+     TYPE OutProc = PROCEDURE (CHAR);
+     TYPE DelayProc = PROCEDURE (CARDINAL);
+     TYPE Term = RECORD (* ... *) END;
+
+     PROCEDURE SetupTerm(tname: ARRAY OF CHAR;
+                         VAR tinfo: Term) : BOOLEAN;
+     PROCEDURE Tparm(VAR out: ARRAY OF CHAR;
+                     fmt: ARRAY OF CHAR);
+     PROCEDURE Tparm1(VAR out: ARRAY OF CHAR;
+                      fmt: ARRAY OF CHAR;
+                      arg1: ARRAY OF BYTE);
+     PROCEDURE Tputs(str: ARRAY OF CHAR; affcnt: CARDINAL;
+                     outc: OutProc);
+     PROCEDURE TputsDelay(str: ARRAY OF CHAR; affcnt: CARDINAL;
+                          outc: OutProc; delay: DelayProc);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _T_e_r_m_C_a_p  allows  to access the termcap database as described
+     in _t_e_r_m_c_a_p_(_5_).  The routines  are  similar  to  the  termcap
+     level  routines of _c_u_r_s_e_s_(_3_V_) but no output is generated nor
+     any _i_o_c_t_l-calls are done.  This allows _T_e_r_m_C_a_p to  work  for
+     more than one terminal at a time.
+
+     _S_e_t_u_p_T_e_r_m  looks  for  a  terminal description for _t_n_a_m_e (an
+     empty string causes the environment  parameter  TTEERRMM  to  be
+     taken).   On  success  _t_i_n_f_o is filled and TTRRUUEE is returned.
+     Failures result from unknown terminals or corrupted  termcap
+     database entries.
+
+     The   type  _T_e_r_m  is  generated  from  _/_u_s_r_/_e_t_c_/_t_e_r_m_c_a_p  and
+     _w_i_n_/_m_i_s_c_/_t_e_r_m.  The components for which exist a  long  name
+     in  _w_i_n_/_m_i_s_c_/_t_e_r_m,  start with an upper case letter.  Under­
+     lines followed by lower case letters are replaced  by  upper
+     case  (e.g. _c_u_r_s_o_r___a_d_d_r_e_s_s becomes _C_u_r_s_o_r_A_d_d_r_e_s_s).  The oth­
+     ers start with 'T' followed by the two character code of the
+     capability (see termcap(5)).  Capabilities are of three dif­
+     ferent types: _S_t_r_i_n_g (fixed length character  array),  IINNTTEE­­
+     GGEERR,  and  BBOOOOLLEEAANN.   Capabilities  in  _T_e_r_m  which  are not
+     defined  in  the  database  are  set  accordingly  to  empty
+     strings, -1, and FFAALLSSEE.
+
+     _T_p_a_r_m_,  _T_p_a_r_m_1_,  _._._.   are used to decode the capability _f_m_t
+     and to instantiate the parameters into _o_u_t.  Delay  informa­
+     tion still remains in _o_u_t.  These routines abort with a mes­
+     sage on _S_t_d_I_O_._s_t_d_e_r_r on errors in _f_m_t or on too few  parame­
+     ters.
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                    TermCap(3)
+
+
+
+     _T_p_u_t_s prints _s_t_r using _o_u_t_c and interpretes the delay infor­
+     mation which  sometimes  depends  on  the  number  of  lines
+     affected  _a_f_f_c_n_t  (give  1  if not applicable).  Because the
+     baud-rate is not known no padding will be done.  Instead,  a
+     busy-loop  with system calls (resolution see _C_l_o_c_k_._U_n_i_t_s_P_e_r_­
+     _S_e_c_o_n_d) does the work.
+
+     _T_p_u_t_s_D_e_l_a_y works like _T_p_u_t_s but calls _d_e_l_a_y if delay  infor­
+     mations are found.  The delay time is given in tenth of mil­
+     liseconds.
+
+CCAAVVEEAATT
+     This module is provided on older BSD-systems only.
+
+SSEEEE AALLSSOO
+     _c_u_r_s_e_s_(_3_V_), _t_e_r_m_i_n_f_o_(_5_)
+
+AAUUTTHHOORR
+     Harald Ruess
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

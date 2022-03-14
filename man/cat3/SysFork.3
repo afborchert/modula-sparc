@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    SysFork(3)
+
+
+
+NNAAMMEE
+     SysFork - create a new process
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Fork(VAR pid: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _F_o_r_k spawns off a new process which inherits many properties
+     from the parent process (see _f_o_r_k_(_2_) for a detailed descrip­
+     tion).  On success, _F_o_r_k returns TTRRUUEE in both processes, and
+     _p_i_d is set to 00 in the child process and set to the  process
+     id of the child in the parent process.
+
+DDIIAAGGNNOOSSTTIICCSS
+     On failure, FFAALLSSEE is returned and _E_r_r_n_o_._e_r_r_n_o is set.
+
+SSEEEE AALLSSOO
+     _f_o_r_k_(_2_), _S_y_s_E_x_e_c_(_3_), _S_y_s_W_a_i_t_(_3_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+

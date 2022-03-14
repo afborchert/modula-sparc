@@ -1,0 +1,121 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH S 3 "local:Stanglow"
+.ds iN "\f2i1\fP\ \&.\&. \f2i8\fP
+.SH NAME
+S \- formatted output to strings
+.SH SYNOPSIS
+.Pg
+(* diagnostic *)
+PROCEDURE done () : BOOLEAN;
+PROCEDURE success() : FmtExitCode;
+.sp 0.7
+(* error handling *)
+PROCEDURE setmode (mode : BITSET);
+PROCEDURE getmode (VAR mode : BITSET);
+.sp 0.7
+(* output *)
+PROCEDURE printf0 (VAR string : ARRAY OF CHAR; fmt : ARRAY OF CHAR);
+PROCEDURE printf1 (VAR string : ARRAY OF CHAR; fmt : ARRAY OF CHAR; i1 : ARRAY OF BYTE);
+PROCEDURE printf2 (VAR string : ARRAY OF CHAR; fmt : ARRAY OF CHAR; i1,i2 : ARRAY OF BYTE);
+.sp 0.3
+(* ... *)
+.sp 0.3
+PROCEDURE printf8 (VAR string : ARRAY OF CHAR;
+   fmt : ARRAY OF CHAR; i1, i2, i3, i4, i5,
+   i6, i7 , i8 : ARRAY OF BYTE);
+.Pe
+.SH DESCRIPTION
+.I printf0
+\&..\&
+.I printf8
+convert their parameters \*(iN,
+instantiate them into the format string
+.I fmt
+and write the resulting text into
+.IR string .
+A null byte is appended if
+.I string
+is large enough.
+Refer to
+.I Printf(3)
+for a detailed description of formatting
+capabilities.
+.LP
+.I done
+returns
+.B TRUE
+if the
+last call of
+.I printf0
+\&..\&
+.I printf8
+was successful,
+more detailed information
+can be obtained
+by
+.I success
+.RI ( FmtExitCode
+is imported from
+.IR Printf(3) ).
+.LP
+.I setmode
+defines a new error handling mode
+.I mode
+which is by default
+set to
+.IR Printf.Default .
+.I getmode
+yields the current mode.
+.SH DIAGNOSTICS
+Diagnostic is unnecessary
+unless default
+error handling strategy has been explicitly
+modified
+by prior calls
+of
+.IR setmode \&.
+See
+.I Printf(3)
+for more details.
+.LP
+Besides for reasons of illegal format
+strings,
+.I printf1
+\&.\&.
+.I printf8
+will fail 
+if
+.I string
+is too small
+(error code
+.BR StringTooSmall ).
+.LP
+Error messages issued by
+.I S
+will contain information
+about their
+reason and the affected procedure call:
+.IP
+.DS
+[fatal] S.printf0(...,"Hallo.");
+        Illegal parameter values: string too small.
+[a.out] Exit code 203. Stop.
+.DE
+.SH "SEE ALSO"
+.I Printf(3)
+.SH AUTHOR
+Werner Stanglow
+.\" ---------------------------------------------------------------------------
+.\" $Id: S.3,v 1.2 1997/02/25 17:41:40 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: S.3,v $
+.\" Revision 1.2  1997/02/25  17:41:40  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:28  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

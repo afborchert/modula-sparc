@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                   SysAlarm(3)
+
+
+
+NNAAMMEE
+     SysAlarm - set the process alarm clock
+
+SSYYNNOOPPSSIISS
+     VAR previous: CARDINAL; (* previous amount *)
+
+     PROCEDURE Alarm(sec: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _A_l_a_r_m  causes the signal _S_y_s_t_e_m_T_y_p_e_s_._S_I_G_A_L_R_M to be delivered
+     in _s_e_c seconds.  The previous setting  of  the  alarm  clock
+     (i.e.  the remaining time in seconds) is stored in _p_r_e_v_i_o_u_s.
+
+DDIIAAGGNNOOSSTTIICCSS
+     Despite the return type of BBOOOOLLEEAANN, _A_l_a_r_m is not expected to
+     fail.
+
+SSEEEE AALLSSOO
+     _a_l_a_r_m_(_2_)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

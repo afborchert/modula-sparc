@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                    Archive(3)
+
+
+
+NNAAMMEE
+     Archive - reading archive files
+
+SSYYNNOOPPSSIISS
+     FROM SystemTypes IMPORT TIME, OFF;
+
+     CONST NameLength = 14;
+     TYPE AFILE;
+     TYPE FileName = ARRAY[0..NameLength-1] OF CHAR;
+     TYPE AStat =
+           RECORD
+              name: FileName;
+              uid, gid: CARDINAL;
+              date: TIME;
+              size: OFF;
+              mode: BITSET;
+           END;
+
+     PROCEDURE ArchiveOpen(VAR a: AFILE; archive: ARRAY OF CHAR;
+                           filename: ARRAY OF CHAR) : BOOLEAN;
+     PROCEDURE ArchiveReopen(a: AFILE;
+                             filename: ARRAY OF CHAR) : BOOLEAN;
+     PROCEDURE ArchiveClose(a: AFILE);
+     PROCEDURE ArchiveRead(a: AFILE; VAR ch: CHAR) : BOOLEAN;
+     PROCEDURE ArchiveStat(a: AFILE; VAR buf: AStat);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _A_r_c_h_i_v_e  offers  a read-only interface to archives generated
+     on System-V and BSD systems.  Note that there  is  currently
+     no  support  for  newer  archives  with file names beyond 14
+     characters in length.
+
+     _A_r_c_h_i_v_e_O_p_e_n opens the file _f_i_l_e_n_a_m_e archived in the  archive
+     _a_r_c_h_i_v_e  for reading.  _A identifies the stream in subsequent
+     operations.
+
+     _A_r_c_h_i_v_e_R_e_o_p_e_n searches for the file _f_i_l_e_n_a_m_e in the  archive
+     of _a.
+
+     _A_r_c_h_i_v_e_C_l_o_s_e closes the opened stream _a.
+
+     _A_r_c_h_i_v_e_R_e_a_d  stores  a single character of the stream _a into
+     _c_h and returns FFAALLSSEE on end of file.
+
+     _A_r_c_h_i_v_e_S_t_a_t stores the status  information  of  the  archive
+     file referenced by _a into the status buffer _b_u_f.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _A_r_c_h_i_v_e_O_p_e_n  returns  FFAALLSSEE  if  the  archive file cannot be
+     opened for reading, if _a_r_c_h_i_v_e isn't a archive file,  or  if
+     _f_i_l_e_n_a_m_e  cannot be found in _a_r_c_h_i_v_e.  _A_r_c_h_i_v_e_R_e_o_p_e_n returns
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                    Archive(3)
+
+
+
+     FFAALLSSEE if _f_i_l_e_n_a_m_e cannot be found.
+
+SSEEEE AALLSSOO
+     _am_ro_(r_1e_)_,about archives
+     _Sm_yo_sd_tu_el_me_T_yS_py_es_st_(e_3m_)Types
+
+BBUUGGSS
+     Newer archives with long file names are not supported yet.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

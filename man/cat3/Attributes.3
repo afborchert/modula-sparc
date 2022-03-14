@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                 Attributes(3)
+
+
+
+NNAAMMEE
+     Attributes - set terminal display attributes
+
+SSYYNNOOPPSSIISS
+     TYPE Attribute = (standout, underline, reverse, blink,
+                       dim, bold, blank, protect, alternate);
+     TYPE AttributeSet = SET OF Attribute;
+     TYPE AttrInfo;
+
+     VAR Done: BOOLEAN;
+
+     PROCEDURE OpenAttrInfo(VAR atinfo: AttrInfo;
+                            VAR tinfo: Term;
+                            baudrate: CARDINAL;
+                            out: FILE);
+     PROCEDURE CloseAttrInfo(VAR atinfo: AttrInfo);
+     PROCEDURE AvailableAttributes(atinfo: AttrInfo;
+                                   VAR atset: AttributeSet);
+     PROCEDURE SetAttribute(atinfo: AttrInfo; at: Attribute);
+     PROCEDURE SetAttributes(atinfo: AttrInfo; atset: AttributeSet);
+     PROCEDURE ResetAttribute(atinfo: AttrInfo; at: Attribute);
+     PROCEDURE ResetAttributes(atinfo: AttrInfo);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _A_t_t_r_i_b_u_t_e_s  allows to set display attributes on terminals as
+     defined in the _t_e_r_m_i_n_f_o_(_4_) database.   _O_p_e_n_A_t_t_r_I_n_f_o  associ­
+     ates  _a_t_i_n_f_o  (which  is to be given as reference on further
+     calls) with  a  terminal  description  and  an  output  file
+     pointer.   Padding depends on _b_a_u_d_r_a_t_e_.  If _b_a_u_d_r_a_t_e is zero
+     no padding will be done.   The  terminal  description  _t_i_n_f_o
+     must  be  non-local  because _A_t_t_r_i_b_u_t_e_s does not copy it but
+     keeps a pointer to it.  The space associated with _a_t_i_n_f_o can
+     be  released  by calling _C_l_o_s_e_A_t_t_r_I_n_f_o_.  _A_v_a_i_l_a_b_l_e_A_t_t_r_i_b_u_t_e_s
+     returns the set of supported attributes.
+
+     _S_e_t_A_t_t_r_i_b_u_t_e enters  the  given  display  mode.   Characters
+     written  in  the  following  are printed in this mode.  This
+     mode is potentially left in case of cursor movements or even
+     on  going  to the next line.  Multiple calls of _S_e_t_A_t_t_r_i_b_u_t_e
+     can affect modes set earlier.  _S_e_t_A_t_t_r_i_b_u_t_e_s should be  used
+     instead.   _R_e_s_e_t_A_t_t_r_i_b_u_t_e  exits the display mode previously
+     entered by _S_e_t_A_t_t_r_i_b_u_t_e_.  _S_e_t_A_t_t_r_i_b_u_t_e_s allows to  set  sev­
+     eral  modes  simultaneously.  But this does not work well on
+     every terminal.  _R_e_s_e_t_A_t_t_r_i_b_u_t_e_s restores the terminal to  a
+     normal state without any display attributes set.
+
+SSEEEE AALLSSOO
+     _T_e_r_m_I_n_f_o_(_3_)   interface to the terminfo(4) database
+     _t_e_r_m_i_n_f_o_(_4_)   terminfo database
+     _W_i_n_d_o_w_s_(_3_)    high-level interface to attributes
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                 Attributes(3)
+
+
+
+BBUUGGSS
+     Some terminals code display modes in one or more extra char­
+     acters (represented as blanks on the screen).  The number of
+     extra  characters  used  by  these  terminals  is  found  in
+     _t_i_n_f_o_^_._M_a_g_i_c_C_o_o_k_i_e_G_l_i_t_c_h_.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                  RealInOut(3)
+
+
+
+NNAAMMEE
+     RealInOut - i/o with real numbers
+
+SSYYNNOOPPSSIISS
+     FROM StdIO IMPORT FILE;
+
+     VAR Done: BOOLEAN;
+
+     PROCEDURE ReadReal(VAR x: REAL);
+     PROCEDURE FreadReal(f: FILE; VAR x: REAL);
+     PROCEDURE WriteReal(x: REAL; n: CARDINAL);
+     PROCEDURE FwriteReal(f: FILE; x: REAL; n: CARDINAL);
+     PROCEDURE WriteFloat(x: REAL; pd: CARDINAL; dp: CARDINAL);
+     PROCEDURE FwriteFloat(f: FILE; x: REAL;
+                           pd: CARDINAL; dp: CARDINAL);
+     PROCEDURE WriteRealOct(x: REAL);
+     PROCEDURE FwriteRealOct(f: FILE; x: REAL);
+     PROCEDURE WriteRealHex(x: REAL);
+     PROCEDURE FwriteRealHex(f: FILE; x: REAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _R_e_a_d_R_e_a_l,  _F_r_e_a_d_R_e_a_l read a real number _x from _S_t_d_I_O_._s_t_d_i_n /
+     _f according to following syntax:
+
+     ["+" | "-"] digit { digit } ["." digit { digit } ]
+     ["E" ["+" | "-"] digit [digit] ]
+
+     At most 16 digits, besides leading zeroes, are  significant.
+     Maximum  exponent  is  76.  Input terminates with a blank or
+     any control character.
+
+     _W_r_i_t_e_R_e_a_l, _F_w_r_i_t_e_R_e_a_l write _x using _n characters.   If  less
+     than _n characters are needed, leading blanks are inserted.
+
+     _W_r_i_t_e_F_l_o_a_t,  _F_w_r_i_t_e_F_l_o_a_t  write  _x  in  fixed point notation
+     using _p_d digits in front of  decimal  point  and  _d_p  digits
+     behind  decimal  point.   If less than _p_d digits are needed,
+     leading blanks are inserted.
+
+     _W_r_i_t_e_R_e_a_l_O_c_t, _F_w_r_i_t_e_R_e_a_l_O_c_t and _W_r_i_t_e_R_e_a_l_H_e_x,  _F_w_r_i_t_e_R_e_a_l_H_e_x
+     write _x in octal/hexadecimal format.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _D_o_n_e is TTRRUUEE on successfull calls, otherwise FFAALLSSEE.
+
+SSEEEE AALLSSOO
+     _S_t_d_I_O_(_3_), _T_e_r_m_i_n_a_l_(_3_)
+
+HHIISSTTOORRYY
+     An equally named module was written by Niklaus Wirth for the
+     Lilith system.  The current implementation is due to Andreas
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                  RealInOut(3)
+
+
+
+     Borchert and Wilfried Schwartz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

@@ -1,0 +1,32 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SysAlarm 3 "Ulm's Modula-2 System"
+.SH NAME
+SysAlarm \- set the process alarm clock
+.SH SYNOPSIS
+.Pg
+VAR previous: CARDINAL; (* previous amount *)
+.sp 0.7
+PROCEDURE Alarm(sec: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Alarm
+causes the signal \fISystemTypes.SIGALRM\fP to be delivered
+in \fIsec\fP seconds.
+The previous setting of the alarm clock (i.e. the remaining
+time in seconds) is stored in \fIprevious\fP.
+.SH DIAGNOSTICS
+Despite the return type of \fBBOOLEAN\fP,
+\fIAlarm\fP is not expected to fail.
+.SH "SEE ALSO"
+\fIalarm(2)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SysAlarm.3,v 1.1 1997/02/25 18:42:16 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SysAlarm.3,v $
+.\" Revision 1.1  1997/02/25  18:42:16  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                      InOut(3)
+
+
+
+NNAAMMEE
+     InOut - formatted input and output to stdin and stdout
+
+SSYYNNOOPPSSIISS
+     CONST EOL = 12C;
+
+     VAR Done: BOOLEAN;
+     VAR termCH: CHAR;
+
+     PROCEDURE Read(VAR ch: CHAR);
+     PROCEDURE ReadString(VAR s: ARRAY OF CHAR);
+     PROCEDURE ReadCard(VAR c: CARDINAL);
+     PROCEDURE ReadInt(VAR i: INTEGER);
+
+     PROCEDURE Write(ch: CHAR);
+     PROCEDURE WriteLn;
+     PROCEDURE WriteString(s: ARRAY OF CHAR);
+     PROCEDURE WriteInt(x: INTEGER; n: CARDINAL);
+     PROCEDURE WriteCard(x: CARDINAL; n: CARDINAL);
+     PROCEDURE WriteOct(x: CARDINAL; n: CARDINAL);
+     PROCEDURE WriteHex(x: CARDINAL; n: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _I_n_O_u_t   bases  on  the  _T_e_r_m_i_n_a_l_(_3_)  module  and  writes  to
+     _S_t_d_I_O_._s_t_d_o_u_t and reads from _S_t_d_I_O_._s_t_d_i_n.
+
+     _R_e_a_d reads a character and stores it in _c_h.
+
+     _R_e_a_d_S_t_r_i_n_g reads a sequence  of  characters  not  containing
+     blanks  nor control characters.  Leading blanks and tabs are
+     ignored.  The terminating character is assigned  to  _t_e_r_m_C_H.
+     When  _s_t_r  is  filled  up to its limit during reading, _R_e_a_d_­
+     _S_t_r_i_n_g returns after reading one additional  character  that
+     is assigned to _t_e_r_m_C_H.
+
+     _R_e_a_d_C_a_r_d  and _R_e_a_d_I_n_t read a string and convert it to cardi­
+     nal or integer, respectively.  Leading blanks  are  ignored.
+     The terminating character is assigned to _t_e_r_m_C_H.
+
+     _W_r_i_t_e writes _c_h to _s_t_d_o_u_t.
+
+     _W_r_i_t_e_L_n is equivalent to _W_r_i_t_e(_E_O_L).
+
+     _W_r_i_t_e_S_t_r_i_n_g writes _s to _s_t_d_o_u_t.
+
+     _W_r_i_t_e_I_n_t and _W_r_i_t_e_C_a_r_d write an integer or cardinal, respec­
+     tively, _x with at least _n characters on  _s_t_d_o_u_t.   If  _n  is
+     greater  than  the number of digits needed, blanks are added
+     preceding the number.
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 January 1999           1
+
+
+
+
+
+
+C Library Functions                                      InOut(3)
+
+
+
+     _W_r_i_t_e_O_c_t and _W_r_i_t_e_H_e_x write a cardinal number in  octal/hex­
+     adecimal format.
+
+EEXXAAMMPPLLEE
+     Reading of two integer values from standard input:
+
+     WriteString("i = "); ReadInt(i);
+     WriteString("j = "); ReadInt(j);
+
+
+DDIIAAGGNNOOSSTTIICCSS
+     _D_o_n_e  is  TTRRUUEE  on  successful calls, otherwise FFAALLSSEE.  Note
+     that some reading procedures return well defined values even
+     in  case  of  errors: _R_e_a_d returns 00CC and _R_e_a_d_S_t_r_i_n_g returns
+     the characters read so far.
+
+SSEEEE AALLSSOO
+     _F_t_d_I_O_(_3_), _S_t_d_I_O_(_3_), _T_e_r_m_i_n_a_l_(_3_)
+
+HHIISSTTOORRYY
+     A similar module was written by Niklaus Wirth for the Lilith
+     system.   The  operations _O_p_e_n_I_n_p_u_t, _O_p_e_n_O_u_t_p_u_t, _C_l_o_s_e_I_n_p_u_t,
+     and _C_l_o_s_e_O_u_t_p_u_t have been  omitted.  _S_t_d_I_O_(_3_)  and  _F_t_d_I_O_(_3_)
+     should be used instead.
+
+     Note  that  the  semantics  of  the  remaining operations is
+     slightly different from the Lilith implementation due to the
+     line-oriented input mode under UNIX.  On Lilith, the example
+     above has  to  be  extended  with  explicit  invocations  of
+     _W_r_i_t_e_L_n  because  line  terminators were neither to be typed
+     (every other non-digit would work as well) nor echoed:
+
+     WriteString("i = "); ReadInt(i); WriteLn;
+     WriteString("j = "); ReadInt(j); WriteLn;
+
+
+     The current implementation is due to Andreas Borchert.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 January 1999           2
+
+
+

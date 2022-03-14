@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                      Stack(3)
+
+
+
+NNAAMMEE
+     Stack - store any objects in lifo-manner
+
+SSYYNNOOPPSSIISS
+     TYPE Stack;
+
+     PROCEDURE Create (VAR stack : Stack; noelem : CARDINAL;
+                       example : ARRAY OF BYTE);
+     PROCEDURE Dispose (VAR stack : Stack);
+     PROCEDURE Clear(stack : Stack);
+     PROCEDURE Elems (stack : Stack) : CARDINAL;
+     PROCEDURE Push (stack : Stack; elem : ARRAY OF BYTE) : BOOLEAN;
+     PROCEDURE Pop (stack : Stack; VAR elem : ARRAY OF BYTE) : BOOLEAN;
+     PROCEDURE Top(stack : Stack; pos : CARDINAL;
+                   VAR elem : ARRAY OF BYTE) : BOOLEAN;
+     PROCEDURE Adr(stack : Stack; pos : CARDINAL;
+                   VAR adr : ADDRESS) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     This  module supports storage of objects on a stack realized
+     by type _S_t_a_c_k.  _C_r_e_a_t_e creates and allocates a  stack  _s_t_a_c_k
+     for  _n_o_e_l_e_m  elements.  The type of the objects to be stored
+     derives from _e_x_a_m_p_l_e which must be of the same kind than the
+     data  stored subsequently.  _D_i_s_p_o_s_e deallocates _s_t_a_c_k, _C_l_e_a_r
+     empties it and _E_l_e_m_s returns the  number  of  elements  cur­
+     rently stored.
+
+     _P_u_s_h  and  _P_o_p  behave  in the expected manner.  _P_u_s_h puts a
+     further element _e_l_e_m onto  _s_t_a_c_k  _,  _P_o_p  gets  the  element
+     stored at last and removes it from the stack.
+
+     _T_o_p  yields  the  last  but _p_o_s'th element pushed onto _s_t_a_c_k
+     without removing it.
+
+     An object on _s_t_a_c_k may be accessed by  its  storage  address
+     obtained from _A_d_r, which sets _a_d_r to the address of the last
+     but _p_o_s'th element stacked.
+
+     Using _T_o_p or _A_d_r_, _p_o_s = 00 always refers to  the  element  on
+     top of _s_t_a_c_k.
+
+DDIIAAGGNNOOSSTTIICCSS
+     All  procedures  check overflow and underflow conditions and
+     return FFAALLSSEE in these cases.  Stack access may also fail  if
+     the parameters _e_l_e_m are not of a suitable type.
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

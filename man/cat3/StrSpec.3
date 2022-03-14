@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                    StrSpec(3)
+
+
+
+NNAAMMEE
+     StrSpec -  special string operations
+
+SSYYNNOOPPSSIISS
+     PROCEDURE StrPartCpy(VAR target           : ARRAY OF CHAR;
+                              source           : ARRAY OF CHAR;
+                              position, number : CARDINAL);
+
+     PROCEDURE StrDel(VAR target           : ARRAY OF CHAR;
+                          position, number : CARDINAL);
+
+     PROCEDURE StrIns(VAR target      : ARRAY OF CHAR;
+                          insertion   : ARRAY OF CHAR;
+                          position    : CARDINAL);
+
+     PROCEDURE StrPos(source,
+                      search : ARRAY OF CHAR) : CARDINAL;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     IIMMPPOORRTTAANNTT::
+     In  the  entire module the first character of a string is at
+     _p_o_s_i_t_i_o_n zero.
+
+     SSttrrPPaarrttCCppyy
+          copies _n_u_m_b_e_r characters starting at position  _p_o_s_i_t_i_o_n
+          from  _s_o_u_r_c_e  to  _t_a_r_g_e_t.   The  copying is finished by
+          reaching the end of either _s_o_u_r_c_e or  _t_a_r_g_e_t,  or  when
+          _n_u_m_b_e_r  characters  are copied.  The index of the first
+          character in _t_a_r_g_e_t is zero.
+          If the resulting string is too large for _t_a_r_g_e_t, trail­
+          ing characters are cut off.
+
+     SSttrrDDeell
+          deletes _n_u_m_b_e_r characters starting at _p_o_s_i_t_i_o_n.
+          At the end of the string deletion stops.
+
+     SSttrrIInnss
+          inserts _i_n_s_e_r_t_i_o_n in _t_a_r_g_e_t in front of _p_o_s_i_t_i_o_n.
+          If the resulting string is too large for _t_a_r_g_e_t, trail­
+          ing characters are cut off.
+
+     SSttrrPPooss
+          returns the starting position of the sub-string  _s_e_a_r_c_h
+          within _s_o_u_r_c_e.
+          If  _s_e_a_r_c_h  isn't in _s_o_u_r_c_e the result is more than the
+          greatest possible index for a character in _s_o_u_r_c_e.
+
+SSEEEE AALLSSOO
+     _S_t_r_i_n_g_s_(_3_)
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                    StrSpec(3)
+
+
+
+AAUUTTHHOORR
+     Gernot Skalla, Universität Osnabrück
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

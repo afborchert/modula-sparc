@@ -1,0 +1,53 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH mtags 1 "local: Borchert"
+.SH NAME
+mtags \- create a tags file for Modula-2 sources
+.SH SYNOPSIS
+.B mtags
+name ...
+.SH DESCRIPTION
+.I Mtags
+makes a tags file for
+.I ex(1)
+from the specified Modula-2 sources.
+Note that either program modules and implementation modules should be given
+or just definition modules to avoid name clashes.
+A tags file gives the locations of specified objects (in this case
+procedures) in a group of files.
+Each line of the tags file contains the procedure name,
+the file in which it is defined, and a scanning pattern used to find
+the procedure definition.
+These are given in separate fields on the line,
+separated by blanks or tabs.
+Using the
+.I tags
+file,
+.I ex
+can quickly find these procedure definitions.
+.SH DIAGNOSTICS
+.I Mtags
+issues warnings if equally-named procedures are found.
+In this case they may be find only by giving a fully-qualified
+name which includes all enclosing modules and procedures.
+.SH FILES
+.Tb tags
+.Tp tags
+output tags file
+.Te
+.SH SEE ALSO
+ex(1), vi(1)
+.\" ---------------------------------------------------------------------------
+.\" $Id: mtags.1,v 1.2 1997/02/24 18:28:10 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: mtags.1,v $
+.\" Revision 1.2  1997/02/24  18:28:10  borchert
+.\" - DIAGNOSTICS added
+.\" - .ta replaced by .Tb ... .Te
+.\"
+.\" Revision 1.1  1996/12/04  18:18:02  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

@@ -1,0 +1,54 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Delay 3 "local:Borchert"
+.SH NAME
+Delay \- output padding in dependence of the baudrate
+.SH SYNOPSIS
+.Pg
+TYPE OutProc = PROCEDURE (CHAR);
+.sp 0.7
+PROCEDURE InitDelay(baudrate: CARDINAL; padch: CHAR; outc: OutProc);
+PROCEDURE InitDelayFile(baudrate: CARDINAL; padch: CHAR; fp: FILE);
+.sp 0.7
+PROCEDURE Delay(tenthofmillisecs: CARDINAL);
+.Pe
+.SH DESCRIPTION
+The procedure
+.I Delay
+is designed to be given
+as parameter to
+.I TputsDelay
+in the module
+.IR TermInfo(3) .
+It outputs padding for the given delay time
+(in tenth of milliseconds) and depends on some global variables
+previously set by either
+.I InitDelay
+or
+.I InitDelayFile.
+Padding depends on the
+.I baudrate
+(zero means no padding)
+and the padding character
+.I padch.
+Output is either directed to
+.I fp
+or done by calling
+.I outc
+(similar to the output procedure parameter of
+.IR TputsDelay ).
+.SH "SEE ALSO"
+TermInfo(3)
+.\" ---------------------------------------------------------------------------
+.\" $Id: Delay.3,v 1.2 1997/02/25 17:38:38 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Delay.3,v $
+.\" Revision 1.2  1997/02/25  17:38:38  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:07  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                  Functions(3)
+
+
+
+NNAAMMEE
+     Functions - definition and evaluation of functions
+
+SSYYNNOOPPSSIISS
+     TYPE Function;
+     TYPE Real = REAL;
+     TYPE StdFunc1 = PROCEDURE (Real) : Real;
+     TYPE StdFunc2 = PROCEDURE (Real, Real) : Real;
+
+     VAR errpos: CARDINAL; (* error position in expr of ParseFunction *)
+
+     PROCEDURE InstallStdFunc1(funcname: ARRAY OF CHAR;
+                               stdfunc: StdFunc1);
+     PROCEDURE InstallStdFunc2(funcname: ARRAY OF CHAR;
+                               stdfunc: StdFunc2);
+     PROCEDURE InstallStdConst(constname: ARRAY OF CHAR;
+                               constval: Real);
+
+     PROCEDURE ParseFunction(expr: ARRAY OF CHAR;
+                             VAR func: Function) : BOOLEAN;
+
+     PROCEDURE FirstParam(func: Function);
+     PROCEDURE NextParam(func: Function;
+                         VAR parname: ARRAY OF CHAR) : BOOLEAN;
+
+     PROCEDURE SetFuncParam(func: Function; parname: ARRAY OF CHAR;
+                            value: Real);
+
+     PROCEDURE EvalFunction(func: Function) : Real;
+
+     PROCEDURE DisposeFunction(VAR func: Function);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     This  module allows to define and evaluate real-valued func­
+     tions at runtime.  A function is defined  by  an  expression
+     whose  grammar  is  Modula-2  oriented with following excep­
+     tions:
+
+     (1)  The ??:: operator has been added (semantic close  to  C).
+          ??:: has lowest priority and right-to-left associativity.
+
+     (2)  Integer constants are real constants, too.
+
+     (3)  Operator-keywords are not supported, so use
+              &&   instead of AANNDD
+              ||   instead of OORR, and
+              ~~   instead of NNOOTT.
+
+     (4)  TTRRUUEE is represented as 1.0 and FFAALLSSEE as 0.0.   Anything
+          but 0.0 is taken to be TTRRUUEE in conditions.
+
+
+
+
+Release 3.0b6Last change: Last change: 13 January 1999           1
+
+
+
+
+
+
+C Library Functions                                  Functions(3)
+
+
+
+     TThhee ggrraammmmaarr iinn EEBBNNFF::
+          CondExpression =     Expression
+                               [ "?" CondExpression ":" CondExpression ] .
+          Expression =         SimpleExpression
+                               [ RelOp SimpleExpression ] .
+          SimpleExpression =   ["+"|"-"] Term { AddOp Term } .
+          Term =               Factor { MulOp Factor } .
+          Factor =             Constant | IDENT | FunctionCall |
+                               "~" Factor | "(" CondExpression ")" .
+          FunctionCall =       IDENT "(" CondExpression
+                               [ "," CondExpression ] ")" .
+          RelOp =              "=" | "#" | "<" | ">" | "<=" | ">=" .
+          AddOp =              "+" | "-" | "|" .
+          MulOp =              "*" | "/" | "&" .
+
+     The   start   symbol  is  CCoonnddEExxpprreessssiioonn.   Identifiers  are
+     sequences of letters and digits.  The first  character  must
+     be a letter.
+
+     SSyynnttaaxx ooff ccoonnssttaannttss::
+          Digit  {  Digit } [ "." { Digit } ] [ ("E"|"e") Digit {
+          Digit } ]
+
+     _P_a_r_s_e_F_u_n_c_t_i_o_n parses _e_x_p_r and returns the function  in  _f_u_n_c
+     for  further  referencing.   On errors _P_a_r_s_e_F_u_n_c_t_i_o_n returns
+     FFAALLSSEE after _e_r_r_p_o_s has  been  set  to  the  error  position.
+     Errors can result from
+
+     (1)  Syntax errors.
+
+     (2)  Bad constants, e.g. exponent is too large.
+
+     (3)  Bad number of arguments to a function.
+
+     Each  identifier  not  declared  as a constant or a function
+     (using _I_n_s_t_a_l_l_S_t_d_F_u_n_c_1, _I_n_s_t_a_l_l_S_t_d_F_u_n_c_2, or _I_n_s_t_a_l_l_S_t_d_C_o_n_s_t)
+     is  considered  to be a parameter.  The value of a parameter
+     is predefined to 0.0.  _F_i_r_s_t_P_a_r_a_m  and  _N_e_x_t_P_a_r_a_m  give  the
+     parameter names in alphabetical order.  Parameter values can
+     be changed using _S_e_t_F_u_n_c_P_a_r_a_m.  _E_v_a_l_F_u_n_c_t_i_o_n  evaluates  the
+     function  with  the parameters set previously.  _E_v_a_l_F_u_n_c_t_i_o_n
+     does not check for division by zero or any other  operations
+     which can result in a floating point exception.
+
+     _D_i_s_p_o_s_e_F_u_n_c_t_i_o_n releases the storage associated with _f_u_n_c.
+
+     To get a standard set of functions and constants _S_t_d_F_u_n_c_s_(_3_)
+     should be imported.
+
+EEXXAAMMPPLLEE
+     VAR
+        functxt, parname: ARRAY [0..63] OF CHAR;
+
+
+
+Release 3.0b6Last change: Last change: 13 January 1999           2
+
+
+
+
+
+
+C Library Functions                                  Functions(3)
+
+
+
+        func: Function;
+        val: Real;
+
+     (* ... *)
+     WriteString("func: "); ReadString(functxt);
+     IF ParseFunction(functxt, func) THEN
+        FirstParam(func);
+        WHILE NextParam(func, parname) DO
+           WriteString(parname); WriteString(" = ");
+           ReadReal(val);
+           SetFuncParam(func, parname, val);
+        END;
+        WriteReal(EvalFunction(func), 1); WriteLn;
+     ELSE
+        (* error at errpos *)
+     END;
+
+
+     Instead of reading real values it is possible to read param­
+     eters  as  strings  and  to  parse  and evaluate them.  This
+     enables the user to give standard constants and  expressions
+     as parameter values (e.g. pi/2).
+
+DDIIAAGGNNOOSSTTIICCSS
+     _P_a_r_s_e_F_u_n_c_t_i_o_n  returns  FFAALLSSEE  on  syntax errors.  The error
+     position is stored in _e_r_r_p_o_s.
+
+SSEEEE AALLSSOO
+     _S_t_d_F_u_n_c_s_(_3_)
+
+BBUUGGSS
+     There is no good solution to handle  floating  point  excep­
+     tions  during  the evaluation of functions.  The only way to
+     detect _a_l_l exceptions is to catch the signal SSIIGGFFPPEE.  But  a
+     signal  catching routine of SSIIGGFFPPEE must not return else this
+     would result in an infinite loop.  The same problem  occures
+     if SSIIGGFFPPEE is ignored.
+
+     The only way to let functions call functions is to introduce
+     standard functions via  _I_n_s_t_a_l_l_S_t_d_F_u_n_c_1  or  _I_n_s_t_a_l_l_S_t_d_F_u_n_c_2
+     which call _E_v_a_l_F_u_n_c_t_i_o_n.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 13 January 1999           3
+
+
+

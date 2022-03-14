@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    Storage(3)
+
+
+
+NNAAMMEE
+     Storage - storage allocation
+
+SSYYNNOOPPSSIISS
+     PROCEDURE ALLOCATE(VAR a: ADDRESS; n: CARDINAL);
+     PROCEDURE DEALLOCATE(VAR a: ADDRESS; n: CARDINAL);
+     PROCEDURE Setmode(m: CARDINAL);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _A_L_L_O_C_A_T_E allocates _n bytes memory and returns a pointer _a to
+     this storage area.
+
+     _D_E_A_L_L_O_C_A_T_E frees  _n  bytes  allocated  storage  starting  at
+     address _a and sets a to NNIILL.
+
+     _S_e_t_m_o_d_e  switches  the mode of reaction on storage overflow.
+     If _m equals 1 _A_L_L_O_C_A_T_E causes the abortion  of  the  program
+     (default).   _M  equal  2  causes  _A_L_L_O_C_A_T_E  to  return a _N_I_L
+     pointer.  Note that _S_e_t_m_o_d_e should be used with care because
+     all  library  modules assume that AALLLLOOCCAATTEE was successful if
+     it returns.  Therefore, the mode 2 should be used  temporar­
+     ily only.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _A_L_L_O_C_A_T_E  prints `No space available' to filedescriptor 2 in
+     case of abortion (see _S_y_s_P_a_n_i_c_(_3_)).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

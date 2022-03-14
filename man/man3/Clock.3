@@ -1,0 +1,43 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Clock 3 "local: Hasch"
+.SH NAME
+Clock \- report real and CPU time used
+.SH SYNOPSIS
+.Pg
+CONST UnitsPerSecond = 100;
+.sp 0.7
+PROCEDURE RealTime(reset: BOOLEAN): CARDINAL;
+PROCEDURE CPUTime (reset: BOOLEAN): CARDINAL;
+.Pe
+.SH DESCRIPTION
+.I UnitsPerSecond
+stands for the local clock resolution,
+which can vary from system to system.
+.PP
+.I RealTime
+and
+.I CPUTime
+return the real, resp. CPU time in units elapsed since the start
+of the current process or since the last call with argument
+.B TRUE.
+They work independently from each other. Note that after each
+.B MAX(CARDINAL)
+units a wrap-around will happen.
+.SH "SEE ALSO"
+\fItimes(2)\fP
+.SH AUTHOR
+Martin Hasch, University of Ulm
+.\" ---------------------------------------------------------------------------
+.\" $Id: Clock.3,v 1.2 1997/02/25 17:38:28 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Clock.3,v $
+.\" Revision 1.2  1997/02/25  17:38:28  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:05  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

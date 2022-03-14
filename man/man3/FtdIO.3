@@ -1,0 +1,53 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH FtdIO 3 "local:Borchert"
+.SH NAME
+FtdIO \- formatted file i/o
+.SH SYNOPSIS
+.Pg
+FROM StdIO IMPORT FILE;
+.sp 0.7
+VAR Done: BOOLEAN;
+VAR termCH: CHAR;
+.sp 0.7
+PROCEDURE FreadInt(f: FILE; VAR int: INTEGER);
+PROCEDURE FwriteInt(f: FILE; int: INTEGER; w: CARDINAL);
+PROCEDURE FreadCard(f: FILE; VAR card: CARDINAL);
+PROCEDURE FwriteCard(f: FILE; card: CARDINAL; w: CARDINAL);
+PROCEDURE FreadString(f: FILE; VAR str: ARRAY OF CHAR);
+PROCEDURE FwriteString(f: FILE; str: ARRAY OF CHAR);
+PROCEDURE FwriteLn(f: FILE);
+PROCEDURE Fread(f: FILE; VAR arr: ARRAY OF WORD);
+PROCEDURE Fwrite(f: FILE; arr: ARRAY OF WORD);
+PROCEDURE FreadWord(f: FILE; VAR w: WORD);
+PROCEDURE FwriteWord(f: FILE; w: WORD);
+PROCEDURE FreadChar(f: FILE; VAR ch: CHAR);
+PROCEDURE FwriteChar(f: FILE; ch: CHAR);
+.Pe
+.SH DESCRIPTION
+.I FtdIO
+provides a rich set of file i/o routines and is based on
+.IR StdIO(3) .
+.PP
+The first parameter
+.I f
+always specifies the stream.
+See \fIFiles(3)\fP or \fIStdIO(3)\fP for methods of
+opening streams and some standard streams.
+See \fIInOut(3)\fP for
+description of the other parameters.
+.SH "SEE ALSO"
+\fIStdIO(3)\fP, \fIFiles(3)\fP, \fIInOut(3)\fP, \fIRealInOut(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: FtdIO.3,v 1.2 1997/02/25 17:39:36 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: FtdIO.3,v $
+.\" Revision 1.2  1997/02/25  17:39:36  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:13  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

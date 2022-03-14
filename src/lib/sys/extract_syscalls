@@ -1,0 +1,50 @@
+#!/usr/local/bin/perl -w
+#------------------------------------------------------------------------------
+# extract system call numbers out of /usr/include/sys/syscall.h
+#------------------------------------------------------------------------------
+
+$infile = "/usr/include/sys/syscall.h";
+chomp($release = `/usr/bin/uname -rs`);
+chomp($date = `/usr/bin/date +'19%y/%m/%d'`);
+
+$indent = " " x 6;
+$short_indent = " " x 3;
+
+open(IN, "<$infile") || die "Unable to open $infile for reading\n";
+@syscalls = ();
+$maxlength = 0;
+$maxval = 0;
+while(<IN>) {
+   next unless m{
+	 ^\#define
+	 \s+
+	 SYS_([a-z_0-9]+)
+	 \s+
+	 ([0-9]+)
+      }x;
+   ($orig_name, $val) = ($1, $2);
+   $name = $orig_name;
+   $name =~ s/^_// if $name =~ /^_/;
+   $name =~ s/_$//;
+   $name =~ s/_(.)/\u$1/g;
+   $syscall = {'name' => $name, 'orig_name' => $orig_name, 'val' => $val};
+   push(@syscalls, $syscall);
+   $maxlength = length $name if $maxlength < length $name;
+   $maxval = $val if $maxval < $val;
+   # printf "%-16s %d\n", $orig_name, $val;
+}
+
+$| = 1;
+print "${short_indent}(* following constants have been extracted from\n";
+print "${short_indent}      $infile\n";
+print "${short_indent}   on $release at $date\n";
+print "${short_indent}*)\n\n";
+print "${short_indent}CONST\n";
+
+open(MCPD, "| mcpd -p 1000 -l 70 -b 8 | sed 's/^/$indent/; s/  *\$//'") ||
+   die "Unable to invoke mcpd\n";
+foreach $syscall (@syscalls) {
+   printf MCPD "%-${maxlength}s = %3d;\n",
+      $syscall->{'name'}, $syscall->{'val'};
+}
+close(MCPD);

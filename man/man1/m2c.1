@@ -1,0 +1,252 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH M2C 1 "local:Borchert"
+.SH NAME
+m2c \- Modula-2 compiler
+.SH SYNOPSIS
+.B m2c
+[ option ] ... file ...
+.SH DESCRIPTION
+.I M2c
+is Ulm's Modula-2 compiler.
+It accepts several types of arguments:
+.PP
+Arguments whose names end with `.m2' are taken to be
+Modula-2 source programs; they are compiled, and
+each object program is left on the file
+whose name is that of the source with `.o' substituted
+for `.m2'.
+Further a reference file with suffix `.r' is left. See
+.IR mdb(1)
+for more information.
+Names ending with `.d' are taken to be Modula-2 definition modules
+and compiled, producing a `.sy' file.
+The `.o' file is normally deleted, however, if a single
+Modula-2 program is compiled and loaded all at one go.
+Symbol files and reference files may be archived in
+the files `SYM' and `REF'. If these archives exist,
+.I m2c
+tries to archive the corresponding output files.
+.PP
+In the same way,
+arguments whose names end with `.s' are taken to be assembly source programs
+and are assembled, producing a `.o' file.
+.PP
+The following options are interpreted by
+.IR m2c .
+See
+.IR ld (1)
+for load-time options.
+.TP
+.SM
+.B \-a
+Suppress archiving of the reference and symbol files even if
+`SYM' and `REF' exist.
+.TP
+.SM
+.BI \-B string
+Use
+.I @LIBDIR@/string
+as an alternative library directory.
+If \fIstring\fP is omitted, `old' is taken as default.
+.TP 8
+.B \-c
+Suppress the loading phase of the compilation, and force
+an object file to be produced even if only one program is compiled.
+.TP
+.SM
+.B \-H
+Support code generation of procedures with huge stack consumptions.
+This option should only be given if it is explicitly requested by
+an error message of the compiler because less efficient code will be
+generated.
+.TP
+.SM
+.B \-K
+Request the compiler to produce null-valued symbol file keys.
+This may be useful for regression or steady-state tests
+of symbol files.
+.TP
+.SM
+.B \-L
+Arrange the compiler to produce a listing for each source file
+in a corresponding `.l' file,
+or in a `.ld' file if the source is a definition module.
+.TP
+.SM
+.B \-m
+The following argument is taken to be the main module.
+Necessary only if no main module exists.
+.TP
+.SM
+.BI \-o " output"
+Name the final output file
+.IR output .
+If this option is used, the file `a.out' will be left undisturbed.
+.TP
+.SM
+.B \-rN
+This compiler supports three versions of Modula-2:
+unrevised Modula-2 as defined in 1st and 2nd edition of
+Wirth's \fIProgramming in Modula-2\fP (\fIN\fP = 0),
+revised Modula-2 as defined in the \fIRevisions and Amendments to Modula-2\fP
+(\fIN\fP = 1),
+and revised Modula-2 as defined in the 3rd edition (default: \fIN\fP = 2).
+All compile versions are full compatible.
+.TP
+.SM
+.B \-R
+Suppress clean up of temporary files.
+.TP
+.SM
+.B \-S
+Compile the named Modula-2 programs, and leave the
+assembler-language output on corresponding files suffixed `.s'.
+.TP
+.SM
+.BI \-Tdir
+Allocate the temporary files of the compiler in the directory
+.IR dir .
+.TP
+.SM
+.B \-v
+Verbose flag.
+.I M2c
+prints all executed commands to standard error.
+.br
+.mc
+.PP
+Other arguments
+are taken
+to be either loader option arguments, or Modula-2 compatible
+object programs, typically produced by an earlier
+.I m2c
+run,
+or perhaps libraries of Modula-2 compatible routines.
+These programs, together with the results of any
+compilations specified, are loaded (in the order
+given) to produce an executable program with name
+.B a.out.
+.SH ENVIRONMENT
+.I M2c
+looks for two environment parameters:
+.B MODLIB
+and
+.B MODPATH.
+If
+.B MODLIB
+is given,
+.I m2c
+calls the compiler passes in the directory
+.B $MODLIB.
+.B MODPATH
+specifies a list of directories, separated with colons (like
+.BR PATH ).
+Each of these directories consists of a
+.I SYM
+archive of symbol files, a
+.I REF
+archive of reference files and archives with suffix `.a'.
+If the compiler looks for a symbol file or \fIld(1)\fP for
+library modules, this search path is used.
+.SH FILES
+.Tb '@LIBDIR@/m2_error  '
+.Tp file.m2
+main or implementation module
+.Tp file.d
+definition module
+.Tp SYM
+archive with symbol files
+.Tp REF
+archive with reference files
+.Tp file.o
+object file
+.Tp file.sy
+symbol file
+.Tp file.r
+reference file
+.Tp a.out
+loaded output
+.Tp /tmp/mtm*
+temporaries for
+.I m2c
+.Tp @LIBDIR@/modula
+4-pass compiler
+.Tp @LIBDIR@/m2e
+lister
+.Tp @LIBDIR@/m2_error
+file with error messages
+.Tp @LIBDIR@/m2rt0.o
+runtime startoff
+.Tp @LIBDIR@/libm2.a
+standard library
+.Tp @LIBDIR@/SYM
+symbol files of the std library
+.Tp @LIBDIR@/REF
+reference files of the std library
+.Te
+.SH "SEE ALSO"
+Niklaus Wirth,
+.I Programming in Modula-2,
+Springer-Verlag,
+1982 (1st ed.) and 1985 (3rd ed.)
+.br
+Niklaus Wirth,
+.I Revisions and Amendments to Modula-2,
+ETH Z\*urich,
+1984
+.br
+ld(1), mdb(1), mmm(1), mtags(1)
+.SH DIAGNOSTICS
+The diagnostics produced by Modula-2 itself are intended to be
+self-explanatory.
+.PP
+Some symbol file key mismatches lead to error messages of
+the loader similar to following example:
+.Pg
+Undefined                       first referenced
+ symbol                             in file
+M.XXX_857052922_16922_120           YYY.o
+ld: fatal: Symbol referencing errors. No output written to main
+.Pe
+A module named \fIXXX\fP was imported by \fIYYY\fP.
+While \fIXXX\fP was expected to have the symbol file key
+\fB857052922_16922_120\fP, the loader happened to find another
+version of \fIXXX\fP which is incompatible to that version
+which was seen by \fIm2c\fP on compilation of \fIYYY\fP.
+In such cases it may be useful to remove all objects,
+to update all makefiles (using \fImmm -u\fP), and to call \fImake(1)\fP
+again.
+.SH CAVEAT
+The first 11 characters of the module name should be identical to the
+file name.
+.\" ---------------------------------------------------------------------------
+.\" $Id: m2c.1,v 1.6 1999/02/10 16:45:12 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: m2c.1,v $
+.\" Revision 1.6  1999/02/10  16:45:12  borchert
+.\" -H added; options alphabetically ordered
+.\"
+.\" Revision 1.5  1997/02/27  18:18:03  borchert
+.\" - option -LP removed
+.\" - hints about ld-messages regarding key mismatches added to DIAGNOSTICS
+.\"
+.\" Revision 1.4  1997/02/24  17:56:37  borchert
+.\" - @LIBDIR@ instead of /usr/local/lib/modula
+.\" - Zuerich with umlaut
+.\" - .Tb { .Tp } .Te instead of .ta
+.\"
+.\" Revision 1.3  1997/02/24  16:55:33  borchert
+.\" - options which are no longer supported or useful for the
+.\"   SPARC-version of the compiler have been commented out
+.\" - FILES section updated
+.\"
+.\" Revision 1.2  1997/01/22  15:16:13  borchert
+.\" XELOS replaced by Ulm's
+.\"
+.\" Revision 1.1  1996/12/04  18:17:59  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

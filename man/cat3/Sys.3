@@ -1,0 +1,198 @@
+
+
+
+C Library Functions                                        Sys(3)
+
+
+
+NNAAMMEE
+     Sys - UNIX system calls
+
+SSYYNNOOPPSSIISS
+     CONST
+        syscall          =   0;        sigsendsys       = 108;
+        exit             =   1;        hrtsys           = 109;
+        fork             =   2;        acancel          = 110;
+        read             =   3;        async            = 111;
+        write            =   4;        priocntlsys      = 112;
+        open             =   5;        pathconf         = 113;
+        close            =   6;        mincore          = 114;
+        wait             =   7;        mmap             = 115;
+        creat            =   8;        mprotect         = 116;
+        link             =   9;        munmap           = 117;
+        unlink           =  10;        fpathconf        = 118;
+        exec             =  11;        vfork            = 119;
+        chdir            =  12;        fchdir           = 120;
+        time             =  13;        readv            = 121;
+        mknod            =  14;        writev           = 122;
+        chmod            =  15;        xstat            = 123;
+        chown            =  16;        lxstat           = 124;
+        brk              =  17;        fxstat           = 125;
+        stat             =  18;        xmknod           = 126;
+        lseek            =  19;        clocal           = 127;
+        getpid           =  20;        setrlimit        = 128;
+        mount            =  21;        getrlimit        = 129;
+        umount           =  22;        lchown           = 130;
+        setuid           =  23;        memcntl          = 131;
+        getuid           =  24;        getpmsg          = 132;
+        stime            =  25;        putpmsg          = 133;
+        ptrace           =  26;        rename           = 134;
+        alarm            =  27;        uname            = 135;
+        fstat            =  28;        setegid          = 136;
+        pause            =  29;        sysconfig        = 137;
+        utime            =  30;        adjtime          = 138;
+        stty             =  31;        systeminfo       = 139;
+        gtty             =  32;        seteuid          = 141;
+        access           =  33;        vtrace           = 142;
+        nice             =  34;        fork1            = 143;
+        statfs           =  35;        sigtimedwait     = 144;
+        sync             =  36;        lwpInfo          = 145;
+        kill             =  37;        yield            = 146;
+        fstatfs          =  38;        lwpSemaWait      = 147;
+        pgrpsys          =  39;        lwpSemaPost      = 148;
+        xenix            =  40;        modctl           = 152;
+        dup              =  41;        fchroot          = 153;
+        pipe             =  42;        utimes           = 154;
+        times            =  43;        vhangup          = 155;
+        profil           =  44;        gettimeofday     = 156;
+        plock            =  45;        getitimer        = 157;
+        setgid           =  46;        setitimer        = 158;
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          1
+
+
+
+
+
+
+C Library Functions                                        Sys(3)
+
+
+
+        getgid           =  47;        lwpCreate        = 159;
+        signal           =  48;        lwpExit          = 160;
+        msgsys           =  49;        lwpSuspend       = 161;
+        syssun           =  50;        lwpContinue      = 162;
+        sysi86           =  50;        lwpKill          = 163;
+        sysppc           =  50;        lwpSelf          = 164;
+        acct             =  51;        lwpSetprivate    = 165;
+        shmsys           =  52;        lwpGetprivate    = 166;
+        semsys           =  53;        lwpWait          = 167;
+        ioctl            =  54;        lwpMutexUnlock   = 168;
+        uadmin           =  55;        lwpMutexLock     = 169;
+        utssys           =  57;        lwpCondWait      = 170;
+        fdsync           =  58;        lwpCondSignal    = 171;
+        execve           =  59;        lwpCondBroadcast = 172;
+        umask            =  60;        pread            = 173;
+        chroot           =  61;        pwrite           = 174;
+        fcntl            =  62;        llseek           = 175;
+        ulimit           =  63;        instSync         = 176;
+        rmdir            =  79;        kaio             = 178;
+        mkdir            =  80;        tsolsys          = 184;
+        getdents         =  81;        acl              = 185;
+        sysfs            =  84;        auditsys         = 186;
+        getmsg           =  85;        processorBind    = 187;
+        putmsg           =  86;        processorInfo    = 188;
+        poll             =  87;        pOnline          = 189;
+        lstat            =  88;        sigqueue         = 190;
+        symlink          =  89;        clockGettime     = 191;
+        readlink         =  90;        clockSettime     = 192;
+        setgroups        =  91;        clockGetres      = 193;
+        getgroups        =  92;        timerCreate      = 194;
+        fchmod           =  93;        timerDelete      = 195;
+        fchown           =  94;        timerSettime     = 196;
+        sigprocmask      =  95;        timerGettime     = 197;
+        sigsuspend       =  96;        timerGetoverrun  = 198;
+        sigaltstack      =  97;        nanosleep        = 199;
+        sigaction        =  98;        facl             = 200;
+        sigpending       =  99;        door             = 201;
+        context          = 100;        setreuid         = 202;
+        evsys            = 101;        setregid         = 203;
+        evtrapret        = 102;        installUtrap     = 204;
+        statvfs          = 103;        signotifywait    = 210;
+        fstatvfs         = 104;        lwpSigredirect   = 211;
+        nfssys           = 106;        lwpAlarm         = 212;
+        waitsys          = 107;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_y_s  exports  the UNIX system call numbers.  The system call
+     numbers are extracted from _/_u_s_r_/_i_n_c_l_u_d_e_/_s_y_s_/_s_y_s_c_a_l_l_._h.  Sys­
+     tem call numbers are given as first argument to SSYYSSTTEEMM..UUNNIIXX­­
+     CCAALLLL.
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          2
+
+
+
+
+
+
+C Library Functions                                        Sys(3)
+
+
+
+FFIILLEESS
+     _/_u_s_r_/_i_n_c_l_u_d_e_/_s_y_s_/_s_y_s_c_a_l_l_._h   system call numbers
+
+SSEEEE AALLSSOO
+     _E_r_r_n_o_(_3_)         error codes returned by system calls
+     _S_y_s_t_e_m_T_y_p_e_s_(_3_)   definition of some types needed for  system
+                      calls
+
+BBUUGGSS
+     Not  every  system  call  described in chapter 2 of the UNIX
+     manual is a unique system call,  e.g.  _s_e_m_s_y_s  realizes  all
+     semaphore operations.
+
+     The synopsis above is a snapshot of Solaris 2.5.1 and may be
+     different on your system.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 26 February 1997          3
+
+
+

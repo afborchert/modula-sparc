@@ -1,0 +1,97 @@
+#!/usr/local/bin/perl -w
+#------------------------------------------------------------------------------
+# extract error codes from /usr/include/sys/errno.h for inclusion into Errno
+# afb 2/97
+#------------------------------------------------------------------------------
+
+$infile = "/usr/include/sys/errno.h";
+chomp($release = `/usr/bin/uname -rs`);
+chomp($date = `/usr/bin/date +'19%y/%m/%d'`);
+
+$indent = " " x 6;
+$short_indent = " " x 3;
+
+open(IN, "<$infile") || die "Unable to open $infile for reading\n";
+$maxlength = 0; @errors = (); %error = ();
+$maxnumber = 0;
+$maxmsglen = 0;
+while (<IN>) {
+   if (m{
+	 ^\#define
+         \s+
+	 (E[A-Z0-9]+)
+	 \s+
+	 (E[A-Z0-9]+)
+   }x) {
+      $alias{$1} = $2;
+      $maxlength = length $1 if $maxlength < length $1;
+      next;
+   }
+   next unless m{
+	 ^\#define
+         \s+
+	 (E[A-Z0-9]+)
+	 \s+
+	 ([0-9]+)
+	 \s+
+	 /\*\s+(.*?)\s+\*/
+      }x;
+   ($name, $val, $comment) = ($1, $2, $3);
+   $maxlength = length $name if $maxlength < length $name;
+   $maxnumber = $val if $maxnumber < $val;
+   $maxmsglen = length $comment if $maxmsglen < length $comment;
+   $error = {'name' => $name, 'val' => $val, 'comment' => $comment};
+   push(@errors, $error);
+   $error{$val} = $error;
+}
+
+$| = 1;
+print "${short_indent}(* following constants have been extracted from\n";
+print "${short_indent}      $infile\n";
+print "${short_indent}   on $release at $date\n";
+print "${short_indent}*)\n\n";
+print "${short_indent}CONST\n";
+
+open(MCPD, "| mcpd -p 1000 | sed 's/^/$indent/'") ||
+   die "Unable to invoke mcpd\n";
+foreach $error (@errors) {
+   printf MCPD "%-${maxlength}s = %3d;\n", $error->{'name'}, $error->{'val'};
+}
+close(MCPD);
+
+print "\n";
+foreach $alias (sort keys %alias) {
+   printf "$indent%-${maxlength}s = %s;\n", $alias, $alias{$alias};
+}
+
+print "\n";
+print "${short_indent}CONST\n";
+print "${indent}maxerror = $maxnumber;\n";
+print "${indent}maxmsglen = $maxmsglen;\n";
+print "${indent}maxnamelen = $maxlength;\n";
+print "\n";
+print "${short_indent}TYPE\n";
+print "${indent}ErrorNumber = [0..maxerror];\n";
+print "${indent}ErrorMessage = ARRAY [0..maxmsglen] OF CHAR;\n";
+print "${indent}ErrorName = ARRAY [0..maxnamelen] OF CHAR;\n";
+print "\n";
+print "${short_indent}VAR\n";
+print "${indent}message: ARRAY ErrorNumber OF ErrorMessage;\n";
+print "${indent}name: ARRAY ErrorNumber OF ErrorName;\n";
+print "\n\n\n";
+
+foreach $errno (0..$maxnumber) {
+   if (defined $error{$errno}) {
+      print "${short_indent}message[$errno] := ";
+      print '"', $error{$errno}->{'comment'}, '"';
+      print ";\n";
+      print "${short_indent}name[$errno] := ";
+      print '"', $error{$errno}->{'name'}, '"';
+      print ";\n";
+   } else {
+      print "${short_indent}message[$errno] := \"\";";
+      print "\n";
+      print "${short_indent}name[$errno] := \"\";";
+      print "\n";
+   }
+}

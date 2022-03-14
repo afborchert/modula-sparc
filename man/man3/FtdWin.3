@@ -1,0 +1,80 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH FtdWin 3 "local:Borchert"
+.SH NAME
+FtdWin \- formatted window i/o
+.SH SYNOPSIS
+.Pg
+VAR Done: BOOLEAN;
+VAR termCH: CHAR;
+.sp 0.7
+PROCEDURE WinReadInt(win: Window; VAR int: INTEGER);
+PROCEDURE WinWriteInt(win: Window; int: INTEGER;
+                      w: CARDINAL);
+.sp 0.3
+PROCEDURE WinReadCard(win: Window; VAR card: CARDINAL);
+PROCEDURE WinWriteCard(win: Window; card: CARDINAL;
+                       w: CARDINAL);
+.sp 0.3
+PROCEDURE WinReadString(win: Window; VAR str: ARRAY OF CHAR);
+PROCEDURE WinReadLine(win: Window; VAR str: ARRAY OF CHAR);
+PROCEDURE WinWriteString(win: Window; str: ARRAY OF CHAR);
+PROCEDURE WinWriteLn(win: Window);
+.Pe
+.SH DESCRIPTION
+.I FtdWin
+is based on
+.I Windows(3)
+and provides a set of i/o-procedures like
+.IR InOut(3) .
+The input routines support backspace editing.
+For conventional behavior
+.I echo
+and
+.I flushoninput
+or
+.I flushalways
+should be set (see \fIWindows(3)\fP).
+.PP
+.I WinReadString,
+.I WinReadInt,
+and
+.I WinReadCard
+skip white space which cannot be edited using back spaces.
+.I WinReadLine
+reads a complete line (terminated by newline) without skipping.
+Reading is stopped if the given character array is filled
+.RI ( WinReadString
+and
+.IR WinReadLine )
+or a delimiting character is typed (returned in
+.IR termCH ).
+.SH DIAGNOSTICS
+.I Done
+is set to
+.B FALSE
+if anything fails.
+Exceptions are the reading procedures which do not set
+.I Done
+to
+.B FALSE
+if errors result from echoing.
+.SH "SEE ALSO"
+\fIInOut(3)\fP,
+\fIMainWin(3)\fP,
+\fIScreen(3)\fP,
+\fITermInfo(3)\fP,
+\fIWindows(3)\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: FtdWin.3,v 1.2 1997/02/25 17:39:40 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: FtdWin.3,v $
+.\" Revision 1.2  1997/02/25  17:39:40  borchert
+.\" formatting changed
+.\"
+.\" Revision 1.1  1996/12/04  18:19:14  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

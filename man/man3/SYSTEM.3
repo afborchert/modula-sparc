@@ -1,0 +1,223 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 System Documentation
+.\" Copyright (C) 1983-1997 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH SYSTEM 3 "Ulm's Modula-2 System"
+.SH NAME
+SYSTEM \- system-dependent built-ins of Ulm's Modula-2 Compiler
+.SH SYNOPSIS
+.Pg
+TYPE BYTE = (* 1-byte generic type *);
+TYPE WORD = (* 4-byte generic type *);
+TYPE ADDRESS = POINTER TO WORD;
+.sp 0.7
+PROCEDURE ADR(VAR variable: AnyType) : ADDRESS;
+PROCEDURE TSIZE(type: AnyTypeName) : CARDINAL;
+PROCEDURE TSIZE(type: AnyTypeName;
+                tagval1, tagval2, ...: AnyConst) : CARDINAL;
+.sp 0.7
+PROCEDURE NEWPROCESS(p: PROC;
+                     stack: ADDRESS; stacksize: CARDINAL;
+                     VAR cr: ADDRESS);
+PROCEDURE TRANSFER(VAR cr1, cr2: ADDRESS);
+.sp 0.7
+PROCEDURE UNIXCALL(syscall: CARDINAL; VAR r0, r1: INTEGER;
+                   ...) : BOOLEAN;
+PROCEDURE UNIXFORK(VAR pid: CARDINAL) : BOOLEAN;
+PROCEDURE UNIXSIGNAL(signo: CARDINAL;
+                     p: PROCEDURE;
+                     VAR old: PROCEDURE;
+                     VAR result: CARDINAL) : BOOLEAN;
+.sp 0.7
+PROCEDURE SQRT(x: REAL) : REAL;
+.Pe
+.SH DESCRIPTION
+The module \fBSYSTEM\fP is provided by the compiler itself,
+does not have associated sources (neither a definition nor
+an implementation module) and therefore does not need to
+be located in the search path like other modules.
+.PP
+The Modula-2 reports state that the contents of \fBSYSTEM\fP is
+system-dependant which gives a great freedom for implementors and
+declares every module which imports \fBSYSTEM\fP as non-portable.
+Luckily, a large subset of \fBSYSTEM\fP as given by PIM3 is
+widely available on many implementations including Ulm's Modula-2
+compiler.  Following sections show which parts conform to PIM3,
+which parts are not implemented and which goodies of \fBSYSTEM\fP are
+specific to Ulm's Modula-2 compiler.
+.SS "Commonly available parts"
+Ulm's Modula-2 compiler supports the types \fBBYTE\fP, \fBWORD\fP,
+\fBADDRESS\fP, and the procedures \fBADR\fP, \fBTSIZE\fP, \fBNEWPROCESS\fP,
+\fBTRANSFER\fP.
+.PP
+\fBBYTE\fP is assignment compatible to all other types
+which occupy one byte while \fBWORD\fP is compatible to all other types
+which have a size of four bytes.
+Both, \fBARRAY OF BYTE\fP and \fBARRAY OF WORD\fP are supported as
+formal parameter types which accept any actual parameter.  The only
+exception is that \fBARRAY OF WORD\fP accepts only types which occupy a
+multiple of 4 bytes \(em this includes all arrays, records, and pointer
+types.  Note, however, that many newer implementations do not offer
+\fBWORD\fP or \fBARRAY OF WORD\fP while \fBBYTE\fP and \fBARRAY OF BYTE\fP
+are to be expected on nearly all platforms.
+.PP
+\fBADDRESS\fP is assignment compatible to all pointer types and
+compatible to \fBCARDINAL\fP.
+Note that some implementations define \fBADDRESS\fP as
+\fBPOINTER TO BYTE\fP and define \fBADDRESS\fP to be compatible
+to \fBLONGCARD\fP or \fBLONGINT\fP instead of \fBCARDINAL\fP.
+Therefore, it is fairly portable to accept generic pointers as
+\fBADDRESS\fP and to pass it, for example, to \fIStorage\fP but
+it is very system-dependent to assume a size, a structure, or
+a compatibility to one of the integer types, or to perform
+address arithmetics.
+The duplication of unstructured byte quantities is best delegated to
+a library module which usually contains code which is tuned for
+the local implementation. In Ulm's Modula-2 library this is
+done by the module \fIBytes\fP.
+.PP
+\fBADR\fP is a function which returns the address of a given variable
+as value of type \fBADDRESS\fP.
+.PP
+\fBTSIZE\fP returns the number of bytes
+of the specified type (as value of type \fBCARDINAL\fP).
+Note that \fBTSIZE\fP like \fBNEW\fP accepts further constant
+arguments which select by their tag value specific variants of a record.
+This may be useful if some variants of a record occupy
+much less space than others but not all Modula-2 compilers support
+this feature.
+.PP
+Ulm's Modula-2 compiler supports coroutines and their associated
+procedures \fBNEWPROCESS\fP and \fBTRANSFER\fP.
+Regrettably, these procedures require some system-dependent knowledge
+about the necessary size of a coroutine stack and even \fBTRANSFER\fP
+is not without system dependencies.
+The SPARC-implementation of Ulm's Modula-2 compiler consumes
+much more stack space than other implementations and requires
+therefore a minimum size of 8192 bytes for stacks.
+Stacks which are too small may lead to compiler errors
+(if a constant is given) or to undefined effects at runtime
+(you are lucky if it is just a segmentation violation because
+the system is unable to redzone protect stacks as long as they
+are given by the programmer and not allocated by the system).
+Currently, there are no runtime checks for stecks but they are
+not necessary if a redzone protected area is provided by the
+programmer (this is not a problem by using the \fImmap(2)\fP
+system call).
+.PP
+Note that \fBNEWPROCESS\fP and \fBTRANSFER\fP expect coroutines
+to be of type \fBADDRESS\fP. The older revisions of Modula-2
+expect \fBPROCESS\fP as argument type of \fBNEWPROCESS\fP
+and \fBTRANSFER\fP which is provided if one of the older revisions
+is selected (option \fB-r0\fP or \fB-r1\fP at the command line
+of \fIm2c(1)\fP).
+.SS "Unimplemented Parts"
+UNIX-systems restrict accesses of devices to the kernel.
+Therefore, \fBIOTRANSFER\fP is not implemented.
+.SS "Specific Extensions"
+Most implementations of Modula-2 for UNIX depend on the C-library
+to access system calls.
+Ulm's Modula-2 compiler neither supports nor needs an
+access to system calls via foreign libraries (i.e. the standard
+C-library.
+.PP
+\fBUNIXCALL\fP interfaces all system calls with the exception
+of \fIfork(2)\fP and \fIsigaction(2)\fP which have a different
+calling scheme (on the machine instruction level).
+The parameter \fIsyscall\fP must be a constant number
+(see \fISys(3)\fP or \fI/usr/include/sys/syscall.h\fP for valid numbers).
+Some system calls expect under some UNIX-variants one or two
+parameters in some specific registers or, more often, return
+some values in these registers:
+.LP
+.TS
+tab(&);
+l l l.
+_
+Platform               & OS Release  & registers
+_
+Concurrent 3200 Series & XELOS R02   & registers 0 and 1
+Nixdorf Targon/31      & System V.3  & d0 and d1
+Sun-3 Workstation      & SunOS 4.1.x & d0 and d1
+SPARC architecture     & Solaris 2.x & o0 and o1
+_
+.TE
+.PP
+Any number of additional parameters may be passed as additional
+arguments. Note, however, that the compiler does not care about
+compatibility issues here. Strings and buffers, for example,
+must be passed by address and not as dynamic arrays.
+\fBUNIXCALL\fP returns \fBFALSE\fP in case of errors. All
+UNIX-architectures we know of (including those platforms
+which has been listed above) return the error code (see \fIerrno(2)\fP)
+in the first register (\fBVAR\fP-parameter \fIr0\fP).
+In case of success, some results may be returned into the
+\fBVAR\fP-parameters \fIr0\fP and \fIr1\fP. \fIread(2)\fP,
+for example, returns the number of bytes read in \fIr0\fP, and
+\fIpipe(2)\fP returns (on many platforms but not all)
+both file descriptors in \fIr0\fP and \fIr1\fP.
+.PP
+Following example is taken from the library and
+shows the implementation of \fISysWrite\fP on the Solaris 2.x
+system (which runs in identical form on all other platforms
+mentioned above):
+.Pg
+IMPLEMENTATION MODULE SysWrite;
+
+   FROM Errno IMPORT errno;
+   FROM Sys IMPORT write;
+   FROM SYSTEM IMPORT UNIXCALL, ADDRESS;
+
+   PROCEDURE Write(fd: CARDINAL; ptr: ADDRESS;
+                   VAR bytecount: CARDINAL) : BOOLEAN;
+      VAR r0, r1: CARDINAL;
+   BEGIN
+      IF UNIXCALL(write, r0, r1, fd, ptr, bytecount) THEN
+         bytecount := r0;
+         RETURN TRUE
+      ELSE
+         errno := r0;
+         bytecount := 0;
+         RETURN FALSE
+      END;
+   END Write;
+
+END SysWrite.
+.Pe
+.PP
+\fBUNIXFORK\fP is already interfaced by \fISysFork(3)\fP and should
+not be used anywhere else. Note that in case of failures the
+error code is returned in \fIpid\fP. In case of success, \fIpid\fP
+will contain the process id of the son (for the father process)
+or 0 (in the child process).
+.PP
+Similarly, \fBUNIXSIGNAL\fP is interfaced by \fISysSignal(3)\fP
+and should not be called in other modules. The parameters
+\fIsigno\fP and \fIp\fP specify which parameterless procedure
+is to be called on which signal number. The old signal
+handler is returned in \fIold\fP and, in case of failures,
+the error code is returned in \fIresult\fP together with
+a return value of \fBFALSE\fP.
+Note that \fBUNIXSIGNAL\fP does not offer all facilities
+of \fIsigaction(2)\fP (under Solaris 2.x) in their full generality
+but at least \fBUNIXSIGNAL\fP and \fISysSignal(3)\fP work on
+all our implementations without changes.
+.SS "Interface to Specific Machine Instructions"
+\fBSQRT\fP interfaces the equally named machine instruction
+on the SPARC architecture and is used by the
+SPARC-specific implementation of \fIMathLib(3)\fP.
+.SH "SEE ALSO"
+\fIm2c(1)\fP, \fIStorage(3)\fP, \fISysFork(3)\fP, \fISysSignal(3)\fP
+.br
+PIM3:
+Niklaus Wirth, \fIProgramming in Modula-2\fP, 3rd edition, Springer-Verlag
+.br
+\fIInstallation and User Guide for Ulm's Modula-2 System\fP
+.\" ---------------------------------------------------------------------------
+.\" $Id: SYSTEM.3,v 1.1 1997/02/26 15:59:34 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: SYSTEM.3,v $
+.\" Revision 1.1  1997/02/26  15:59:34  borchert
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

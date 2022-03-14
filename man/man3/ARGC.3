@@ -1,0 +1,43 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH ARGC 3 "local:Borchert"
+.SH NAME
+ARGC, ARGV \- get command line arguments
+.SH SYNOPSIS
+.Pg
+PROCEDURE ARGC() : CARDINAL;
+PROCEDURE ARGV(VAR buffer: ARRAY OF CHAR; argindex: CARDINAL);
+.Pe
+.SH DESCRIPTION
+These procedures belong to the standard procedures
+and needn't to be imported.
+.PP
+.I ARGC
+returns the number of command line arguments
+(incl. command name).
+.PP
+.I ARGV
+stores a single command line argument
+addressed by
+.I argindex
+(ranging from 0 to ARGC()-1)
+into
+.IR buffer .
+.PP
+Note that these procedures are inherently inportable and that
+\fIArguments(3)\fP should be used instead.
+.SH BUGS
+\fBARGC\fP and \fBARGV\fP should have been put into \fBSYSTEM\fP.
+.\" ---------------------------------------------------------------------------
+.\" $Id: ARGC.3,v 1.2 1997/02/25 17:36:34 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: ARGC.3,v $
+.\" Revision 1.2  1997/02/25  17:36:34  borchert
+.\" BUGS added
+.\"
+.\" Revision 1.1  1996/12/04  18:18:59  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

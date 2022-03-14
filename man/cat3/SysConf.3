@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                    SysConf(3)
+
+
+
+NNAAMMEE
+     SysConf - configuration parameters of the local installation
+
+SSYYNNOOPPSSIISS
+     PROCEDURE GetLibDir(VAR libdir: ARRAY OF CHAR);
+     PROCEDURE GetRelease(VAR release: ARRAY OF CHAR);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _S_y_s_C_o_n_f allows to retrieve some of the configuration parame­
+     ters of the local installation.
+
+     _G_e_t_L_i_b_D_i_r  returns the directory where the Modula-2 compiler
+     and the library have been installed to.  Note that _G_e_t_L_i_b_D_i_r
+     does  not  honour the MMOODDLLIIBB environment variable.  Instead,
+     it gives a reasonable default which should be taken if  MMOODD­­
+     LLIIBB is not given.
+
+     _G_e_t_R_e_l_e_a_s_e  returns  a  short  string  which  specifies  the
+     release of the local Modula-2 installation.
+
+FFIILLEESS
+     The local library directory might be  _/_u_s_r_/_l_o_c_a_l_/_l_i_b_/_m_o_d_u_l_a.
+
+SSEEEE AALLSSOO
+     _m_2_c_(_1_)
+
+BBUUGGSS
+     Note  that  these  procedures return the parameters from the
+     system on which your program has been compiled.   Your  pro­
+     gram,  however,  may be run on quite a different system with
+     another installation if  any.   For  this  reason,  programs
+     which  depend on _S_y_s_C_o_n_f should be rebuild if they are to be
+     installed on other systems with different parameters.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6 Last change: Last change: 4 March 1997            1
+
+
+

@@ -1,0 +1,66 @@
+
+
+
+C Library Functions                                  SysAccess(3)
+
+
+
+NNAAMMEE
+     SysAccess - determine accessibility of a file
+
+SSYYNNOOPPSSIISS
+     PROCEDURE Access(filename: ARRAY OF CHAR; mode: CARDINAL) : BOOLEAN;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     This  module  serves  as  interface to _a_c_c_e_s_s_(_2_).  Following
+     values for _m_o_d_e are supported:
+
+     4    test for read permission
+
+     2    test for write permission
+
+     1    test for execute permission
+
+     0    test for existence of file
+
+     Note that the test is performed for the real user id and not
+     for the effective user id.
+
+DDIIAAGGNNOOSSTTIICCSS
+     _A_c_c_e_s_s  returns  TTRRUUEE  on  success.   On  failure,  FFAALLSSEE is
+     returned and _E_r_r_n_o_._e_r_r_n_o set.
+
+SSEEEE AALLSSOO
+     _a_c_c_e_s_s_(_2_)    underlying system call
+     _S_y_s_O_p_e_n_(_3_)   opening files
+
+BBUUGGSS
+     The various mode should have been represented by an enumera­
+     tion type.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+

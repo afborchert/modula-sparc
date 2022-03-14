@@ -1,0 +1,77 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Terminal 3 "local:Borchert"
+.SH NAME
+Terminal \- simple i/o
+.SH SYNOPSIS
+.Pg
+VAR Done: BOOLEAN;
+.sp 0.7
+PROCEDURE Read(VAR ch: CHAR);
+PROCEDURE ReadAgain;
+PROCEDURE Write(ch: CHAR);
+PROCEDURE WriteLn;
+PROCEDURE WriteString(s: ARRAY OF CHAR);
+.Pe
+.SH DESCRIPTION
+.I Terminal
+bases on the
+.I StdIO(3)
+module and reads from
+.I stdin
+and writes to
+.IR stdout .
+.PP
+.I Read
+reads a character and stores it in
+.IR ch .
+.PP
+.I ReadAgain
+causes the last read character to be read again.
+This may be used after calling
+.I ReadCard, ReadInt, ReadString
+from \fIInOut(3)\fP or
+.I ReadReal
+from \fIRealInOut(3)\fP
+for rereading the terminating character.
+.PP
+.I Write
+writes
+.I ch
+to
+.IR stdout .
+.PP
+.I WriteLn
+writes a newline character to
+.IR stdout .
+.PP
+.I WriteString
+writes the string
+.I s
+to stdout.
+.SH DIAGNOSTICS
+.I Done
+is
+.B TRUE
+on successful calls, otherwise
+.BR FALSE .
+.SH "SEE ALSO"
+\fIStdIO(3)\fP, \fIInOut(3)\fP
+.SH HISTORY
+A similar module was written by Sven Erik Knudsen for the Lilith system.
+Just \fIBusyRead\fP was omitted.
+\fIWindows(3)\fP should be used instead.
+The current implementation is due to Andreas Borchert.
+.\" ---------------------------------------------------------------------------
+.\" $Id: Terminal.3,v 1.2 1997/02/25 17:43:33 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Terminal.3,v $
+.\" Revision 1.2  1997/02/25  17:43:33  borchert
+.\" formatting changed, HISTORY added
+.\"
+.\" Revision 1.1  1996/12/04  18:19:39  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

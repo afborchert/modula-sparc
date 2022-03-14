@@ -1,0 +1,231 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH StdIO 3 "local:Borchert"
+.SH NAME
+StdIO \- file i/o
+.SH SYNOPSIS
+.Pg
+TYPE FILE;
+TYPE MODE = (read, write, append);
+.sp 0.7
+VAR stdin, stdout, stderr: FILE;
+.sp 0.7
+PROCEDURE Fopen(VAR f: FILE; name: ARRAY OF CHAR;
+                mode: MODE; buffered: BOOLEAN) : BOOLEAN;
+PROCEDURE Fdopen(VAR f: FILE; fd: CARDINAL; mode: MODE;
+                 buffered: BOOLEAN) : BOOLEAN;
+PROCEDURE Fclose(f: FILE) : BOOLEAN;
+.sp 0.7
+PROCEDURE Fread(ptr: ADDRESS; size: CARDINAL;
+                VAR nitems: CARDINAL; f: FILE) : BOOLEAN;
+PROCEDURE Fwrite(ptr: ADDRESS; size: CARDINAL;
+                 VAR nitems: CARDINAL; f: FILE) : BOOLEAN;
+.sp 0.7
+PROCEDURE Fseek(f: FILE; offset: SystemTypes.OFF;
+                whence: CARDINAL) : BOOLEAN;
+PROCEDURE Ftell(f: FILE;
+                VAR pos: SystemTypes.OFF) : BOOLEAN;
+.sp 0.7
+PROCEDURE Feof(f: FILE) : BOOLEAN;
+PROCEDURE Ferror(f: FILE) : BOOLEAN;
+.sp 0.7
+PROCEDURE Fgetc(VAR ch: CHAR; f: FILE) : BOOLEAN;
+PROCEDURE Fputc(ch: CHAR; f: FILE) : BOOLEAN;
+PROCEDURE Fungetc(ch: CHAR; f: FILE) : BOOLEAN;
+.sp 0.7
+PROCEDURE CloseAll() : BOOLEAN;
+PROCEDURE Fflush(f: FILE) : BOOLEAN;
+.DE
+.SH DESCRIPTION
+.PP
+.I StdIO
+provides a portable interface to input and output of files
+(much like \fIstdio(3)\fP).
+Files may be opened by \fIFopen\fP or \fIFdopen\fP and
+are later referenced by file pointers of type \fIFILE\fP.
+If the program terminates in a normal way, all open file pointers
+will be closed automatically (see \fISysExit(3)\fP).
+.PP
+.I StdIO
+offers an optional buffering mechanism to reduce the number
+of system calls.
+Buffered streams are flushed only if the buffer gets full, and
+by the operations \fIFflush\fP and \fIFclose\fP.
+.PP
+Three access modes are supported:
+.Tb append
+.Tp read
+read-only access
+.Tp write
+write-only access.
+.Tp append
+at opening time, a seek operation to the end of the stream
+is performed. Later, this mode behaves like \fIwrite\fP.
+.Te
+.PP
+There are three normally open streams associated with the
+standard open files:
+.PP
+.Tb stderr
+.Tp stdin
+standard input file
+.Tp stdout
+standard output file
+.Tp stderr
+standard error file
+.Te
+.PP
+.I Fopen
+opens the file named by
+.I name
+and associates a stream with it;
+.I f
+identifies the stream in subsequent operations.
+If \fIwrite\fP is given as access mode,
+\fIfilename\fP will be created if it does not exist already
+and truncated to zero length, otherwise.
+Alternatively, the access mode \fIappend\fP may be used
+which does not truncate \fIfilename\fP if it exists already.
+.PP
+.I Fdopen
+associates a stream with a file descriptor obtained from
+\fISysOpen(3)\fP, \fISysDup(3)\fP, \fISysCreat(3)\fP,
+or \fISysPipe(3)\fP.
+The
+.I mode
+of the stream must agree with the mode of the open file.
+.PP
+.I Fclose
+causes any buffers for the named stream to be emptied,
+and the file to be closed.
+.PP
+.I Fread
+reads, into a block beginning at
+.IR ptr ,
+.I nitems
+of data of the type of
+.I ptr
+with size
+.IR size .
+.I Nitems
+gives back the number of items actually read.
+.PP
+.I Fwrite
+appends at most
+.I nitems
+of data of the type of
+.I ptr
+with size
+.I size
+beginning at
+.I ptr
+to the named output stream.
+.I Nitems
+gives back the number of items actually written.
+.PP
+.I Fseek
+sets the position of the next input or output operation
+on the stream.
+The new position is at the signed distance
+.I offset
+bytes from the beginning, the current position, or the end of the file,
+according as
+.I whence
+has the value 0, 1, or 2.
+.PP
+.I Ftell
+sets
+.I pos
+to the current position.
+.PP
+.I Feof
+returns
+.B TRUE
+when end of file is read on the named input stream,
+otherwise
+.BR FALSE .
+.PP
+.I Ferror
+returns
+.B TRUE
+when an error has occurred reading or writing the
+named stream, otherwise
+.BR FALSE .
+The error indication lasts until the stream is closed.
+.PP
+.I Fgetc
+sets
+.I ch
+to the next character of the input stream.
+.PP
+.I Fputc
+appends the character
+.I ch
+at the stream
+.IR f .
+.PP
+.I Fungetc
+pushes
+.I ch
+back to the input stream
+.IR f .
+Note that multiple invocations of \fIFungetc\fP
+without intermediate read operations are not guaranteed to work.
+.PP
+.I CloseAll
+closes all open streams.
+This may be useful for child processes and is automatically
+called during process termination (see \fISysExit(3)\fP).
+.PP
+.I Fflush
+causes any buffered data for the named output stream
+to be written to that file.
+The stream remains open.
+.PP
+The streams
+.IR stdin ,
+.IR stdout ,
+.I stderr
+may be reopened:
+.PP
+.Pg
+IF NOT Fclose(stdin) OR
+   NOT Fopen(stdin, file, mode, buffered) THEN
+   (* error case *)
+END;
+.Pe
+.SH "SEE ALSO"
+\fIInOut(3)\fP, \fIFtdIO(3)\fP
+.SH DIAGNOSTICS
+All routines return
+.B FALSE
+in error case.
+.SH BUGS
+The access modes conform to the equally named modes of
+the \fIstdio(3)\fP of UNIX Edition VII which are quite different from newer
+variants:
+.IP \(bu
+bidirectional modes are not supported
+.IP \(bu
+an update mode is not supported (\fIappend\fP may be used instead)
+.IP \(bu
+\fIappend\fP causes just an implicit seek operation to the
+end of the file at opening time but does not enforce
+write operations to be performed at the end of the file.
+.PP
+.I StdIO
+assumes that there are no differences between text and binary files.
+We regard this as feature :-)
+.\" ---------------------------------------------------------------------------
+.\" $Id: StdIO.3,v 1.2 1997/02/25 17:42:00 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: StdIO.3,v $
+.\" Revision 1.2  1997/02/25  17:42:00  borchert
+.\" formatting changed, introduction & BUGS added
+.\"
+.\" Revision 1.1  1996/12/04  18:19:30  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

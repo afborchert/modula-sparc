@@ -1,0 +1,132 @@
+
+
+
+C Library Functions                                          P(3)
+
+
+
+NNAAMMEE
+     P - formatted output to stdout
+
+SSYYNNOOPPSSIISS
+     (* diagnostic *)
+     PROCEDURE done () : BOOLEAN;
+     PROCEDURE success() : FmtExitCode;
+
+     (* error handling *)
+     PROCEDURE setmode (mode : BITSET);
+     PROCEDURE getmode (VAR mode : BITSET);
+
+     (* output *)
+     PROCEDURE rintf0 (fmt : ARRAY OF CHAR);
+     PROCEDURE rintf1 (fmt : ARRAY OF CHAR; i1 : ARRAY OF BYTE);
+     PROCEDURE rintf2 (fmt : ARRAY OF CHAR; i1,i2 : ARRAY OF BYTE);
+     (* ... *)
+     PROCEDURE rintf8 (fmt : ARRAY OF CHAR; i1, i2, i3, i4, i5,
+        i6, i7 , i8 : ARRAY OF BYTE);
+
+
+DDEESSCCRRIIPPTTIIOONN
+     _P_._r_i_n_t_f_0  ..  _P_._r_i_n_t_f_8  (the  procedures  are intended to be
+     called qualified, that explains their strange names) convert
+     their  parameters  , instantiate them into the format string
+     _f_m_t and output the resulting text on _S_t_d_I_O_._s_t_d_o_u_t.  Refer to
+     _P_r_i_n_t_f_(_3_) for a detailed description of formatting capabili­
+     ties.
+
+     Output of _P is echoed to all echo files defined  for  _s_t_d_o_u_t
+     by means of _L_o_n_g_S_t_r_i_n_g_s_._E_c_h_o.
+
+     _d_o_n_e  returns  TTRRUUEE if the last call of _P_._r_i_n_t_f_0 .. _P_._r_i_n_t_f_8
+     was successful, more detailed information can be obtained by
+     _s_u_c_c_e_s_s (_F_m_t_E_x_i_t_C_o_d_e is imported from _P_r_i_n_t_f_(_3_)).
+
+     _s_e_t_m_o_d_e  defines  a new error handling mode _m_o_d_e which is by
+     default set to _P_r_i_n_t_f_._D_e_f_a_u_l_t_.  _g_e_t_m_o_d_e yields  the  current
+     mode.
+
+DDIIAAGGNNOOSSTTIICCSS
+     Diagnostic  is  unnecessary  unless  default  error handling
+     strategy has been explicitly  modified  by  prior  calls  of
+     _s_e_t_m_o_d_e.  See _P_r_i_n_t_f_(_3_) for more details.
+
+     In  case  of  errors _P_._r_i_n_t_f_0 .. _P_._r_i_n_t_f_8 do not produce any
+     output.  Errors may result from illegal  format  strings  or
+     from  problems  when  writing  to  _s_t_d_o_u_t  (error  code CCaann­­
+     nnoottWWrriitteeSSttddoouutt).
+
+     Error message issued by _P  will  contain  information  about
+     their reason and the affected procedure call:
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                          P(3)
+
+
+
+          [fatal] P.rintf1("%*u",...);
+                  Bad  Format: too many format elements.  [a.out]
+          Exit code 201. Stop.
+
+SSEEEE AALLSSOO
+     _P_r_i_n_t_f_(_3_), _L_o_n_g_S_t_r_i_n_g_s_(_3_), _S_t_d_I_O_(_3_)
+
+AAUUTTHHOORR
+     Werner Stanglow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+

@@ -1,0 +1,49 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH CallShell 3 "local:Borchert"
+.SH NAME
+CallShell \- issue a shell command
+.SH SYNOPSIS
+.Pg
+PROCEDURE Shell(string: ARRAY OF CHAR; VAR status: CARDINAL) : BOOLEAN;
+.Pe
+.SH DESCRIPTION
+.I Shell
+causes the
+.I string
+to be given to \fIsh(1)\fP as input as if the
+.I string
+had been typed as a command at a terminal.
+The current process waits until the shell has completed,
+the status (see \fIwait(2)\fP) of the shell will be stored in
+.IR status .
+.SH DIAGNOSTICS
+.I Shell
+returns
+.B FALSE
+if \fIsh(1)\fP cannot be started.
+.SH FILES
+.Tb
+.Tp /bin/sh
+pathname of \fIsh(1)\fP
+.Te
+.SH "SEE ALSO"
+\fIsh(1)\fP, \fIwait(2)\fP
+.SH BUGS
+The \fBSHELL\fP environment variable is not honored.
+.PP
+Because the environment variables are passed unchanged to \fIsh(1)\fP
+this interface is inherently insecure if the process runs with s-bit.
+.\" ---------------------------------------------------------------------------
+.\" $Id: CallShell.3,v 1.2 1997/02/25 17:38:11 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: CallShell.3,v $
+.\" Revision 1.2  1997/02/25  17:38:11  borchert
+.\" formatting changed and BUGS added
+.\"
+.\" Revision 1.1  1996/12/04  18:19:04  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------

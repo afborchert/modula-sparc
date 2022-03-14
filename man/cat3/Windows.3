@@ -1,0 +1,396 @@
+
+
+
+C Library Functions                                    Windows(3)
+
+
+
+NNAAMMEE
+     Windows - screen handling routines
+
+SSYYNNOOPPSSIISS
+     TYPE TermType = ARRAY[0..31] OF CHAR;
+     TYPE Device;
+     TYPE Terminfo;
+     TYPE Window;
+     TYPE WindowAttributes = (flushalways, flushoninput,
+                              nodelay, echo, scroll, movecursor,
+                              funckeys, timeout, mapkeys, readcr);
+     TYPE WindowAtSet = SET OF WindowAttributes;
+     TYPE WindowStatbuf =
+             RECORD
+                dev: Device;
+                in, out: FILE;
+                fkinfo: FKInfo;
+                atinfo: AttrInfo;
+                scr: Screen;
+                terminfo: TermPtr;
+             END;
+
+     VAR Done: BOOLEAN;
+
+     PROCEDURE OpenTerminfo(VAR tinfo: Terminfo; termtype: TermType);
+
+     (* operations on devices *)
+     PROCEDURE OpenDevice(VAR dev: Device; devin, devout: FILE;
+                          tinfo: Terminfo);
+     PROCEDURE OpenDeviceFile(VAR dev: Device; devname: ARRAY OF CHAR;
+                              tinfo: Terminfo);
+     PROCEDURE Redraw(dev: Device);
+     PROCEDURE DeviceChar(dev: Device; line, column: CARDINAL) : CHAR;
+     PROCEDURE CloseDevice(VAR dev: Device);
+     PROCEDURE SuspendDevice(dev: Device);
+     PROCEDURE RestoreDevice(dev: Device);
+
+     (* operations on windows *)
+     PROCEDURE CreateWindow(VAR win: Window; dev: Device);
+     PROCEDURE CloseWindow(VAR win: Window);
+     PROCEDURE GetWindowAttributes(win: Window; VAR atset: WindowAtSet);
+     PROCEDURE SetWindowAttributes(win: Window; atset: WindowAtSet);
+     PROCEDURE NewWindow(VAR win: Window; newwinof: Window;
+                         sx, sy, lns, cols: CARDINAL);
+     PROCEDURE SubWindow(VAR win: Window; subwinof: Window;
+                         sx, sy, lns, cols: CARDINAL);
+     PROCEDURE GetWindowSize(win: Window; VAR lines, columns: CARDINAL);
+     PROCEDURE GetWindowStart(win: Window; VAR line, column: CARDINAL);
+     PROCEDURE GetSupWin(win: Window; VAR supwin: Window);
+     PROCEDURE IsSubWin(win: Window): BOOLEAN;
+     PROCEDURE WindowStat(win: Window; VAR statbuf: WindowStatbuf);
+     PROCEDURE SetWindowPos(win: Window; line, column: CARDINAL);
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          1
+
+
+
+
+
+
+C Library Functions                                    Windows(3)
+
+
+
+     PROCEDURE GetWindowPos(win: Window; VAR line, column: CARDINAL);
+
+     (* input/output on windows *)
+     PROCEDURE WindowWrite(win: Window; ch: CHAR);
+     PROCEDURE SetWindowDisplayMode(win: Window; atset: AttributeSet);
+     PROCEDURE WindowRead(win: Window; VAR ch: CHAR);
+     PROCEDURE IsFunctionKey(ch: CHAR) : BOOLEAN;
+     PROCEDURE ToFunctionKey(ch: CHAR) : FunctionKey;
+     PROCEDURE WindowChar(win: Window; line, column: CARDINAL) : CHAR;
+     PROCEDURE WindowUnget(win: Window; ch: CHAR);
+     PROCEDURE WindowClear(win: Window);
+     PROCEDURE ScrollWindow(win: Window; count: INTEGER);
+     PROCEDURE FlushWindow(win: Window);
+
+     (* coroutine-manager *)
+     PROCEDURE StartWinProcess(win: Window; process: PROC);
+     PROCEDURE TerminateWinProcess(win: Window);
+     PROCEDURE RunProcesses;
+     PROCEDURE Terminate;
+
+
+DDEESSCCRRIIPPTTIIOONN
+     The  basic  objects of this module are windows.  Each window
+     is associated with a screen part on a terminal device.  Each
+     terminal device has a terminal type (e.g. "vt100").  _W_i_n_d_o_w_s
+     accesses the terminal capability  database  terminfo(4)  and
+     works for each terminal type described there.
+
+     Descriptions of terminal capabilities are referenced by _T_e_r_­
+     _m_i_n_f_o and can be opened using  _O_p_e_n_T_e_r_m_i_n_f_o.   If  an  empty
+     string is given to _t_e_r_m_t_y_p_e the environment variable TTEERRMM is
+     taken instead.
+
+     In the beginning at least one device should be opened  using
+     _O_p_e_n_D_e_v_i_c_e or _O_p_e_n_D_e_v_i_c_e_F_i_l_e.  The given filepointers (typi­
+     cally _S_t_d_I_O_._s_t_d_i_n and _S_t_d_I_O_._s_t_d_o_u_t) must be associated  with
+     a terminal device.  _d_e_v_o_u_t should be buffered.  _t_i_n_f_o refer­
+     ences the terminal type.  Resulting parameter is  _d_e_v  which
+     references   the  terminal  device  on  further  operations.
+     _C_l_o_s_e_D_e_v_i_c_e  restores  the  terminal  settings   (ioctl(2)),
+     closes  the  associated  filepointers,  and  deallocates the
+     space used for _d_e_v.  _R_e_d_r_a_w restores  the  screen  contents.
+     This is necessary if external effects have modified the ter­
+     minal screen.  _D_e_v_i_c_e_C_h_a_r returns the character at  position
+     _l_i_n_e_/_c_o_l_u_m_n  on  device  _d_e_v.   The  access  of _W_i_n_d_o_w_s to a
+     device can be suspended by calling _S_u_s_p_e_n_d_D_e_v_i_c_e  (e.g.  for
+     shell escapes).  This includes terminal resetting (_i_o_c_t_l_(_2_))
+     and cursor positioning to the last line.  _R_e_s_t_o_r_e_D_e_v_i_c_e ends
+     the suspension and redraws the screen.
+
+     Each  window (except subwindows) has its own screen contents
+     and  cursor  position  which  can  differ  from  the  actual
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          2
+
+
+
+
+
+
+C Library Functions                                    Windows(3)
+
+
+
+     contents  on  the  terminal device.  So write operations and
+     cursor movements affect on default the window contents only.
+     To update the screen part of a window on the terminal device
+     _F_l_u_s_h_W_i_n_d_o_w is needed.  Because windows may  overlap  it  is
+     possible  to hide parts of a window by flushing another win­
+     dow.  Some attributes belong to a window which can  be  read
+     and  set  using _G_e_t_W_i_n_d_o_w_A_t_t_r_i_b_u_t_e_s and _S_e_t_W_i_n_d_o_w_A_t_t_r_i_b_u_t_e_s.
+     They have following meaning:
+     _f_l_u_s_h_a_l_w_a_y_s   causes every write operation to be followed by
+                   _F_l_u_s_h_W_i_n_d_o_w_.
+     _f_l_u_s_h_o_n_i_n_p_u_t  requests _W_i_n_d_o_w_R_e_a_d to call FlushWindow before
+                   reading.
+     _n_o_d_e_l_a_y       causes _W_i_n_d_o_w_R_e_a_d to return with _D_o_n_e  set  to
+                   FFAALLSSEE if no input is available.
+     _e_c_h_o          causes  _W_i_n_d_o_w_R_e_a_d  to  echo  the  input being
+                   read.
+     _s_c_r_o_l_l        enables scrolling on writing  of  _A_S_C_I_I_._n_l  in
+                   the  last  line  or  after writing in the last
+                   column of the last line (automatic margin).
+     _m_o_v_e_c_u_r_s_o_r    requests _F_l_u_s_h_W_i_n_d_o_w to position the cursor on
+                   the  terminal device accordingly to the window
+                   cursor.  If supported by the terminal the cur­
+                   sor is visible only if _m_o_v_e_c_u_r_s_o_r is set.
+     _f_u_n_c_k_e_y_s      enables  function  keys  on  reading.  Because
+                   this is local to a window typeahead  of  func­
+                   tion keys should be avoided.
+     _t_i_m_e_o_u_t       is  to be set in conjunction with _f_u_n_c_k_e_y_s and
+                   causes _W_i_n_d_o_w_R_e_a_d not to  hang  on  unfinished
+                   function key codes.
+     _m_a_p_k_e_y_s       requests  even  single  character function key
+                   codes to be mapped (e.g. the ASCII _b_s  charac­
+                   ter is mapped to _b_a_c_k_s_p_a_c_e).
+     _r_e_a_d_c_r        requests  _W_i_n_d_o_w_R_e_a_d  not  to  map _A_S_C_I_I_._c_r to
+                   _A_S_C_I_I_._n_l.
+
+     The first window of a device _d_e_v  is  to  be  created  using
+     _C_r_e_a_t_e_W_i_n_d_o_w.   The  number of lines and columns result from
+     the associated terminal type  and  can  be  retrieved  using
+     _G_e_t_W_i_n_d_o_w_S_i_z_e.
+
+     Further   windows   can   be  created  using  _S_u_b_W_i_n_d_o_w  and
+     _N_e_w_W_i_n_d_o_w.  They are positioned relative  (with  offsets  _s_x
+     (line offset) and _s_y) to _s_u_b_w_i_n_o_f or _n_e_w_w_i_n_o_f, respectively,
+     and have a size (_l_n_s and _c_o_l_s) which must fit into  _s_u_b_w_i_n_o_f
+     or  _n_e_w_w_i_n_o_f,  respectively.   The window attributes of _s_u_b_­
+     _w_i_n_o_f or _n_e_w_w_i_n_o_f, respectively, are inherited to _w_i_n.  Sub­
+     windows  have  no  screen contents of their own but serve as
+     mapping rule and update unit.  Like other windows they  have
+     their own cursor and their own attributes.  The _f_l_u_s_h_o_n_i_n_p_u_t
+     attribute has a special meaning for  subwindows  and  causes
+     _s_u_b_w_i_n_o_f  to be updated on reading, too.  Windows created by
+     _N_e_w_W_i_n behave like windows created by _C_r_e_a_t_e_W_i_n_d_o_w, i.e.  if
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          3
+
+
+
+
+
+
+C Library Functions                                    Windows(3)
+
+
+
+     more  than one screen fitting window is needed, _C_r_e_a_t_e_W_i_n_d_o_w
+     can be called again.
+
+     Some  procedures  retrieve   informations   about   windows.
+     _G_e_t_W_i_n_d_o_w_S_i_z_e  returns  the  number  of  lines  and columns.
+     _G_e_t_W_i_n_d_o_w_S_t_a_r_t returns the relative offset to  the  terminal
+     screen in case of windows created by _N_e_w_W_i_n_d_o_w or _C_r_e_a_t_e_W_i_n_­
+     _d_o_w or the relative offset to _s_u_b_w_i_n_o_f in  case  of  subwin­
+     dows.  _G_e_t_S_u_p_W_i_n returns the super-window, i.e.  _s_u_b_w_i_n_o_f of
+     subwindows.  _I_s_S_u_b_W_i_n allows to distinguish between  subwin­
+     dows  and  other  windows.  _W_i_n_d_o_w_S_t_a_t returns a record con­
+     taining further informations associated with _w_i_n_.  The  com­
+     ponents of the record are system dependant, e.g. _t_e_r_m_i_n_f_o is
+     possibly a _t_e_r_m_c_a_p reference on Berkeley systems.
+
+     Cursor positioning is possible using _S_e_t_W_i_n_d_o_w_P_o_s_.  Line and
+     column  numbers start from 0.  _G_e_t_W_i_n_d_o_w_P_o_s returns the cur­
+     rent cursor position.
+
+     _W_i_n_d_o_w_W_r_i_t_e writes _c_h at the current cursor position of  the
+     window.   Besides visible characters only few characters are
+     permitted.  Back spaces, newlines, and carriage returns  are
+     translated  into  cursor  movements,  i.e. back spaces don't
+     erase the window.  Visible characters cause the cursor to be
+     moved  (with  an  automatic margin at the end of each window
+     line).  If _s_c_r_o_l_l is not set, no scrolling takes place after
+     having  reached  the  end of the last line of the window and
+     nothing can be written  without  moving  the  cursor  first.
+     _W_i_n_d_o_w_C_l_e_a_r fills _w_i_n with blanks.  _S_c_r_o_l_l_W_i_n_d_o_w scrolls _w_i_n
+     upward (_c_o_u_n_t > 0) or downward (_c_o_u_n_t < 0) AABBSS(_c_o_u_n_t) lines.
+
+     _S_e_t_W_i_n_d_o_w_D_i_s_p_l_a_y_M_o_d_e  sets the set of display modes for _w_i_n_.
+     The type _A_t_t_r_i_b_u_t_e_S_e_t is to  be  imported  from  _A_t_t_r_i_b_u_t_e_s_.
+     The  display  mode  is  effective for the given window until
+     _S_e_t_W_i_n_d_o_w_D_i_s_p_l_a_y_M_o_d_e  is  called   again.    Unlike   window
+     attributes,  display  modes are not inherited to subwindows.
+     Combinations of several display modes (cardinality of  _a_t_s_e_t
+     _> _1) do not work well for every terminal.  Terminals needing
+     extra characters to store the display  modes  are  not  sup­
+     ported.   Note  that _W_i_n_d_o_w_C_l_e_a_r does not affect the display
+     modes; e.g. reverse display  mode  followed  by  _W_i_n_d_o_w_C_l_e_a_r
+     causes the complete window to be set into reverse video.
+
+     _W_i_n_d_o_w_R_e_a_d  reads  one  character  into _c_h from the terminal
+     associated with _w_i_n.  If _f_l_u_s_h_o_n_i_n_p_u_t is set _F_l_u_s_h_W_i_n_d_o_w  is
+     called  for  _w_i_n,  or  if  _w_i_n is a subwindow for the window
+     ordered above.  If the cursor on the terminal is to be  left
+     at  the window cursor position (and is to be made more visi­
+     ble if possible) _m_o_v_e_c_u_r_s_o_r  should  be  set  together  with
+     _f_l_u_s_h_o_n_i_n_p_u_t.  On _n_o_d_e_l_a_y, _W_i_n_d_o_w_R_e_a_d returns immediately if
+     no input is available.  Characters being read are written to
+     the  current  cursor  position  if _e_c_h_o is set.  If function
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          4
+
+
+
+
+
+
+C Library Functions                                    Windows(3)
+
+
+
+     keys are enabled _I_s_F_u_n_c_t_i_o_n_K_e_y can be  used  to  distinguish
+     between  normal characters and function keys.  _T_o_F_u_n_c_t_i_o_n_K_e_y
+     converts a character returned by _W_i_n_d_o_w_R_e_a_d  to  a  function
+     key (type _F_u_n_c_t_i_o_n_K_e_y is imported from module _F_u_n_c_t_i_o_n_K_e_y_s).
+     _T_o_F_u_n_c_t_i_o_n_K_e_y returns _n_o_k_e_y if _c_h is  not  a  function  key.
+     Function keys are not echoed and cannot be given as argument
+     to _W_i_n_d_o_w_W_r_i_t_e.  _W_i_n_d_o_w_U_n_g_e_t causes _W_i_n_d_o_w_R_e_a_d to return  _c_h
+     on next call for this window.
+
+     _W_i_n_d_o_w_C_h_a_r  returns  the character at the given window posi­
+     tion.
+
+     _F_l_u_s_h_W_i_n_d_o_w updates _w_i_n on the associated terminal device in
+     an  optimized  way.  If _m_o_v_e_c_u_r_s_o_r is set for _w_i_n the (visi­
+     ble) cursor on the terminal is  left  at  the  corresponding
+     window  cursor  position.   Else the cursor is invisible (if
+     possible).
+
+     The coroutine-manager allows to serve more than one terminal
+     concurrently.   _S_t_a_r_t_W_i_n_P_r_o_c_e_s_s  connects a coroutine proce­
+     dure _p_r_o_c to _w_i_n.  Coroutine procedures  must  not  share  a
+     window  nor  a  terminal  device.   After  having set up all
+     coroutine  procedures  with   _S_t_a_r_t_W_i_n_P_r_o_c_e_s_s   _R_u_n_P_r_o_c_e_s_s_e_s
+     transfers  to the first of them.  The only way that a corou­
+     tine gets suspended is to call _W_i_n_d_o_w_R_e_a_d with _n_o_d_e_l_a_y  set.
+     _W_i_n_d_o_w_R_e_a_d  then transfers to the next coroutine if no input
+     is available.  A coroutine must not return but has  to  call
+     _T_e_r_m_i_n_a_t_e  for final suspension.  _T_e_r_m_i_n_a_t_e_W_i_n_P_r_o_c_e_s_s allows
+     to kill other coroutines.  If all coroutines are  terminated
+     _R_u_n_P_r_o_c_e_s_s_e_s  returns.  The stack for each coroutine is lim­
+     ited (currently 32768 bytes), so big arrays should be  allo­
+     cated using _S_t_o_r_a_g_e and not as local variables.
+
+SSEEEE AALLSSOO
+     _A_t_t_r_i_b_u_t_e_s_(_3_)     set of available attributes and some asso­
+                       ciated low-level operations
+     _F_t_d_W_i_n_(_3_)         formatted i/o to and from windows
+     _F_u_n_c_t_i_o_n_K_e_y_s_(_3_)   set of available function  keys  and  some
+                       associated low-level operations
+     _M_a_i_n_W_i_n_(_3_)        a   less   sophisticated  interface  which
+                       offers one main window
+     _M_e_n_u_s_(_3_)          menus on base of _W_i_n_d_o_w_s
+     _S_c_r_e_e_n_(_3_)         low-level screen operations which are used
+                       by _W_i_n_d_o_w_s
+     _T_e_r_m_I_n_f_o_(_3_)       low-level   interface   to   the  terminfo
+                       database
+     _W_(_3_)              formatted i/o in _P_r_i_n_t_f_(_3_)  style  to  and
+                       from windows
+
+BBUUGGSS
+     _W_i_n_d_o_w_s  is  very  slow if _d_e_v_o_u_t is unbuffered.  So _O_p_e_n_D_e_­
+     _v_i_c_e_F_i_l_e should be used instead of _O_p_e_n_D_e_v_i_c_e.
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          5
+
+
+
+
+
+
+C Library Functions                                    Windows(3)
+
+
+
+     No character will be written at the last column of the  last
+     line  of a device.  This is necessary because some terminals
+     scroll in this case one line forward.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Release 3.0b6Last change: Last change: 25 February 1997          6
+
+
+

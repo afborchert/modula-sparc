@@ -1,0 +1,107 @@
+.\" ---------------------------------------------------------------------------
+.\" Ulm's Modula-2 Compiler and Library Documentation
+.\" Copyright (C) 1983-1996 by University of Ulm, SAI, 89069 Ulm, Germany
+.\" ---------------------------------------------------------------------------
+.TH Passwd 3 "local: Hasch"
+.SH NAME
+Passwd \- scanning and searching the password file
+.SH SYNOPSIS
+.Pg
+TYPE Pwent =
+         RECORD
+            logname:  ARRAY [0..7] OF CHAR;
+            password: ARRAY [0..15] OF CHAR;
+            uid:      CARDINAL;
+            gid:      CARDINAL;
+            fullname: ARRAY [0..31] OF CHAR;
+            dir:      ARRAY [0..31] OF CHAR;
+            shell:    ARRAY [0..31] OF CHAR;
+         END;
+.sp 0.7
+PROCEDURE OpenPw(filename: ARRAY OF CHAR): BOOLEAN;
+PROCEDURE GetPwent(VAR pwent: Pwent): BOOLEAN;
+PROCEDURE GetPwuid(uid: CARDINAL; VAR pwent: Pwent): BOOLEAN;
+PROCEDURE GetPwnam(logn: ARRAY OF CHAR; VAR pwent: Pwent): BOOLEAN;
+PROCEDURE ReopenPw(): BOOLEAN;
+PROCEDURE ClosePw(): BOOLEAN;
+PROCEDURE FetchPwuid(uid: CARDINAL; VAR pwent: Pwent): BOOLEAN;
+PROCEDURE FetchPwnam(logn: ARRAY OF CHAR; VAR pwent: Pwent): BOOLEAN;
+.DE
+.SH DESCRIPTION
+The
+.I Passwd
+module can be used to scan entries of
+files that have a structure as described in
+.I passwd(4)
+into a
+.I Pwent
+type record.
+.PP
+Between
+.I OpenPw
+and
+.I ClosePw,
+any (using
+.IR GetPwent )
+or the next entry whose uid cf. logname field matches
+.I uid
+cf.
+.I logn
+(using
+.I GetPwuid
+cf.
+.IR GetPwnam )
+that has not yet been read
+will be written into the
+.I pwent
+record.
+.br
+At end of file, the
+.I GetXXX
+functions return
+.B FALSE
+and the data in
+.I pwent
+is not valid.
+.br
+.I ReopenPw
+restarts reading the file from the top
+if it is seekable,
+otherwise reports an error.
+.PP
+Opening the file
+"/etc/passwd",
+searching for a single uid cf. logname
+and closing the file again,
+can all be done at once using
+.I FetchPwuid
+cf.
+.IR FetchPwnam .
+This is useful for mapping numerical user IDs to names, e.g.,
+which is the main purpose of this module.
+.SH DIAGNOSTICS
+All
+.B BOOLEAN
+functions return
+.B TRUE
+on success, otherwise
+.B FALSE.
+.SH FILES
+\fI/etc/passwd\fP
+.SH "SEE ALSO"
+\fIpasswd(4)\fP, \fIEtcGroup(3)\fP, \fIStdIO(3)\fP
+.SH AUTHOR
+Martin Hasch, University of Ulm
+.SH BUGS
+The \fI/etc/nsswitch.conf\fP file is not honoured.
+.\" ---------------------------------------------------------------------------
+.\" $Id: Passwd.3,v 1.2 1997/02/25 17:41:00 borchert Exp $
+.\" ---------------------------------------------------------------------------
+.\" $Log: Passwd.3,v $
+.\" Revision 1.2  1997/02/25  17:41:00  borchert
+.\" formatting changed and BUGS added
+.\"
+.\" Revision 1.1  1996/12/04  18:19:23  martin
+.\" Initial revision
+.\"
+.\" ---------------------------------------------------------------------------
