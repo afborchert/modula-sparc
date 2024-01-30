@@ -57,6 +57,12 @@ at the University of California, Berkeley: This product includes
 software developed by the University of California, Berkeley and its
 contributors.
 
+## Downloading binaries
+
+Download of binaries for Solaris 10:
+
+   https://www.mathematik.uni-ulm.de/modula/downloads/sparc/
+
 ## See also
 
 More about the historic bootstrapping process that led to this
