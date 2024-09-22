@@ -24,8 +24,9 @@ and his team.
 This compiler was cross-developed from our m68k-based compiler
 for the SPARC architecture running Solaris. These sources
 are the latest release we developed for the SPARCv8 architecture
-running Solaris. They still work under Solaris 10 but we have
-never tested them under Solaris 11.
+running Solaris. The compiler and the library still work under
+Solaris 10 but unfortunately not under Solaris 11 due to
+changes of the system call interface.
 
 ## License
 
