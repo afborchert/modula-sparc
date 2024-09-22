@@ -1,15 +1,15 @@
-(* Ulm's Modula-2 Compiler    Solaris 2.x/SPARCv8
-   Copyright (C) 1983-1996 Universitaet Ulm, SAI, 89069 Ulm, Germany
+(* Ulm's Modula-2 Compiler    Solaris 11/SPARCv8
+   Copyright (C) 1983-2024 Andreas F. Borchert
    ----------------------------------------------------------------------------
    Modula-2 has been designed and developed by Niklaus Wirth
    at the Institut fuer Informatik, ETH Zuerich, Switzerland
    ----------------------------------------------------------------------------
-   Ulm's Modula-2 Compiler is free software; you can redistribute it
+   Ulm Modula-2 Compiler is free software; you can redistribute it
    and/or modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation; either version 2 of
    the License, or (at your option) any later version.
 
-   Ulm's Modula-2 Compiler is distributed in the hope that it will be
+   Ulm Modula-2 Compiler is distributed in the hope that it will be
    useful, but WITHOUT ANY WARRANTY; without even the implied warranty
    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    General Public License for more details.
@@ -17,21 +17,6 @@
    You should have received a copy of the GNU General Public License
    along with this library; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-   ----------------------------------------------------------------------------
-   $Id: MCP4Expr.m2,v 0.2 1998/04/23 18:10:34 borchert Exp borchert $
-   ----------------------------------------------------------------------------
-   $Log: MCP4Expr.m2,v $
-   Revision 0.2  1998/04/23  18:10:34  borchert
-   bug fixes: if a parameter is stored on temporary stack space it
-              must not be released before the called procedure returns
-              (this is now done by KeepStackReservation);
-
-              stack reservations must not be forgotten on switching
-              from addrMode to regMode (this happened in StoreParam)
-
-   Revision 0.1  1997/02/21  18:40:30  borchert
-   Initial revision
-
    ----------------------------------------------------------------------------
 *)
 
@@ -69,7 +54,7 @@ IMPLEMENTATION MODULE MCP4Expr; (* AFB 3/96 *)
    FROM MCP4Types IMPORT ResultType, ArithType, IsNumeric, IsSetType,
       IsReal, IsDyn, BaseType;
    FROM Memory IMPORT ALLOCATE, DEALLOCATE;
-   FROM Sys IMPORT fork, exit;
+   FROM Sys IMPORT forksys, exit;
    IMPORT Memory, MCBase, MCP4Stack;
 
    (* following procedures parse expressions & designators from
@@ -740,7 +725,10 @@ IMPLEMENTATION MODULE MCP4Expr; (* AFB 3/96 *)
 	       endifLab: Label;
 	 BEGIN
 	    StrEmit("%* SYSTEM.UNIXFORK");
-	    LoadConst(g1, fork);
+	    (* clear flags parameter of forkx *)
+	    LoadConst(o0, 0);
+	    LoadConst(o1, 0);
+	    LoadConst(g1, forksys); (* extended version of Solaris 11 *)
 	    Emit1(TA, "%c", 8); ccat := at;
 	    WITH at^ DO
 	       attype := boolptr;

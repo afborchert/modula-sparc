@@ -1,5 +1,5 @@
-(* Ulm's Modula-2 Library
-   Copyright (C) 1984-1997 by University of Ulm, SAI, D-89069 Ulm, Germany
+(* Ulm Modula-2 Library
+   Copyright (C) 1984-2024 by Andreas F. Borchert
    ----------------------------------------------------------------------------
    Ulm's Modula-2 Library is free software; you can redistribute it
    and/or modify it under the terms of the GNU Library General Public
@@ -15,40 +15,22 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    ----------------------------------------------------------------------------
-   E-mail contact: modula@mathematik.uni-ulm.de
-   ----------------------------------------------------------------------------
-   $Id: SysCreat.m2,v 0.2 1997/02/28 15:47:28 borchert Exp $
-   ----------------------------------------------------------------------------
-   $Log: SysCreat.m2,v $
-   Revision 0.2  1997/02/28  15:47:28  borchert
-   header fixed
-
-   Revision 0.1  1997/02/21  19:05:30  borchert
-   Initial revision
-
+   E-mail contact: modula@andreas-borchert.de
    ----------------------------------------------------------------------------
 *)
 
 IMPLEMENTATION MODULE SysCreat;
 
    FROM Errno IMPORT errno;
-   FROM Sys IMPORT creat;
+   FROM SysOpen IMPORT OpenCreat;
+   FROM SystemTypes IMPORT creat, rdwr;
    FROM UnixString IMPORT Buffer, Copy;
    FROM SYSTEM IMPORT UNIXCALL, ADR;
 
    PROCEDURE Creat(VAR fd: CARDINAL; filename: ARRAY OF CHAR;
                    mode: CARDINAL) : BOOLEAN;
-      VAR r0, r1: CARDINAL;
-          Buf: Buffer;
    BEGIN
-      Copy(Buf, filename);
-      IF UNIXCALL(creat, r0, r1, ADR(Buf), mode) THEN
-         fd := r0;
-         RETURN TRUE;
-      ELSE
-         errno := r0;
-         RETURN FALSE;
-      END;
+      RETURN OpenCreat(fd, filename, creat + rdwr, mode);
    END Creat;
 
 END SysCreat.

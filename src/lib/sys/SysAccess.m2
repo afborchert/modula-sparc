@@ -1,5 +1,5 @@
-(* Ulm's Modula-2 Library
-   Copyright (C) 1984-1997 by University of Ulm, SAI, D-89069 Ulm, Germany
+(* Ulm Modula-2 Library
+   Copyright (C) 1984-2024 by Andreas F. Borchert
    ----------------------------------------------------------------------------
    Ulm's Modula-2 Library is free software; you can redistribute it
    and/or modify it under the terms of the GNU Library General Public
@@ -15,24 +15,15 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
    ----------------------------------------------------------------------------
-   E-mail contact: modula@mathematik.uni-ulm.de
-   ----------------------------------------------------------------------------
-   $Id: SysAccess.m2,v 0.2 1997/02/28 15:47:21 borchert Exp $
-   ----------------------------------------------------------------------------
-   $Log: SysAccess.m2,v $
-   Revision 0.2  1997/02/28  15:47:21  borchert
-   header fixed
-
-   Revision 0.1  1997/02/21  19:05:28  borchert
-   Initial revision
-
+   E-mail contact: modula@andreas-borchert.de
    ----------------------------------------------------------------------------
 *)
 
 IMPLEMENTATION MODULE SysAccess;
 
    FROM Errno IMPORT errno;
-   FROM Sys IMPORT access;
+   FROM Sys IMPORT faccessat;
+   FROM SystemTypes IMPORT atFDCWD;
    FROM UnixString IMPORT Buffer, Copy;
    FROM SYSTEM IMPORT UNIXCALL, ADR;
 
@@ -41,7 +32,7 @@ IMPLEMENTATION MODULE SysAccess;
           Buf: Buffer;
    BEGIN
       Copy(Buf, filename);
-      IF UNIXCALL(access, r0, r1, ADR(Buf), mode) THEN
+      IF UNIXCALL(faccessat, r0, r1, atFDCWD, ADR(Buf), mode, 0) THEN
          RETURN TRUE;
       ELSE
          errno := r0;

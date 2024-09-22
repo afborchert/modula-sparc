@@ -1,4 +1,4 @@
-# {updated by mmm: Thu Feb 27 14:51:49 1997 GMT}
+# {updated by mmm: Sun Sep 22 14:01:55 2024 GMT}
 # {flags: -a+ -e- -l+ -L- -m- -1- -v-}
 # {rules}
 .SUFFIXES:
@@ -74,7 +74,7 @@ $(LIB)(Sys.o):	SYM(Sys.sy) Sys.m2
 SYM(SysAccess.sy): SysAccess.d
 		$(M2C) $(MFLAGS) SysAccess.d
 $(LIB)(SysAccess.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysAccess.sy) \
-		SYM(UnixString.sy) SysAccess.m2
+		SYM(SystemTypes.sy) SYM(UnixString.sy) SysAccess.m2
 		$(M2C) $(MFLAGS) -c SysAccess.m2
 		ar rv $(LIB) SysAccess.o && rm -f SysAccess.o
 SYM(SysAlarm.sy): SysAlarm.d
@@ -95,13 +95,13 @@ $(LIB)(SysClose.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysClose.sy) SysClose.m2
 		ar rv $(LIB) SysClose.o && rm -f SysClose.o
 SYM(SysCreat.sy): SysCreat.d
 		$(M2C) $(MFLAGS) SysCreat.d
-$(LIB)(SysCreat.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysCreat.sy) \
-		SYM(UnixString.sy) SysCreat.m2
+$(LIB)(SysCreat.o): SYM(Errno.sy) SYM(SysCreat.sy) SYM(SysOpen.sy) \
+		SYM(SystemTypes.sy) SYM(UnixString.sy) SysCreat.m2
 		$(M2C) $(MFLAGS) -c SysCreat.m2
 		ar rv $(LIB) SysCreat.o && rm -f SysCreat.o
 SYM(SysDup.sy):	SysDup.d
 		$(M2C) $(MFLAGS) SysDup.d
-$(LIB)(SysDup.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysClose.sy) SYM(SysDup.sy) \
+$(LIB)(SysDup.o): SYM(Errno.sy) SYM(SysClose.sy) SYM(SysDup.sy) \
 		SYM(SysFcntl.sy) SysDup.m2
 		$(M2C) $(MFLAGS) -c SysDup.m2
 		ar rv $(LIB) SysDup.o && rm -f SysDup.o
@@ -151,7 +151,7 @@ $(LIB)(SysKill.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SystemTypes.sy) \
 SYM(SysLink.sy): SysLink.d
 		$(M2C) $(MFLAGS) SysLink.d
 $(LIB)(SysLink.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysLink.sy) \
-		SYM(UnixString.sy) SysLink.m2
+		SYM(SystemTypes.sy) SYM(UnixString.sy) SysLink.m2
 		$(M2C) $(MFLAGS) -c SysLink.m2
 		ar rv $(LIB) SysLink.o && rm -f SysLink.o
 SYM(SysLocation.sy): SysLocation.d
@@ -168,7 +168,7 @@ $(LIB)(SysLseek.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SystemTypes.sy) \
 SYM(SysOpen.sy): SysOpen.d
 		$(M2C) $(MFLAGS) SysOpen.d
 $(LIB)(SysOpen.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysOpen.sy) \
-		SYM(UnixString.sy) SysOpen.m2
+		SYM(SystemTypes.sy) SYM(UnixString.sy) SysOpen.m2
 		$(M2C) $(MFLAGS) -c SysOpen.m2
 		ar rv $(LIB) SysOpen.o && rm -f SysOpen.o
 SYM(SysPanic.sy): SysPanic.d
@@ -225,12 +225,13 @@ $(LIB)(SysTime.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SystemTypes.sy) \
 SYM(SysUnlink.sy): SysUnlink.d
 		$(M2C) $(MFLAGS) SysUnlink.d
 $(LIB)(SysUnlink.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysUnlink.sy) \
-		SYM(UnixString.sy) SysUnlink.m2
+		SYM(SystemTypes.sy) SYM(UnixString.sy) SysUnlink.m2
 		$(M2C) $(MFLAGS) -c SysUnlink.m2
 		ar rv $(LIB) SysUnlink.o && rm -f SysUnlink.o
 SYM(SysWait.sy): SysWait.d
 		$(M2C) $(MFLAGS) SysWait.d
-$(LIB)(SysWait.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysWait.sy) SysWait.m2
+$(LIB)(SysWait.o): SYM(Errno.sy) SYM(Sys.sy) SYM(SysWait.sy) \
+		SYM(SystemTypes.sy) SysWait.m2
 		$(M2C) $(MFLAGS) -c SysWait.m2
 		ar rv $(LIB) SysWait.o && rm -f SysWait.o
 SYM(SysWrite.sy): SysWrite.d

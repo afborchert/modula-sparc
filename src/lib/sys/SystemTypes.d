@@ -56,6 +56,8 @@ DEFINITION MODULE SystemTypes; (* and constants *)
       excl = { 20 };
       nbio = { 19 };
       sync = { 18 };
+
+      atFDCWD = -3041965; (* see /usr/include/sys/fcntl.h *)
    TYPE
       Sig = (SIG0,                                                     (*  0 *)
 	     SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGIOT, SIGEMT, (*  7 *)
@@ -66,6 +68,10 @@ DEFINITION MODULE SystemTypes; (* and constants *)
 	     SIGWAITING, SIGLWP, SIGFREEZE, SIGTHAW,                   (* 35 *)
 	     SIGRT36, SIGRT37, SIGRT38, SIGRT39, SIGRT40, SIGRT41,     (* 41 *)
 	     SIGRT42, SIGRT43);                                        (* 43 *)
+
+      (* see /usr/include/sys/procset.h, typedef of idtype_t *)
+      IdType = (PID, PPID, PGID, SID, CID, UID, GID, ALL); (* incomplete *)
+
    CONST
       (* aliases *)
       SIGABRT = SIGIOT;
