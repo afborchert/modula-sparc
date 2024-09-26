@@ -45,19 +45,18 @@ DEFINITION MODULE SystemTypes; (* and constants *)
       DirSize = 255;
       MaxOpenFiles = 128;
       (* file control options; arguments of fcntl(2) and open(2) *)
-      rdonly = {};
-      wronly = { 31 };
-      rdwr = { 30 };
-      ndelay = { 29 };
-      append = { 28 };
-      async = { 25 };
-      creat = { 22 };
-      trunc = { 21 };
-      excl = { 20 };
-      nbio = { 19 };
-      sync = { 18 };
+      rdonly = BITSET(0);
+      wronly = BITSET(1);
+      rdwr = BITSET(2);
+      ndelay = BITSET(04H);
+      append = BITSET(08H);
+      sync = BITSET(10H);
+      creat = BITSET(100H);
+      trunc = BITSET(200H);
+      excl = BITSET(400H);
 
       atFDCWD = -3041965; (* see /usr/include/sys/fcntl.h *)
+
    TYPE
       Sig = (SIG0,                                                     (*  0 *)
 	     SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGIOT, SIGEMT, (*  7 *)
